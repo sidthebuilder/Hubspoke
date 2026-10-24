@@ -24,6 +24,7 @@ class RunConfig:
     n: int = 2
     aged_lag: int = 12
     snapshot_at: int = 25  # state saved here for the fork test
+    start: str = "nash"  # "nash": history starts with a period 0 at the one-shot Nash price; "none": empty
 
     @property
     def run_id(self) -> str:
@@ -57,9 +58,23 @@ class Game:
             raise ValueError(f"condition {cfg.condition} needs an advisor")
         n = cfg.n
         self.names = [firm_name(i) for i in range(n)]
-        self.state = state or State(rows=[[] for _ in range(n)], plans=[""] * n, inbox=[[] for _ in range(n)])
+        self.state = state or State(rows=self._initial_rows(), plans=[""] * n, inbox=[[] for _ in range(n)])
         self.log: list[dict] = []
         self.snapshot: dict | None = None
+
+    def _initial_rows(self) -> list[list[Row]]:
+        """Period 0, the market before the agents take over: every firm at the one-shot Nash price. It gives
+        agents the price scale, so a 40-period run measures where prices go rather than the descent from an
+        arbitrary opening price (in the smoke test the advisor opened at 10x unit cost)."""
+        n = self.cfg.n
+        if self.cfg.start == "none":
+            return [[] for _ in range(n)]
+        if self.cfg.start != "nash":
+            raise ValueError(f"unknown start {self.cfg.start!r}")
+        p0 = [self.market.alpha * self.market.nash_price()] * n
+        q, pi = self.market.clear(p0)
+        return [[Row(0, round(p0[i], 4), round(float(q[i]), 3), round(float(pi[i]), 4),
+                     [round(p0[j], 4) for j in range(n) if j != i])] for i in range(n)]
 
     # ---------------------------------------------------------------- one period
     def _advisor_obs(self, i: int, t: int, live: list[tuple[str, float]]) -> AdvisorObs:
@@ -74,7 +89,10 @@ class Game:
                           condition=c, portfolio=portfolio, live_recs=list(live) if c.live_recs else None,
                           memos=list(memos[-self.cfg.memo_window:]))
 
-    def step(self, forced: dict[int, float] | None = None, salt: str = "") -> dict:
+    def step(self, forced: dict[int, float] | None = None, salt: str = "",
+             forced_text: dict[int, tuple[str, str]] | None = None) -> dict:
+        """One period. `forced` overrides some sellers' prices (their model is not called); `forced_text` gives
+        those sellers' (plan, message), so that in a fork the price is the only thing that changes."""
         s, m, n, cap = self.state, self.market, self.cfg.n, self.market.price_cap
         t = s.t + 1
         rid = self.cfg.run_id
@@ -101,6 +119,10 @@ class Game:
         for i in range(n):
             if forced and i in forced:
                 p, ok, a = forced[i], True, None
+                if forced_text and i in forced_text:
+                    plan, msg = forced_text[i]
+                    plans[i] = plan or s.plans[i]  # same fallback as a model reply with an empty plan
+                    msgs[i] = msg if self.cond.chat else ""
             else:
                 obs = SellerObs(firm=self.names[i], index=i, t=t, n=n, cost=m.unit_cost,
                                 history=s.rows[i][-self.cfg.window:],

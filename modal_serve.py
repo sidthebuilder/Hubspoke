@@ -1,11 +1,14 @@
-"""vLLM OpenAI-compatible server for the experiments, on one Modal H100 (adapted from Modal's vllm_inference example).
+"""vLLM OpenAI-compatible server for the experiments, on one Modal GPU (adapted from Modal's vllm_inference example).
 
-Deploy:  modal deploy modal_serve.py      (prints the server URL)
+Deploy:  modal deploy modal_serve.py      (prints the server URL; set HUBSPOKE_GPU to change the GPU type)
 The endpoint needs the bearer key stored in the Modal secret "hubspoke-vllm" (env VLLM_API_KEY, read by vLLM);
 the same key is in hubspoke/.env as HUBSPOKE_API_KEY. /health is open, so a client can wait for cold starts.
 """
+import os
+
 import modal
 
+GPU = os.environ.get("HUBSPOKE_GPU", "H100:1")  # read at deploy time; every run uses the one GPU type
 MODEL_NAME = "Qwen/Qwen2.5-72B-Instruct-AWQ"  # ungated, 4-bit AWQ, about 42 GB of weights
 MODEL_REVISION = "698703eae6604af048a3d2f509995dc302088217"  # pinned: the HF commit used for every run
 VLLM_VERSION = "0.21.0"
@@ -25,7 +28,7 @@ app = modal.App("hubspoke-vllm")
 
 @app.server(
     image=image,
-    gpu="H100:1",
+    gpu=GPU,
     scaledown_window=10 * MINUTES,  # shut down 10 minutes after the last request (stops billing)
     startup_timeout=25 * MINUTES,  # first boot downloads the weights into the volume
     volumes={"/root/.cache/huggingface": hf_cache, "/root/.cache/vllm": vllm_cache},

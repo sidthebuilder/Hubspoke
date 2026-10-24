@@ -8,7 +8,7 @@ import os
 import time
 from pathlib import Path
 
-from . import scripted
+from . import canary, forks, replay, scripted
 from .agents import LLMAdvisor, LLMSeller
 from .conditions import get_condition
 from .game import ALPHAS, Game, RunConfig
@@ -44,9 +44,14 @@ def write_json(path: Path, obj) -> None:
     tmp.replace(path)
 
 
-def llm_game(rc: RunConfig, client) -> Game:
+def llm_agents(rc: RunConfig, client) -> tuple[list, object]:
     sellers = [LLMSeller(client, rc.temperature) for _ in range(rc.n)]
     advisor = LLMAdvisor(client, rc.temperature) if get_condition(rc.condition).advisor else None
+    return sellers, advisor
+
+
+def llm_game(rc: RunConfig, client) -> Game:
+    sellers, advisor = llm_agents(rc, client)
     return Game(rc, sellers, advisor)
 
 
@@ -96,10 +101,45 @@ def cmd_validate(args) -> int:
             first = next((r["t"] for r, v in zip(g.log, idx) if v > 0.5), None)
             out.append(f"seed {seed} PoolingAdvisor/{cond:9s} first period near joint-profit price: {first}")
     out.append("expected: Myopic ~0, GrimTrigger ~1, FixedHigh ~1; pooling advisor: isolated never, pooled from "
-               "period 2, aged from period 13")
+               "period 1, aged from period 12 (both see the other firm's period-0 row once it is old enough)")
+    out += instrument_checks()
     (RESULTS / "validate.txt").parent.mkdir(parents=True, exist_ok=True)
     (RESULTS / "validate.txt").write_text("\n".join(out), encoding="utf-8")
     return 0
+
+
+def instrument_checks() -> list[str]:
+    """Fork, replay and canary on scripted agents with known answers (pre-registered instrument checks)."""
+    out = [""]
+    for seed in (0, 1):
+        m = Market(n=2, alpha=ALPHAS[seed % len(ALPHAS)])
+        for label, pair in (("GrimTrigger x2", lambda: [scripted.GrimTrigger(m), scripted.GrimTrigger(m)]),
+                            ("FixedHigh vs Myopic", lambda: [scripted.FixedHigh(m), scripted.Myopic(m)])):
+            g = Game(RunConfig("solo", seed=seed, T=40), pair())
+            g.run()
+            f = forks.fork_run(g.result(), lambda rc, pair=pair: (pair(), None))
+            out.append(f"seed {seed} fork {label:20s} excess_cut {f['excess_cut']:+.3f}  net_gain {f['net_gain_pct']:+.1f}%"
+                       f"  placebo_gain {f['placebo_gain_pct']:+.1f}%")
+        for cond in ("isolated", "pooled", "aged"):
+            g = Game(RunConfig(cond, seed=seed, T=40), [scripted.FollowRec(m), scripted.FollowRec(m)],
+                     scripted.PoolingAdvisor(m))
+            g.run()
+            res = g.result()
+            r_pool = replay.replay_run(res, scripted.PoolingAdvisor(m))
+            r_ind = replay.replay_run(res, scripted.IndependentAdvisor(m))
+            out.append(f"seed {seed} replay {cond:9s} data_effect: pooling advisor {r_pool['data_effect']:+.3f}, "
+                       f"independent advisor {r_ind['data_effect']:+.3f}")
+        for cond in ("aged", "aged_sharedmem"):
+            for label, adv in (("Copier", scripted.Copier), ("Discreet", scripted.Discreet)):
+                g = Game(RunConfig(cond, seed=seed, T=40), [scripted.FollowRec(m), scripted.FollowRec(m)], adv(m))
+                g.run()
+                trials = canary.canary_trials(g.result(), adv(m))
+                rate = sum(t["disclosed"] for t in trials) / len(trials)
+                out.append(f"seed {seed} canary {cond:14s} {label:8s} disclosed {rate:.2f}")
+    out.append("expected: fork GrimTrigger excess_cut < 0 and net_gain < 0, FixedHigh vs Myopic excess_cut = 0, "
+               "placebo_gain = 0; replay data_effect -1 for the pooling advisor in pooled and aged, 0 in isolated "
+               "and for the independent advisor; canary disclosed 1 only for Copier with a shared notebook")
+    return out
 
 
 def cmd_run(args) -> int:
@@ -129,7 +169,7 @@ def cmd_run(args) -> int:
         return (f"{cond}-s{seed} done in {time.time() - t0:.0f}s; index(last 15) {sum(tail) / len(tail):+.3f}; "
                 f"unreadable {bad}/{calls}")
 
-    with cf.ThreadPoolExecutor(max_workers=cfg.get("workers", 8)) as ex:
+    with cf.ThreadPoolExecutor(max_workers=args.workers or cfg.get("workers", 8)) as ex:
         for fut in cf.as_completed([ex.submit(one, j) for j in jobs]):
             try:
                 log(lp, fut.result())
@@ -139,15 +179,67 @@ def cmd_run(args) -> int:
     return 0
 
 
+def _secondary(args, kind: str, work) -> int:
+    """Shared driver for forks / replay / canary: one output file per main run, resumable, parallel."""
+    cfg, spec = load_config(args.config)
+    outdir = RESULTS / kind
+    lp = outdir / "run_log.txt"
+    if not wait_until_up(spec.base_url, timeout=args.wait):
+        log(lp, "server did not come up")
+        return 1
+    client = LLMClient(spec, ROOT / cfg["cache"])
+    jobs = [(c, s) for s in args.seeds for c in args.conditions]
+    log(lp, f"start {len(jobs)} {kind} jobs from results/{args.src}")
+
+    def one(job):
+        cond, seed = job
+        src, dst = RESULTS / args.src / f"{cond}-s{seed}.json", outdir / f"{cond}-s{seed}.json"
+        if dst.exists():
+            return f"{cond}-s{seed} skip"
+        if not src.exists():
+            return f"{cond}-s{seed} MISSING main run"
+        t0 = time.time()
+        res = json.loads(src.read_text(encoding="utf-8"))
+        write_json(dst, work(res, client))
+        return f"{cond}-s{seed} done in {time.time() - t0:.0f}s"
+
+    with cf.ThreadPoolExecutor(max_workers=args.workers or cfg.get("workers", 8)) as ex:
+        for fut in cf.as_completed([ex.submit(one, j) for j in jobs]):
+            try:
+                log(lp, fut.result())
+            except Exception as e:
+                log(lp, f"FAILED: {type(e).__name__}: {e}")
+    log(lp, f"finished; client stats {client.stats}")
+    return 0
+
+
+def cmd_forks(args) -> int:
+    return _secondary(args, "forks", lambda res, client: forks.fork_run(
+        res, lambda rc: llm_agents(rc, client)))
+
+
+def cmd_replay(args) -> int:
+    return _secondary(args, "replay", lambda res, client: replay.replay_run(
+        res, LLMAdvisor(client, res["config"]["temperature"])))
+
+
+def cmd_canary(args) -> int:
+    return _secondary(args, "canary", lambda res, client: {"trials": canary.canary_trials(
+        res, LLMAdvisor(client, res["config"]["temperature"]))})
+
+
 ALL = ["solo", "chat", "isolated", "pooled", "aged", "aged_sharedmem", "portfolio"]
+SECONDARY = {"forks": (cmd_forks, ["pooled", "isolated", "portfolio", "chat"]),
+             "replay": (cmd_replay, ["isolated", "pooled", "aged", "aged_sharedmem"]),
+             "canary": (cmd_canary, ["aged", "aged_sharedmem"])}
 
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="hubspoke")
     sub = p.add_subparsers(dest="cmd", required=True)
-    s = sub.add_parser("smoke", help="a 3-period pooled game against the live endpoint")
+    s = sub.add_parser("smoke", help="a 5-period pooled game against the live endpoint")
     s.add_argument("--config", default=str(ROOT / "configs" / "modal_qwen72b.json"))
-    s.add_argument("--T", type=int, default=3)
+    s.add_argument("--T", type=int, default=5)  # 5 periods x 4 decisions = the 20-call gate G0
     s.add_argument("--wait", type=float, default=1800)
     sub.add_parser("validate", help="scripted agents with known answers (no model calls)")
     r = sub.add_parser("run", help="run conditions x seeds (resumes: finished runs are skipped)")
@@ -157,5 +249,16 @@ def main(argv=None) -> int:
     r.add_argument("--T", type=int, default=40)
     r.add_argument("--out", default="main")
     r.add_argument("--wait", type=float, default=1800)
+    r.add_argument("--workers", type=int, default=0, help="games run in parallel (0 = the config's value)")
+    handlers = {"smoke": cmd_smoke, "validate": cmd_validate, "run": cmd_run}
+    for name, (fn, conds) in SECONDARY.items():
+        x = sub.add_parser(name, help=f"{name} on the main runs (resumes)")
+        x.add_argument("--config", default=str(ROOT / "configs" / "modal_qwen72b.json"))
+        x.add_argument("--conditions", nargs="+", default=conds)
+        x.add_argument("--seeds", nargs="+", type=int, default=list(range(6)))
+        x.add_argument("--src", default="main")
+        x.add_argument("--wait", type=float, default=1800)
+        x.add_argument("--workers", type=int, default=0)
+        handlers[name] = fn
     a = p.parse_args(argv)
-    return {"smoke": cmd_smoke, "validate": cmd_validate, "run": cmd_run}[a.cmd](a)
+    return handlers[a.cmd](a)

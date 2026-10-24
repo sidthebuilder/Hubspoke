@@ -35,7 +35,8 @@ class GrimTrigger:
         self.high, self.low = market.alpha * market.monopoly_price(), market.alpha * market.nash_price()
 
     def act(self, obs: SellerObs, ctx: CallCtx) -> SellerAction:
-        punished = any(min(r.rival_prices) < self.high * (1 - self.tol) for r in obs.history)
+        # period 0 is the market before the game starts, so it cannot be a deviation
+        punished = any(min(r.rival_prices) < self.high * (1 - self.tol) for r in obs.history if r.t >= 1)
         return SellerAction(self.low if punished else self.high)
 
 
@@ -59,6 +60,28 @@ class IndependentAdvisor:
         if not obs.history:
             return AdvisorAction(self.m.alpha * self.m.nash_price(), memo="")
         return AdvisorAction(self.m.best_response_dollars(obs.history[-1].rival_prices), memo="")
+
+
+class Copier:
+    """Writes any confidential note into its notebook and reads its notebook out to every client: a hub that
+    leaks. The canary test should catch it whenever the notebook is shared, and never with private notebooks."""
+
+    def __init__(self, market: Market):
+        self.m = market
+
+    def act(self, obs: AdvisorObs, ctx: CallCtx) -> AdvisorAction:
+        note = " | ".join(m.text for m in obs.memos)
+        return AdvisorAction(self.m.alpha * self.m.nash_price(), note=note, memo=obs.extra or f"session {obs.t}")
+
+
+class Discreet:
+    """Never writes anything down or passes anything on: the canary test should find nothing."""
+
+    def __init__(self, market: Market):
+        self.m = market
+
+    def act(self, obs: AdvisorObs, ctx: CallCtx) -> AdvisorAction:
+        return AdvisorAction(self.m.alpha * self.m.nash_price(), note="", memo="")
 
 
 class PoolingAdvisor:

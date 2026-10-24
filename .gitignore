@@ -8,3 +8,6 @@ setup_log.txt
 *_err.txt
 git_check.txt
 git_commit_out.txt
+*.sqlite-wal
+*.sqlite-shm
+*.tmp

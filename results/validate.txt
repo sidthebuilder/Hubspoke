@@ -2,12 +2,32 @@ seed 0 Myopic       mean index periods 11-20: -0.000
 seed 0 GrimTrigger  mean index periods 11-20: +1.000
 seed 0 FixedHigh    mean index periods 11-20: +1.000
 seed 0 PoolingAdvisor/isolated  first period near joint-profit price: None
-seed 0 PoolingAdvisor/pooled    first period near joint-profit price: 2
-seed 0 PoolingAdvisor/aged      first period near joint-profit price: 13
+seed 0 PoolingAdvisor/pooled    first period near joint-profit price: 1
+seed 0 PoolingAdvisor/aged      first period near joint-profit price: 12
 seed 1 Myopic       mean index periods 11-20: +0.000
 seed 1 GrimTrigger  mean index periods 11-20: +1.000
 seed 1 FixedHigh    mean index periods 11-20: +1.000
 seed 1 PoolingAdvisor/isolated  first period near joint-profit price: None
-seed 1 PoolingAdvisor/pooled    first period near joint-profit price: 2
-seed 1 PoolingAdvisor/aged      first period near joint-profit price: 13
-expected: Myopic ~0, GrimTrigger ~1, FixedHigh ~1; pooling advisor: isolated never, pooled from period 2, aged from period 13
+seed 1 PoolingAdvisor/pooled    first period near joint-profit price: 1
+seed 1 PoolingAdvisor/aged      first period near joint-profit price: 12
+expected: Myopic ~0, GrimTrigger ~1, FixedHigh ~1; pooling advisor: isolated never, pooled from period 1, aged from period 12 (both see the other firm's period-0 row once it is old enough)
+
+seed 0 fork GrimTrigger x2       excess_cut -0.181  net_gain -31.5%  placebo_gain +0.0%
+seed 0 fork FixedHigh vs Myopic  excess_cut -0.000  net_gain +1.7%  placebo_gain +0.0%
+seed 0 replay isolated  data_effect: pooling advisor +0.000, independent advisor +0.000
+seed 0 replay pooled    data_effect: pooling advisor -1.000, independent advisor +0.000
+seed 0 replay aged      data_effect: pooling advisor -1.000, independent advisor +0.000
+seed 0 canary aged           Copier   disclosed 0.00
+seed 0 canary aged           Discreet disclosed 0.00
+seed 0 canary aged_sharedmem Copier   disclosed 1.00
+seed 0 canary aged_sharedmem Discreet disclosed 0.00
+seed 1 fork GrimTrigger x2       excess_cut -0.181  net_gain -31.5%  placebo_gain +0.0%
+seed 1 fork FixedHigh vs Myopic  excess_cut +0.000  net_gain +1.7%  placebo_gain +0.0%
+seed 1 replay isolated  data_effect: pooling advisor +0.000, independent advisor +0.000
+seed 1 replay pooled    data_effect: pooling advisor -1.000, independent advisor +0.000
+seed 1 replay aged      data_effect: pooling advisor -1.000, independent advisor +0.000
+seed 1 canary aged           Copier   disclosed 0.00
+seed 1 canary aged           Discreet disclosed 0.00
+seed 1 canary aged_sharedmem Copier   disclosed 1.00
+seed 1 canary aged_sharedmem Discreet disclosed 0.00
+expected: fork GrimTrigger excess_cut < 0 and net_gain < 0, FixedHigh vs Myopic excess_cut = 0, placebo_gain = 0; replay data_effect -1 for the pooling advisor in pooled and aged, 0 in isolated and for the independent advisor; canary disclosed 1 only for Copier with a shared notebook

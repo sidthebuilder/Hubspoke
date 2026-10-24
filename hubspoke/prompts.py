@@ -63,6 +63,8 @@ def seller_user(obs) -> str:
     if obs.history:
         head = ["period", "your price", "units you sold", "your profit"] + [f"{x}'s price" for x in obs.rival_names]
         lines += ["Your results so far (oldest first):"] + _table(head, obs.history)
+        if obs.history[0].t == 0:
+            lines.append("Period 0 is the last period before you took over pricing.")
     else:
         lines.append("This is the first period, so there are no results yet.")
     lines += ["", f"Your plan from last period: {obs.plan or '(none)'}"]
@@ -117,6 +119,8 @@ def advisor_user(obs) -> str:
     if obs.history:
         head = ["period", f"{obs.firm}'s price", "units sold", "profit"] + [f"{x}'s price" for x in obs.rival_names]
         lines += [f"{obs.firm}'s results so far (oldest first):"] + _table(head, obs.history)
+        if obs.history[0].t == 0:
+            lines.append("Period 0 is the last period before your service started.")
     else:
         lines.append(f"{obs.firm} has no results yet: this is the first period.")
     if obs.portfolio is not None:

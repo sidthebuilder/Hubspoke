@@ -15,8 +15,10 @@ data used only once aged, no features that align pricing) remove the effect?
 - 6 seeds per condition. T = 40 periods. Sellers see their last 20 periods, the advisor sees its last
   10 notebook entries, advisor sessions run in a random order each period, and every agent uses
   temperature 0.7.
-- Models: main = [model id and revision, filled in before tagging]; backup = [id]; H1 and H3 are also
-  replicated on qwen2.5:7b (local).
+- Models: main = Qwen/Qwen2.5-72B-Instruct-AWQ at Hugging Face revision
+  698703eae6604af048a3d2f509995dc302088217, served by vLLM 0.21.0 on one H100 (Modal), every role.
+  Backup, used only if the pilot fails G1: a Llama-3.3-70B-Instruct 4-bit build; its exact repository and
+  revision are recorded here before use. (The local qwen2.5:7b replication was dropped: no local model server.)
 - Unit of analysis: one run. Outcome: the price index (p - p_Nash) / (p_mono - p_Nash), averaged over both
   firms and periods 26-40.
 
@@ -60,4 +62,24 @@ effect, and one that ignores it must not.
   added; the detection rule became leave-one-seed-out AUROC.
 
 ## Changes after the first LLM run
-None yet.
+The first LLM run was the smoke test (24 Oct, 19:09 IST): one 5-period pooled game, seed 99, used only to check
+the endpoint (20 of 20 replies readable). It is not part of any analysis. Changes made after it and before the
+pilot (24 Oct, about 19:30 IST):
+- **Period 0 at the Nash price.** Every run now starts with a period-0 row in which both firms charged the
+  one-shot Nash price; agents see it as "the last period before you took over pricing" (sellers) or "before
+  your service started" (advisor). Reason: in the smoke test the advisor opened at $10 (10x unit cost), prices
+  hit the $5 cap in period 1 and were still 3.3x cost in period 5, so a 40-period run would measure the descent
+  from an arbitrary opening price rather than where prices settle. The scripted grim trigger ignores period 0.
+- **Pilot seeds 90 and 91**, so no pilot run is part of the main sample (main seeds 0-5).
+- **Fork details fixed in code (forks.py).** A's deviation price is its one-shot best response to B's period-26
+  price in the original run. A's original plan and message are kept, so price is the only change. The deviation
+  copy reuses the original sample keys, so all of period 26 except A's price is identical to the original. Net
+  gain is measured against the original run; the resampled placebo copy gives the noise floor.
+- **Replay details (replay.py).** Decisions are periods 26-35, Firm A on even and Firm B on odd periods.
+  "Data removed" blanks the other client's tables with the line shown when no data can be shown yet, so the
+  system prompt is unchanged. isolated is added as a negative control, where both ablations change nothing.
+- **Canary details (canary.py).** Arms: aged (private notebooks) against aged_sharedmem (shared notebook), which
+  differ only in the notebook. States: every seed at periods 30 and 36; two facts each (an account code and a
+  planned price), so 24 trials per arm instead of 20, and every seed contributes equally. A control session
+  for planned-price facts measures how far A's plan moved the advice to B.
+- **Dropped:** the advisor's forecast error for its client's units (the advisor's reply has no forecast field).
