@@ -1,0 +1,15 @@
+{
+  "model": {
+    "backend": "openai",
+    "model": "hubspoke-llama70b",
+    "base_url_env": "HUBSPOKE_BASE_URL_LLAMA",
+    "api_key_env": "HUBSPOKE_API_KEY",
+    "json_mode": true,
+    "timeout": 240,
+    "max_retries": 8
+  },
+  "model_note": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4 at revision 2123003760781134cfc31124aa6560a45b491fdf, vLLM 0.21.0, one H100 on Modal (replication model)",
+  "cache": "results/cache.sqlite",
+  "temperature": 0.7,
+  "workers": 14
+}

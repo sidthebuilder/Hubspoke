@@ -43,4 +43,17 @@ def test_full_analysis_on_scripted_runs(tmp_path):
     for f in ("fig1_paths_main.png", "fig2_use_vs_access.png", "fig3_detection.png"):
         assert (tmp_path / "figures" / f).stat().st_size > 10_000
     assert (tmp_path / "handcheck.csv").exists() and (tmp_path / "main" / "table1.md").exists()
+    key = (tmp_path / "handcheck_key.csv").read_text(encoding="utf-8")
+    assert "rule_label" in key and "rule_label" not in (tmp_path / "handcheck.csv").read_text(encoding="utf-8")
+    # fill the blind sheet with the rule's own labels: agreement must then be perfect
+    import csv
+    rows = list(csv.reader((tmp_path / "handcheck.csv").open(encoding="utf-8")))
+    rule = {r[0]: r[5] for r in list(csv.reader((tmp_path / "handcheck_key.csv").open(encoding="utf-8")))[1:]}
+    with (tmp_path / "handcheck.csv").open("w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(rows[0])
+        for r in rows[1:]:
+            w.writerow(r[:-1] + [rule[r[0]]])
+    kap = analysis.handcheck_kappa(tmp_path / "handcheck.csv")
+    assert kap["n"] == len(rows) - 1 and kap["agree"] == kap["n"]
     json.loads((tmp_path / "main" / "numbers.json").read_text(encoding="utf-8"))

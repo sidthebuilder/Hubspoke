@@ -9,8 +9,13 @@ import os
 import modal
 
 GPU = os.environ.get("HUBSPOKE_GPU", "H100:1")  # read at deploy time; every run uses the one GPU type
-MODEL_NAME = "Qwen/Qwen2.5-72B-Instruct-AWQ"  # ungated, 4-bit AWQ, about 42 GB of weights
-MODEL_REVISION = "698703eae6604af048a3d2f509995dc302088217"  # pinned: the HF commit used for every run
+# Main model: ungated, 4-bit AWQ, about 42 GB of weights. A second model is deployed as a separate app by
+# setting HUBSPOKE_MODEL / HUBSPOKE_REVISION / HUBSPOKE_SERVED / HUBSPOKE_APP before `modal deploy`; the values
+# are passed into the container through `env`, so the container serves the same model the deploy named.
+MODEL_NAME = os.environ.get("HUBSPOKE_MODEL", "Qwen/Qwen2.5-72B-Instruct-AWQ")
+MODEL_REVISION = os.environ.get("HUBSPOKE_REVISION", "698703eae6604af048a3d2f509995dc302088217")  # pinned HF commit
+SERVED_NAME = os.environ.get("HUBSPOKE_SERVED", "hubspoke-qwen72b")
+APP_NAME = os.environ.get("HUBSPOKE_APP", "hubspoke-vllm")
 VLLM_VERSION = "0.21.0"
 MINUTES = 60
 PORT = 8000
@@ -23,7 +28,7 @@ image = (
 )
 hf_cache = modal.Volume.from_name("huggingface-cache", create_if_missing=True)
 vllm_cache = modal.Volume.from_name("vllm-cache", create_if_missing=True)
-app = modal.App("hubspoke-vllm")
+app = modal.App(APP_NAME)
 
 
 @app.server(
@@ -33,6 +38,8 @@ app = modal.App("hubspoke-vllm")
     startup_timeout=25 * MINUTES,  # first boot downloads the weights into the volume
     volumes={"/root/.cache/huggingface": hf_cache, "/root/.cache/vllm": vllm_cache},
     secrets=[modal.Secret.from_name("hubspoke-vllm")],
+    env={"HUBSPOKE_MODEL": MODEL_NAME, "HUBSPOKE_REVISION": MODEL_REVISION, "HUBSPOKE_SERVED": SERVED_NAME,
+         "HUBSPOKE_APP": APP_NAME},
     port=PORT,
     target_concurrency=64,
     unauthenticated=True,  # Modal-level auth off; vLLM itself requires the bearer key on /v1
@@ -42,7 +49,7 @@ class Server:
     def start(self):
         import subprocess
 
-        cmd = ["vllm", "serve", MODEL_NAME, "--revision", MODEL_REVISION, "--served-model-name", "hubspoke-qwen72b",
+        cmd = ["vllm", "serve", MODEL_NAME, "--revision", MODEL_REVISION, "--served-model-name", SERVED_NAME,
                "--host", "0.0.0.0", "--port", str(PORT), "--max-model-len", "8192",
                "--gpu-memory-utilization", "0.92", "--max-num-seqs", "64", "--generation-config", "vllm",
                "--uvicorn-log-level=warning"]

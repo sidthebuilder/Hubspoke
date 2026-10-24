@@ -134,3 +134,13 @@ project, from the pilot data; they are recorded as Kiro's, not the author's.
   p = 0.30.
 - P5 (added): isolated is above solo (H4 in the positive direction). p = 0.65.
 Author's own probabilities, if added, are recorded below with a timestamp before the analysis is run.
+
+## Replication on a second model family (registered 24 Oct, 20:20 IST, before any call to this model)
+- Model: hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4 at Hugging Face revision
+  2123003760781134cfc31124aa6560a45b491fdf (ungated 4-bit build of Meta's Llama 3.1 70B Instruct), vLLM 0.21.0,
+  a second H100 on Modal, served as `hubspoke-llama70b`. Config: configs/modal_llama70b.json.
+- Same design as the main run (D2), all 7 conditions x 12 seeds (0-11) x 40 periods, run blind, outcome and
+  tests exactly as H1-H4. Reported as a replication beside the main results, never pooled with them.
+- No gate: the main design is not re-selected for this model. A 5-period smoke run (pooled, seed 99) checks
+  only that replies can be read; if fewer than 95% are readable, the replication is reported as failed.
+- Fork, replay and canary tests are not repeated on this model (time).
