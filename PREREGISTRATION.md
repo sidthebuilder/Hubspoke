@@ -144,3 +144,16 @@ Author's own probabilities, if added, are recorded below with a timestamp before
 - No gate: the main design is not re-selected for this model. A 5-period smoke run (pooled, seed 99) checks
   only that replies can be read; if fewer than 95% are readable, the replication is reported as failed.
 - Fork, replay and canary tests are not repeated on this model (time).
+
+## After the main analysis (24 Oct, 20:40 IST): results seen, and one exploratory control
+The pre-registered analysis (`python -m hubspoke analyse`) ran at 20:37 on the complete main run. H4 holds
+(isolated above solo); H1-H3 do not. Everything below is **exploratory** and is reported as such.
+- **`separate` control (exploratory).** H4 could mean either that a *shared* advisor raises prices or that *any*
+  LLM advice layer does (sellers follow it, and its notes mostly say to hold the price). `separate` is
+  `isolated` with one change: the advisor is told it advises only this one business (prompts.py,
+  `_advisor_system_one_client`), so it does not know it serves both competitors. Same model, seeds 0-11, 40
+  periods, design D2. Comparison: isolated vs separate on the main outcome, exact permutation test, two-sided.
+  Read: separate close to isolated -> the effect comes from having an advice layer; separate close to solo ->
+  from the advisor serving both firms.
+- **Exploratory descriptives** (hubspoke/explore.py): price stickiness, firm price gaps, "hold" wording in
+  notes, and how prices change from the pre-period level.

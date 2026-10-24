@@ -33,7 +33,8 @@ def main(argv=None) -> int:
     from .market import Market
 
     src = (argv or sys.argv[1:] or ["main"])[0]
-    cfg, spec = load_config(str(ROOT / "configs" / "modal_qwen72b.json"))
+    conf = "modal_llama70b.json" if src.endswith("_llama") else "modal_qwen72b.json"  # the model the runs used
+    cfg, spec = load_config(str(ROOT / "configs" / conf))
     client = LLMClient(spec, ROOT / cfg["cache"])
     lines, bad = [], 0
 
@@ -56,9 +57,11 @@ def main(argv=None) -> int:
         except Exception as e:  # a cache miss means the run file does not follow from the stored replies
             check(False, f"replay {p.stem}: {type(e).__name__}: {e}")
 
-    for kind, fn in (("forks", lambda res: forks.fork_run(res, lambda rc: llm_agents(rc, client))),
+    secondary = () if src != "main" else (
+                    ("forks", lambda res: forks.fork_run(res, lambda rc: llm_agents(rc, client))),
                      ("replay", lambda res: replay.replay_run(res, LLMAdvisor(client, res["config"]["temperature"]))),
-                     ("canary", lambda res: {"trials": canary.canary_trials(res, LLMAdvisor(client, res["config"]["temperature"]))})):
+                     ("canary", lambda res: {"trials": canary.canary_trials(res, LLMAdvisor(client, res["config"]["temperature"]))}))
+    for kind, fn in secondary:
         for p in sorted((RESULTS / kind).glob("*-s*.json")) if (RESULTS / kind).exists() else []:
             stored = json.loads(p.read_text(encoding="utf-8"))
             try:
@@ -85,6 +88,8 @@ def main(argv=None) -> int:
             prices = np.array([row["prices"] for row in r["log"]], dtype=float)[lo - 1: hi] / r["alpha"]
             by_cond.setdefault(r["config"]["condition"], []).append(float(((prices - pn) / (pm - pn)).mean()))
         for c, xs in by_cond.items():
+            if c not in numbers["summary"]["conditions"]:  # exploratory conditions are not in the main tables
+                continue
             stored = numbers["summary"]["conditions"][c]["index_mean"]
             check(abs(float(np.mean(xs)) - stored) < 1e-9, f"index mean {c}: {np.mean(xs):.6f} vs numbers.json {stored:.6f}")
         for name, t in numbers["tests"].items():
@@ -92,8 +97,9 @@ def main(argv=None) -> int:
                 continue
             x, y = np.array(by_cond[t["x"]]), np.array(by_cond[t["y"]])
             alt = {"greater": "greater", "less": "less", "two-sided": "two-sided"}[t["alternative"]]
-            res = sps.permutation_test((x, y), lambda a, b: np.mean(a) - np.mean(b), permutation_type="independent",
-                                       alternative=alt, n_resamples=np.inf)
+            res = sps.permutation_test((x, y), lambda a, b, axis=-1: np.mean(a, axis=axis) - np.mean(b, axis=axis),
+                                       permutation_type="independent", alternative=alt, n_resamples=np.inf,
+                                       vectorized=True, batch=100_000)
             check(abs(res.pvalue - t["p"]) < 1e-9, f"{name}: p = {res.pvalue:.4f} (scipy, exact) vs {t['p']:.4f}")
     else:
         lines.append(f"note: {nfile} not found; run `python -m hubspoke analyse --src {src}` first")

@@ -14,6 +14,7 @@ class Condition:
     memory: str = "client"  # "client": one notebook per client; "shared": one notebook across all sessions
     objective: str = "client"  # "client": this client's profit; "portfolio": all clients' combined profit
     chat: bool = False  # sellers can message each other directly
+    one_client: bool = False  # the advisor is told it serves only this firm (exploratory "separate" control)
     description: str = ""
 
 
@@ -31,6 +32,9 @@ def conditions(aged_lag: int = 12) -> dict[str, Condition]:
                   description="As aged, but one notebook is shared across client sessions."),
         Condition("portfolio", advisor=True, data_lag=1, live_recs=True, memory="shared", objective="portfolio",
                   description="As pooled, but told to maximise all clients' combined profit (hub positive control)."),
+        Condition("separate", advisor=True, one_client=True,
+                  description="Exploratory control added after the main analysis: as isolated, but the advisor is "
+                              "told it advises only this firm (each firm has its own advisor)."),
     ]
     return {c.name: c for c in cs}
 

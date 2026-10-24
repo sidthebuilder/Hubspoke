@@ -12,7 +12,7 @@ ENV = HERE / ".env"
 VAR = sys.argv[1] if len(sys.argv) > 1 else "HUBSPOKE_BASE_URL"
 LOG = HERE / f"modal_deploy_{VAR.lower()}_log.txt"
 # Modal prints symbols such as a check mark; Windows' default console code page cannot encode them.
-env = {**os.environ, "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1"}
+env = {**os.environ, "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1", "COLUMNS": "250"}  # wide: URLs must not wrap
 r = subprocess.run([sys.executable, "-m", "modal", "deploy", str(HERE / "modal_serve.py")],
                    capture_output=True, text=True, encoding="utf-8", errors="replace", cwd=str(HERE), env=env)
 out = r.stdout + r.stderr

@@ -73,11 +73,12 @@ def cmd_smoke(args) -> int:
         return 1
     client = LLMClient(spec, ROOT / cfg["cache"])
     t0 = time.time()
-    g = llm_game(RunConfig("pooled", seed=99, T=args.T, temperature=cfg["temperature"]), client)
+    g = llm_game(RunConfig("pooled", seed=99, T=args.T, temperature=cfg["temperature"], start=args.start,
+                           reasoning=args.reasoning), client)
     g.run()
     res = g.result()
     calls, bad = parse_stats(res)
-    write_json(RESULTS / "smoke.json", res)
+    write_json(RESULTS / ("smoke.json" if spec.model == "hubspoke-qwen72b" else f"smoke_{spec.model}.json"), res)
     log(lp, f"ok: {calls} decisions, {bad} unreadable, {time.time() - t0:.0f}s, stats {client.stats}, "
             f"prices {[r['prices'] for r in res['log']]}")
     return 0
@@ -245,7 +246,8 @@ def cmd_canary(args) -> int:
         res, LLMAdvisor(client, res["config"]["temperature"]))})
 
 
-ALL = ["solo", "chat", "isolated", "pooled", "aged", "aged_sharedmem", "portfolio"]
+ALL = ["solo", "chat", "isolated", "pooled", "aged", "aged_sharedmem", "portfolio"]  # pre-registered
+# "separate" (conditions.py) is an exploratory control added after the main analysis; run it explicitly.
 SECONDARY = {"forks": (cmd_forks, ["pooled", "isolated", "portfolio", "chat"]),
              "replay": (cmd_replay, ["isolated", "pooled", "aged", "aged_sharedmem"]),
              "canary": (cmd_canary, ["aged", "aged_sharedmem"])}
@@ -258,6 +260,8 @@ def main(argv=None) -> int:
     s.add_argument("--config", default=str(ROOT / "configs" / "modal_qwen72b.json"))
     s.add_argument("--T", type=int, default=5)  # 5 periods x 4 decisions = the 20-call gate G0
     s.add_argument("--wait", type=float, default=1800)
+    s.add_argument("--start", default="history", choices=["history", "nash", "none"])
+    s.add_argument("--reasoning", action="store_true")
     sub.add_parser("validate", help="scripted agents with known answers (no model calls)")
     r = sub.add_parser("run", help="run conditions x seeds (resumes: finished runs are skipped)")
     r.add_argument("--config", default=str(ROOT / "configs" / "modal_qwen72b.json"))

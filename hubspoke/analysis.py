@@ -24,6 +24,7 @@ HYPOTHESES = {  # name: (x, y, alternative)  -- test of mean(x) - mean(y)
 
 # ------------------------------------------------------------------------------------------- loading
 def load_runs(folder: Path) -> dict[str, list[dict]]:
+    """Every run file in the folder, by condition (the pre-registered tables use only CONDS)."""
     runs: dict[str, list[dict]] = {}
     for p in sorted(Path(folder).glob("*-s*.json")):
         r = json.loads(p.read_text(encoding="utf-8"))
