@@ -157,3 +157,11 @@ The pre-registered analysis (`python -m hubspoke analyse`) ran at 20:37 on the c
   from the advisor serving both firms.
 - **Exploratory descriptives** (hubspoke/explore.py): price stickiness, firm price gaps, "hold" wording in
   notes, and how prices change from the pre-period level.
+
+## Hold-out test of an exploratory finding (registered 24 Oct, 21:05 IST, before anyone looked at Llama outcomes)
+In the main (Qwen) data, explore.py found that pooled runs have far smaller price gaps between the two firms
+than isolated runs (mean |p_A - p_B| over periods 26-40, in index units: 0.006 vs 0.131; AUROC 0.93 for
+pooled vs isolated with score = -gap). This was found after looking, so it is exploratory. The Llama
+replication, registered before it ran and not yet looked at, is the hold-out: we compute the same score,
+unchanged, on main_llama and report its AUROC with a bootstrap CI. Prediction: AUROC >= 0.75. The `separate`
+control is not run on Llama.
