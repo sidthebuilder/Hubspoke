@@ -84,6 +84,24 @@ def main(argv=None) -> int:
         out["_gap_auroc"] = {"auroc": stats.auroc(pos, neg), "ci": list(stats.bootstrap_auroc_ci(pos, neg, seed=15))}
         lines.append(f"exploratory: price parallelism (-gap) separates pooled from isolated with AUROC "
                      f"{out['_gap_auroc']['auroc']:.2f} (CI {out['_gap_auroc']['ci'][0]:.2f} to {out['_gap_auroc']['ci'][1]:.2f})")
+    live_dir = root / "livereplay"
+    if src == "main" and live_dir.exists():
+        live = {}
+        for p in sorted(live_dir.glob("*-s*.json")):
+            d = json.loads(p.read_text(encoding="utf-8"))
+            live.setdefault(d["condition"], []).append(d)
+        for c, items in live.items():
+            ds = [x["dist_same"] for x in items if x["dist_same"] is not None]
+            dn = [x["dist_nolive"] for x in items if x["dist_nolive"] is not None]
+            diff = [x["dist_nolive"] - x["dist_same"] for x in items
+                    if x["dist_same"] is not None and x["dist_nolive"] is not None]
+            out[f"_live_{c}"] = {"runs": len(items), "dist_with_line": stats.mean(ds), "dist_without_line": stats.mean(dn),
+                                 "increase_without": stats.mean(diff),
+                                 "increase_ci": list(stats.bootstrap_mean_ci(diff, seed=16)) if len(diff) > 1 else None}
+            o = out[f"_live_{c}"]
+            lines.append(f"live replay {c}: distance to the other client's recommendation {o['dist_with_line']:.3f} with "
+                         f"the line, {o['dist_without_line']:.3f} without (increase {o['increase_without']:+.3f}, CI "
+                         f"{o['increase_ci'][0]:+.3f} to {o['increase_ci'][1]:+.3f}; {len(items)} runs)" if o["increase_ci"] else "")
     if "separate" in runs and len(runs["separate"]) >= 2:
         sep = [x["p26_40"] for x in out["separate"]["runs"]]
         tests = {}

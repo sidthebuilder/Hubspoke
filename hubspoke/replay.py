@@ -37,6 +37,41 @@ def variant_obs(obs: AdvisorObs, variant: str) -> AdvisorObs:
     return obs
 
 
+def live_replay_run(result: dict, advisor, periods=PERIODS, samples: int = SAMPLES) -> dict:
+    """Exploratory (added after the main analysis): does the advisor align a client's price with the price it
+    already recommended to the other client this period? For every decision in `periods` whose session came
+    second (so it saw that recommendation), re-ask it as-is and with the line removed (the advisor then sees "You
+    have not advised any other client yet this period"); 2 samples each. Measures: distance of the
+    recommendation to the other client's recommendation, in index units."""
+    cfg = result["config"]
+    run_id = f"{cfg['condition']}-s{cfg['seed']}"
+    b, alpha = result["benchmarks"], result["alpha"]
+    cap = 5.0 * alpha
+
+    def idx(p):
+        return None if p is None else (min(max(p, 0.0), cap) / alpha - b["p_nash"]) / (b["p_mono"] - b["p_nash"])
+
+    rows = []
+    for t in periods:
+        for entry in result["log"][t - 1]["advisor"]:
+            obs = AdvisorObs.from_dict(entry["obs"])
+            if not obs.live_recs:
+                continue
+            other = idx(obs.live_recs[0][1])
+            row = {"t": t, "firm": entry["firm"], "other_rec": other, "original": idx(entry["price"])}
+            for v, vo in (("same", obs), ("nolive", dataclasses.replace(obs, live_recs=[]))):
+                row[v] = [idx(advisor.act(vo, CallCtx(run_id, t, "advisor", entry["firm"], salt=f"live-{v}-{k}")).price)
+                          for k in range(samples)]
+            s, n = _mean(row["same"]), _mean(row["nolive"])
+            row["dist_same"] = None if s is None else abs(s - other)
+            row["dist_nolive"] = None if n is None else abs(n - other)
+            rows.append(row)
+    ds = [r["dist_same"] for r in rows if r["dist_same"] is not None]
+    dn = [r["dist_nolive"] for r in rows if r["dist_nolive"] is not None]
+    return {"run_id": run_id, "condition": cfg["condition"], "seed": cfg["seed"], "rows": rows,
+            "n_decisions": len(rows), "dist_same": _mean(ds), "dist_nolive": _mean(dn)}
+
+
 def _mean(xs):
     xs = [x for x in xs if x is not None]
     return statistics.fmean(xs) if xs else None

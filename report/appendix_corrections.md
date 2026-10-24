@@ -22,3 +22,10 @@ Times IST, 24 Oct 2026. Full detail and the commits are in PREREGISTRATION.md an
 7. **Operational, no effect on data.** A Windows text-encoding error in the deploy script; two pilot
    processes writing one log file (one pilot was restarted before it made any call).
 [Add anything found during analysis or writing.]
+8. **A race on one fork (21:01).** A stuck terminal released two queued fork jobs at once, so three processes
+   computed the fork of pooled seed 2 at the same moment and could have stored different replies for the
+   same cache key. We deleted that fork file and recomputed it from the cache alone; `verify` then checks
+   every fork against the cache.
+9. **Exploratory additions after seeing the main result** (each logged in PREREGISTRATION.md with its time):
+   the `separate` control, descriptive measures (explore.py), the live-recommendation replay, and a hold-out
+   test of the price-gap finding on the Llama replication, registered before looking at Llama outcomes.

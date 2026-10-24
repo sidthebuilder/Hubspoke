@@ -165,3 +165,12 @@ pooled vs isolated with score = -gap). This was found after looking, so it is ex
 replication, registered before it ran and not yet looked at, is the hold-out: we compute the same score,
 unchanged, on main_llama and report its AUROC with a bootstrap CI. Prediction: AUROC >= 0.75. The `separate`
 control is not run on Llama.
+
+## Exploratory live-recommendation replay (added 24 Oct, 21:10 IST, after the main analysis)
+The pre-registered replay dropped the live-recommendation variant (24 Oct, 17:15). Because pooled prices are
+nearly identical across firms, we add it back as an **exploratory** measure (replay.live_replay_run): in pooled
+and portfolio runs, every advisor session in periods 26-35 that came second is re-asked as logged and without
+the line showing the price already recommended to the other client (2 samples each). Measure: distance between
+the recommendation and the other client's recommendation, with and without the line. Scripted check
+(tests/test_instruments.py): an advisor that copies the line shows distance 0 with it and 0.7 without; one
+that ignores it shows no difference.

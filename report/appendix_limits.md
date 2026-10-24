@@ -15,7 +15,17 @@
   It changes behaviour; we report it as part of the design, not as a neutral measurement.
 - Leak detection in the hub's notes is rule-based (exact numbers). A paraphrased leak ("your competitor is
   selling a lot") is missed; the blind hand check of 20 notes measures how often the rule is wrong.
-- 12 runs per condition gives exact tests, but small effects (below about [x] index points) are not detectable.
+- 12 runs per condition gives exact tests, but the 95% intervals for H1-H3 still allow differences of about
+  0.2 index points either way; "no effect" here means "no effect we could detect", not "no effect".
+- The hub positive control was weak. Told to maximise both clients' combined profit, with both clients' live
+  data, the advisor reached only 0.20 (below the firewalled advisor's 0.25). This model either cannot or will not
+  steer two clients to the joint-profit price, so our nulls for data pooling say little about a more capable
+  or more strategic advisor. A stronger model is the first thing to test next.
+- The fork test's net gain mixes two things: the rival's reaction and the deviator's own later choices (its
+  agent keeps the lower price). The excess-cut measure isolates the rival's reaction.
+- The `separate` control, the descriptive measures, the live-recommendation replay and the price-gap statistic
+  were added after we saw the main result; they are exploratory, and only the price-gap statistic was tested on
+  held-out data (the Llama replication).
 
 ## Dual use
 - What could help a colluder: the finding that a shared notebook carries information between clients, and

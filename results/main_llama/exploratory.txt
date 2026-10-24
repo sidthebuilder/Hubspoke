@@ -1,0 +1,11 @@
+Exploratory descriptives (main_llama); means over runs, 95% bootstrap CI for 'change'
+solo            start +0.546  p1_5 +0.213  p26_40 -0.053  change -0.599  moves +0.044  frozen +0.225  gap +0.064  hold_words n/a  reason_mentions_other n/a  change CI -0.839 to -0.353
+chat            start +0.546  p1_5 +0.291  p26_40 +0.353  change -0.194  moves +0.033  frozen +0.492  gap +0.036  hold_words n/a  reason_mentions_other n/a  change CI -0.408 to +0.020
+isolated        start +0.546  p1_5 +0.332  p26_40 +0.391  change -0.155  moves +0.026  frozen +0.428  gap +0.049  hold_words +0.503  reason_mentions_other +0.867  change CI -0.303 to +0.020
+pooled          start +0.546  p1_5 +0.354  p26_40 +0.354  change -0.192  moves +0.024  frozen +0.431  gap +0.034  hold_words +0.619  reason_mentions_other +0.936  change CI -0.362 to -0.021
+aged            start +0.546  p1_5 +0.265  p26_40 +0.119  change -0.427  moves +0.034  frozen +0.394  gap +0.043  hold_words +0.500  reason_mentions_other +0.992  change CI -0.538 to -0.321
+aged_sharedmem  start +0.546  p1_5 +0.364  p26_40 +0.327  change -0.219  moves +0.028  frozen +0.442  gap +0.035  hold_words +0.611  reason_mentions_other +0.981  change CI -0.352 to -0.069
+portfolio       start +0.546  p1_5 +0.417  p26_40 +0.409  change -0.137  moves +0.016  frozen +0.425  gap +0.017  hold_words +0.775  reason_mentions_other +0.908  change CI -0.256 to -0.018
+change, isolated - solo: +0.444 (CI +0.150 to +0.745)
+isolated runs that end above their own pre-period level by > 0.02: 3/12; solo: 1/12
+exploratory: price parallelism (-gap) separates pooled from isolated with AUROC 0.65 (CI 0.40 to 0.86)

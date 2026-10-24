@@ -63,6 +63,29 @@ def test_replay_separates_use_from_access(cond, expect):
         assert not any(row["nodata_changes_input"] or row["nomemo_changes_input"] for row in r["rows"])
 
 
+def test_live_replay_detects_matching():
+    m = Market(alpha=ALPHAS[0])
+
+    class Matcher(scripted.IndependentAdvisor):
+        """Copies the price it already recommended to the other client, if any; otherwise Firm A gets index 0.3
+        and Firm B the joint-profit price, so a second session without the line lands 0.7 away."""
+
+        def act(self, obs, ctx):
+            from hubspoke.agents import AdvisorAction
+            if obs.live_recs:
+                return AdvisorAction(obs.live_recs[0][1], memo="")
+            pn, pm = self.m.nash_price(), self.m.monopoly_price()
+            own = pn + 0.3 * (pm - pn) if obs.index == 0 else pm
+            return AdvisorAction(self.m.alpha * own, memo="")
+
+    res = _game("pooled", 0, [scripted.FollowRec(m), scripted.FollowRec(m)], Matcher(m))
+    r = replay.live_replay_run(res, Matcher(m))
+    assert r["n_decisions"] == len(replay.PERIODS)  # exactly one of the two sessions comes second each period
+    assert r["dist_same"] == pytest.approx(0.0, abs=1e-9) and r["dist_nolive"] == pytest.approx(0.7, abs=1e-6)
+    r_ind = replay.live_replay_run(res, scripted.IndependentAdvisor(m))
+    assert r_ind["dist_same"] == pytest.approx(r_ind["dist_nolive"])  # ignores the line: no difference
+
+
 def test_replay_memo_ablation():
     m = Market(alpha=ALPHAS[0])
 

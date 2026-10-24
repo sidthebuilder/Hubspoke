@@ -241,6 +241,11 @@ def cmd_replay(args) -> int:
         res, LLMAdvisor(client, res["config"]["temperature"])))
 
 
+def cmd_livereplay(args) -> int:
+    return _secondary(args, "livereplay", lambda res, client: replay.live_replay_run(
+        res, LLMAdvisor(client, res["config"]["temperature"])))
+
+
 def cmd_canary(args) -> int:
     return _secondary(args, "canary", lambda res, client: {"trials": canary.canary_trials(
         res, LLMAdvisor(client, res["config"]["temperature"]))})
@@ -250,7 +255,8 @@ ALL = ["solo", "chat", "isolated", "pooled", "aged", "aged_sharedmem", "portfoli
 # "separate" (conditions.py) is an exploratory control added after the main analysis; run it explicitly.
 SECONDARY = {"forks": (cmd_forks, ["pooled", "isolated", "portfolio", "chat"]),
              "replay": (cmd_replay, ["isolated", "pooled", "aged", "aged_sharedmem"]),
-             "canary": (cmd_canary, ["aged", "aged_sharedmem"])}
+             "canary": (cmd_canary, ["aged", "aged_sharedmem"]),
+             "livereplay": (cmd_livereplay, ["pooled", "portfolio"])}  # exploratory, added after the analysis
 
 
 def main(argv=None) -> int:

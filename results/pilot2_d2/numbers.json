@@ -1,0 +1,324 @@
+{
+ "src": "pilot2_d2",
+ "summary": {
+  "window": [
+   11,
+   15
+  ],
+  "conditions": {
+   "solo": {
+    "n": 2,
+    "runs": [
+     {
+      "seed": 92,
+      "alpha": 10.0,
+      "index": 0.048828961414574726,
+      "profit_index": 0.07951466195568174,
+      "cs_change_pct": -2.892457535954866,
+      "follow_rate": null,
+      "readable": 30,
+      "calls": 30
+     },
+     {
+      "seed": 93,
+      "alpha": 1.0,
+      "index": -0.22326227001324206,
+      "profit_index": -0.38598395824012177,
+      "cs_change_pct": 13.44847097981791,
+      "follow_rate": null,
+      "readable": 30,
+      "calls": 30
+     }
+    ],
+    "index_mean": -0.08721665429933367,
+    "index_ci": [
+     -0.22326227001324206,
+     0.048828961414574726
+    ],
+    "profit_index_mean": -0.15323464814222001,
+    "cs_change_pct_mean": 5.278006721931522,
+    "follow_rate_mean": null,
+    "readable_share": 1.0
+   },
+   "chat": {
+    "n": 2,
+    "runs": [
+     {
+      "seed": 92,
+      "alpha": 10.0,
+      "index": 0.20345641732355366,
+      "profit_index": 0.31857450965229644,
+      "cs_change_pct": -11.948293591897373,
+      "follow_rate": null,
+      "readable": 30,
+      "calls": 30
+     },
+     {
+      "seed": 93,
+      "alpha": 1.0,
+      "index": -0.03965599189528447,
+      "profit_index": -0.06841608324044154,
+      "cs_change_pct": 2.402457189708133,
+      "follow_rate": null,
+      "readable": 30,
+      "calls": 30
+     }
+    ],
+    "index_mean": 0.08190021271413458,
+    "index_ci": [
+     -0.03965599189528447,
+     0.20345641732355366
+    ],
+    "profit_index_mean": 0.12507921320592746,
+    "cs_change_pct_mean": -4.772918201094621,
+    "follow_rate_mean": null,
+    "readable_share": 1.0
+   },
+   "isolated": {
+    "n": 2,
+    "runs": [
+     {
+      "seed": 92,
+      "alpha": 10.0,
+      "index": 0.2799959019365819,
+      "profit_index": 0.4310970561157375,
+      "cs_change_pct": -16.405212732847392,
+      "follow_rate": 1.0,
+      "readable": 60,
+      "calls": 60
+     },
+     {
+      "seed": 93,
+      "alpha": 1.0,
+      "index": 0.20588975353957495,
+      "profit_index": 0.32342004271249203,
+      "cs_change_pct": -12.113955746848852,
+      "follow_rate": 1.0,
+      "readable": 60,
+      "calls": 60
+     }
+    ],
+    "index_mean": 0.24294282773807843,
+    "index_ci": [
+     0.20588975353957495,
+     0.2799959019365819
+    ],
+    "profit_index_mean": 0.37725854941411474,
+    "cs_change_pct_mean": -14.259584239848122,
+    "follow_rate_mean": 1.0,
+    "readable_share": 1.0
+   },
+   "pooled": {
+    "n": 2,
+    "runs": [
+     {
+      "seed": 92,
+      "alpha": 10.0,
+      "index": 0.27446559235471585,
+      "profit_index": 0.42197112711563145,
+      "cs_change_pct": -16.068726944823418,
+      "follow_rate": 1.0,
+      "readable": 60,
+      "calls": 60
+     },
+     {
+      "seed": 93,
+      "alpha": 1.0,
+      "index": -0.3073229756576082,
+      "profit_index": -0.5379197979013528,
+      "cs_change_pct": 18.57483916299338,
+      "follow_rate": 1.0,
+      "readable": 60,
+      "calls": 60
+     }
+    ],
+    "index_mean": -0.01642869165144617,
+    "index_ci": [
+     -0.3073229756576082,
+     0.27446559235471585
+    ],
+    "profit_index_mean": -0.057974335392860676,
+    "cs_change_pct_mean": 1.2530561090849819,
+    "follow_rate_mean": 1.0,
+    "readable_share": 1.0
+   },
+   "aged": {
+    "n": 2,
+    "runs": [
+     {
+      "seed": 92,
+      "alpha": 10.0,
+      "index": 0.21252612503781423,
+      "profit_index": 0.31699135346766416,
+      "cs_change_pct": -12.208828521506529,
+      "follow_rate": 1.0,
+      "readable": 60,
+      "calls": 60
+     },
+     {
+      "seed": 93,
+      "alpha": 1.0,
+      "index": 0.08201081890577198,
+      "profit_index": 0.07748716230069917,
+      "cs_change_pct": -3.8949267442320497,
+      "follow_rate": 1.0,
+      "readable": 60,
+      "calls": 60
+     }
+    ],
+    "index_mean": 0.1472684719717931,
+    "index_ci": [
+     0.08201081890577198,
+     0.21252612503781423
+    ],
+    "profit_index_mean": 0.19723925788418167,
+    "cs_change_pct_mean": -8.051877632869289,
+    "follow_rate_mean": 1.0,
+    "readable_share": 1.0
+   },
+   "aged_sharedmem": {
+    "n": 2,
+    "runs": [
+     {
+      "seed": 92,
+      "alpha": 10.0,
+      "index": 0.1760260817974974,
+      "profit_index": 0.27914192487772815,
+      "cs_change_pct": -10.376946547857626,
+      "follow_rate": 1.0,
+      "readable": 60,
+      "calls": 60
+     },
+     {
+      "seed": 93,
+      "alpha": 1.0,
+      "index": 0.05546533291281421,
+      "profit_index": 0.06649572267568873,
+      "cs_change_pct": -2.8792881319387233,
+      "follow_rate": 0.9,
+      "readable": 60,
+      "calls": 60
+     }
+    ],
+    "index_mean": 0.11574570735515581,
+    "index_ci": [
+     0.05546533291281421,
+     0.1760260817974974
+    ],
+    "profit_index_mean": 0.17281882377670843,
+    "cs_change_pct_mean": -6.628117339898175,
+    "follow_rate_mean": 0.95,
+    "readable_share": 1.0
+   },
+   "portfolio": {
+    "n": 2,
+    "runs": [
+     {
+      "seed": 92,
+      "alpha": 10.0,
+      "index": 0.3917081554902789,
+      "profit_index": 0.5795881773333758,
+      "cs_change_pct": -22.758226740135566,
+      "follow_rate": 1.0,
+      "readable": 60,
+      "calls": 60
+     },
+     {
+      "seed": 93,
+      "alpha": 1.0,
+      "index": 0.020071351588870523,
+      "profit_index": 0.032808201043778434,
+      "cs_change_pct": -1.1894314548329463,
+      "follow_rate": 1.0,
+      "readable": 60,
+      "calls": 60
+     }
+    ],
+    "index_mean": 0.2058897535395747,
+    "index_ci": [
+     0.020071351588870523,
+     0.3917081554902789
+    ],
+    "profit_index_mean": 0.3061981891885771,
+    "cs_change_pct_mean": -11.973829097484256,
+    "follow_rate_mean": 1.0,
+    "readable_share": 1.0
+   }
+  }
+ },
+ "tests": {
+  "H1 pooled > isolated": {
+   "x": "pooled",
+   "y": "isolated",
+   "alternative": "greater",
+   "diff": -0.25937151938952463,
+   "ci": [
+    -0.5873188775941901,
+    0.0685758388151409
+   ],
+   "p": 0.8333333333333334,
+   "p_holm": 1.0
+  },
+  "H2 aged < pooled": {
+   "x": "aged",
+   "y": "pooled",
+   "alternative": "less",
+   "diff": 0.16369716362323927,
+   "ci": [
+    -0.19245477344894385,
+    0.5198491006954225
+   ],
+   "p": 0.6666666666666666,
+   "p_holm": 1.0
+  },
+  "H3 aged_sharedmem > aged": {
+   "x": "aged_sharedmem",
+   "y": "aged",
+   "alternative": "greater",
+   "diff": -0.03152276461663729,
+   "ci": [
+    -0.15706079212500001,
+    0.09401526289172542
+   ],
+   "p": 0.8333333333333334,
+   "p_holm": 1.0
+  },
+  "H4 isolated vs solo": {
+   "x": "isolated",
+   "y": "solo",
+   "alternative": "two-sided",
+   "diff": 0.3301594820374121,
+   "ci": [
+    0.15706079212500024,
+    0.5032581719498239
+   ],
+   "p": 0.3333333333333333,
+   "p_holm": 1.0
+  },
+  "aged - isolated": {
+   "diff": -0.09567435576628533,
+   "ci": [
+    -0.19798508303080992,
+    0.006636371498239285
+   ]
+  }
+ },
+ "predictions": {
+  "P1 pooled - isolated >= 0.15": {
+   "value": -0.25937151938952463,
+   "holds": false
+  },
+  "P2 aged removes >= half the gap": {
+   "value": 0.6311300639658842,
+   "holds": null
+  },
+  "P3 shared notebook restores >= half": {
+   "value": 0.19256756756756757,
+   "holds": null
+  },
+  "P5 isolated above solo": {
+   "value": 0.3301594820374121,
+   "holds": true
+  }
+ }
+}

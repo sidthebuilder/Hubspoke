@@ -1,0 +1,16 @@
+Exploratory descriptives (main); means over runs, 95% bootstrap CI for 'change'
+solo            start +0.546  p1_5 +0.230  p26_40 -0.035  change -0.582  moves +0.022  frozen +0.358  gap +0.046  hold_words n/a  reason_mentions_other n/a  change CI -0.672 to -0.505
+chat            start +0.546  p1_5 +0.405  p26_40 +0.353  change -0.194  moves +0.004  frozen +0.914  gap +0.023  hold_words n/a  reason_mentions_other n/a  change CI -0.254 to -0.130
+isolated        start +0.546  p1_5 +0.340  p26_40 +0.252  change -0.294  moves +0.006  frozen +0.892  gap +0.131  hold_words +0.903  reason_mentions_other +0.811  change CI -0.399 to -0.183
+pooled          start +0.546  p1_5 +0.245  p26_40 +0.156  change -0.390  moves +0.006  frozen +0.825  gap +0.006  hold_words +0.950  reason_mentions_other +0.431  change CI -0.518 to -0.247
+aged            start +0.546  p1_5 +0.349  p26_40 +0.233  change -0.313  moves +0.015  frozen +0.686  gap +0.067  hold_words +0.817  reason_mentions_other +0.953  change CI -0.427 to -0.202
+aged_sharedmem  start +0.546  p1_5 +0.307  p26_40 +0.268  change -0.278  moves +0.008  frozen +0.836  gap +0.031  hold_words +0.956  reason_mentions_other +0.706  change CI -0.369 to -0.169
+portfolio       start +0.546  p1_5 +0.305  p26_40 +0.200  change -0.346  moves +0.008  frozen +0.797  gap +0.013  hold_words +0.928  reason_mentions_other +0.497  change CI -0.502 to -0.204
+separate        start +0.546  p1_5 +0.384  p26_40 +0.360  change -0.187  moves +0.005  frozen +0.842  gap +0.150  hold_words +0.872  reason_mentions_other +0.867  change CI -0.306 to -0.058
+change, isolated - solo: +0.288 (CI +0.156 to +0.431)
+isolated runs that end above their own pre-period level by > 0.02: 1/12; solo: 0/12
+exploratory: price parallelism (-gap) separates pooled from isolated with AUROC 0.93 (CI 0.78 to 1.00)
+live replay pooled: distance to the other client's recommendation 0.001 with the line, 0.003 without (increase +0.002, CI +0.001 to +0.004; 12 runs)
+live replay portfolio: distance to the other client's recommendation 0.007 with the line, 0.010 without (increase +0.003, CI +0.001 to +0.006; 12 runs)
+separate - isolated: +0.107 (CI -0.086 to +0.303), exact p (two-sided) 0.3067
+separate - solo: +0.395 (CI +0.222 to +0.575), exact p (two-sided) 0.0003

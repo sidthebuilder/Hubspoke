@@ -18,6 +18,7 @@ The report is in `report/`. Pre-registration and every change to it: `PREREGISTR
 | aged | other clients' data only once 12 periods old; one notebook per client | the RealPage settlement's ageing rule |
 | aged_sharedmem | as aged, but one shared notebook | the memory gap |
 | portfolio | as pooled, but told to maximise all clients' combined profit | positive control for the hub |
+| separate (exploratory) | as isolated, but each advisor is told it advises only one firm | added after the main analysis |
 
 Market: logit-demand Bertrand duopoly of Calvano et al. (2020), as used by Fish et al. (2024); price index
 0 = one-shot Nash price, 1 = joint-profit price. Model: Qwen/Qwen2.5-72B-Instruct-AWQ (revision
@@ -25,11 +26,13 @@ Market: logit-demand Bertrand duopoly of Calvano et al. (2020), as used by Fish 
 12 seeds per condition, 40 periods, outcome = mean price index over periods 26-40.
 
 ## Rebuild every number without a GPU or API key
-Every model reply is stored in `results/cache.sqlite`, keyed by a hash of the model, the full prompt, the
-sampling settings and a sample key. Replaying from the cache reproduces every run exactly.
+Every model reply is stored in `results/cache.jsonl.gz` (rebuilt into `results/cache.sqlite` by
+`cache_io.py import`), keyed by a hash of the model, the full prompt, the sampling settings and a sample key.
+Replaying from the cache reproduces every run exactly.
 ```
 python -m venv .venv
 .venv\Scripts\python -m pip install -r requirements.txt     (Linux/macOS: .venv/bin/python)
+.venv\Scripts\python cache_io.py import                      restores results/cache.sqlite from the export
 .venv\Scripts\python -m pytest -q tests                      instrument checks with scripted agents
 .venv\Scripts\python -m hubspoke validate                    writes results/validate.txt
 .venv\Scripts\python -m hubspoke analyse                     tables, tests, figures, results/main/numbers.json
@@ -57,6 +60,9 @@ New runs draw new samples only if the cache file is removed or renamed.
   `scripted.py` scripted agents with known answers; `forks.py`, `replay.py`, `canary.py` the instruments;
   `stats.py` exact permutation tests, Holm, bootstrap, AUROC, Wilson; `analysis.py`; `verify.py`; `cli.py`.
 - `results/pilot*`: the three pilots (see PREREGISTRATION.md for what each one decided).
+- `results/main_llama`: the pre-registered replication on Llama 3.1 70B (4-bit). `results/livereplay` and
+  `results/main/exploratory.*`: exploratory measures added after the main analysis (`hubspoke/explore.py`).
+- `finalize.ps1`: rebuilds every table, figure and check in order (Windows; the commands inside run anywhere).
 - `results/main`, `results/forks`, `results/replay`, `results/canary`: one JSON file per run, with every
   prompt input and raw reply. `results/figures`: the report's figures. `results/handcheck.csv`: the sample
   for the second rater.

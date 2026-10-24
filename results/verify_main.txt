@@ -1,0 +1,229 @@
+ok   replay aged-s0: 40 periods rebuilt from cache
+ok   replay aged-s1: 40 periods rebuilt from cache
+ok   replay aged-s10: 40 periods rebuilt from cache
+ok   replay aged-s11: 40 periods rebuilt from cache
+ok   replay aged-s2: 40 periods rebuilt from cache
+ok   replay aged-s3: 40 periods rebuilt from cache
+ok   replay aged-s4: 40 periods rebuilt from cache
+ok   replay aged-s5: 40 periods rebuilt from cache
+ok   replay aged-s6: 40 periods rebuilt from cache
+ok   replay aged-s7: 40 periods rebuilt from cache
+ok   replay aged-s8: 40 periods rebuilt from cache
+ok   replay aged-s9: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s0: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s1: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s10: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s11: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s2: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s3: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s4: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s5: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s6: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s7: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s8: 40 periods rebuilt from cache
+ok   replay aged_sharedmem-s9: 40 periods rebuilt from cache
+ok   replay chat-s0: 40 periods rebuilt from cache
+ok   replay chat-s1: 40 periods rebuilt from cache
+ok   replay chat-s10: 40 periods rebuilt from cache
+ok   replay chat-s11: 40 periods rebuilt from cache
+ok   replay chat-s2: 40 periods rebuilt from cache
+ok   replay chat-s3: 40 periods rebuilt from cache
+ok   replay chat-s4: 40 periods rebuilt from cache
+ok   replay chat-s5: 40 periods rebuilt from cache
+ok   replay chat-s6: 40 periods rebuilt from cache
+ok   replay chat-s7: 40 periods rebuilt from cache
+ok   replay chat-s8: 40 periods rebuilt from cache
+ok   replay chat-s9: 40 periods rebuilt from cache
+ok   replay isolated-s0: 40 periods rebuilt from cache
+ok   replay isolated-s1: 40 periods rebuilt from cache
+ok   replay isolated-s10: 40 periods rebuilt from cache
+ok   replay isolated-s11: 40 periods rebuilt from cache
+ok   replay isolated-s2: 40 periods rebuilt from cache
+ok   replay isolated-s3: 40 periods rebuilt from cache
+ok   replay isolated-s4: 40 periods rebuilt from cache
+ok   replay isolated-s5: 40 periods rebuilt from cache
+ok   replay isolated-s6: 40 periods rebuilt from cache
+ok   replay isolated-s7: 40 periods rebuilt from cache
+ok   replay isolated-s8: 40 periods rebuilt from cache
+ok   replay isolated-s9: 40 periods rebuilt from cache
+ok   replay pooled-s0: 40 periods rebuilt from cache
+ok   replay pooled-s1: 40 periods rebuilt from cache
+ok   replay pooled-s10: 40 periods rebuilt from cache
+ok   replay pooled-s11: 40 periods rebuilt from cache
+ok   replay pooled-s2: 40 periods rebuilt from cache
+ok   replay pooled-s3: 40 periods rebuilt from cache
+ok   replay pooled-s4: 40 periods rebuilt from cache
+ok   replay pooled-s5: 40 periods rebuilt from cache
+ok   replay pooled-s6: 40 periods rebuilt from cache
+ok   replay pooled-s7: 40 periods rebuilt from cache
+ok   replay pooled-s8: 40 periods rebuilt from cache
+ok   replay pooled-s9: 40 periods rebuilt from cache
+ok   replay portfolio-s0: 40 periods rebuilt from cache
+ok   replay portfolio-s1: 40 periods rebuilt from cache
+ok   replay portfolio-s10: 40 periods rebuilt from cache
+ok   replay portfolio-s11: 40 periods rebuilt from cache
+ok   replay portfolio-s2: 40 periods rebuilt from cache
+ok   replay portfolio-s3: 40 periods rebuilt from cache
+ok   replay portfolio-s4: 40 periods rebuilt from cache
+ok   replay portfolio-s5: 40 periods rebuilt from cache
+ok   replay portfolio-s6: 40 periods rebuilt from cache
+ok   replay portfolio-s7: 40 periods rebuilt from cache
+ok   replay portfolio-s8: 40 periods rebuilt from cache
+ok   replay portfolio-s9: 40 periods rebuilt from cache
+ok   replay separate-s0: 40 periods rebuilt from cache
+ok   replay separate-s1: 40 periods rebuilt from cache
+ok   replay separate-s10: 40 periods rebuilt from cache
+ok   replay separate-s11: 40 periods rebuilt from cache
+ok   replay separate-s2: 40 periods rebuilt from cache
+ok   replay separate-s3: 40 periods rebuilt from cache
+ok   replay separate-s4: 40 periods rebuilt from cache
+ok   replay separate-s5: 40 periods rebuilt from cache
+ok   replay separate-s6: 40 periods rebuilt from cache
+ok   replay separate-s7: 40 periods rebuilt from cache
+ok   replay separate-s8: 40 periods rebuilt from cache
+ok   replay separate-s9: 40 periods rebuilt from cache
+ok   replay solo-s0: 40 periods rebuilt from cache
+ok   replay solo-s1: 40 periods rebuilt from cache
+ok   replay solo-s10: 40 periods rebuilt from cache
+ok   replay solo-s11: 40 periods rebuilt from cache
+ok   replay solo-s2: 40 periods rebuilt from cache
+ok   replay solo-s3: 40 periods rebuilt from cache
+ok   replay solo-s4: 40 periods rebuilt from cache
+ok   replay solo-s5: 40 periods rebuilt from cache
+ok   replay solo-s6: 40 periods rebuilt from cache
+ok   replay solo-s7: 40 periods rebuilt from cache
+ok   replay solo-s8: 40 periods rebuilt from cache
+ok   replay solo-s9: 40 periods rebuilt from cache
+ok   forks chat-s0: recomputed from cache
+ok   forks chat-s1: recomputed from cache
+ok   forks chat-s10: recomputed from cache
+ok   forks chat-s11: recomputed from cache
+ok   forks chat-s2: recomputed from cache
+ok   forks chat-s3: recomputed from cache
+ok   forks chat-s4: recomputed from cache
+ok   forks chat-s5: recomputed from cache
+ok   forks chat-s6: recomputed from cache
+ok   forks chat-s7: recomputed from cache
+ok   forks chat-s8: recomputed from cache
+ok   forks chat-s9: recomputed from cache
+ok   forks isolated-s0: recomputed from cache
+ok   forks isolated-s1: recomputed from cache
+ok   forks isolated-s10: recomputed from cache
+ok   forks isolated-s11: recomputed from cache
+ok   forks isolated-s2: recomputed from cache
+ok   forks isolated-s3: recomputed from cache
+ok   forks isolated-s4: recomputed from cache
+ok   forks isolated-s5: recomputed from cache
+ok   forks isolated-s6: recomputed from cache
+ok   forks isolated-s7: recomputed from cache
+ok   forks isolated-s8: recomputed from cache
+ok   forks isolated-s9: recomputed from cache
+ok   forks pooled-s0: recomputed from cache
+ok   forks pooled-s1: recomputed from cache
+ok   forks pooled-s10: recomputed from cache
+ok   forks pooled-s11: recomputed from cache
+ok   forks pooled-s2: recomputed from cache
+ok   forks pooled-s3: recomputed from cache
+ok   forks pooled-s4: recomputed from cache
+ok   forks pooled-s5: recomputed from cache
+ok   forks pooled-s6: recomputed from cache
+ok   forks pooled-s7: recomputed from cache
+ok   forks pooled-s8: recomputed from cache
+ok   forks pooled-s9: recomputed from cache
+ok   forks portfolio-s0: recomputed from cache
+ok   forks portfolio-s1: recomputed from cache
+ok   forks portfolio-s10: recomputed from cache
+ok   forks portfolio-s11: recomputed from cache
+ok   forks portfolio-s2: recomputed from cache
+ok   forks portfolio-s3: recomputed from cache
+ok   forks portfolio-s4: recomputed from cache
+ok   forks portfolio-s5: recomputed from cache
+ok   forks portfolio-s6: recomputed from cache
+ok   forks portfolio-s7: recomputed from cache
+ok   forks portfolio-s8: recomputed from cache
+ok   forks portfolio-s9: recomputed from cache
+ok   replay aged-s0: recomputed from cache
+ok   replay aged-s1: recomputed from cache
+ok   replay aged-s10: recomputed from cache
+ok   replay aged-s11: recomputed from cache
+ok   replay aged-s2: recomputed from cache
+ok   replay aged-s3: recomputed from cache
+ok   replay aged-s4: recomputed from cache
+ok   replay aged-s5: recomputed from cache
+ok   replay aged-s6: recomputed from cache
+ok   replay aged-s7: recomputed from cache
+ok   replay aged-s8: recomputed from cache
+ok   replay aged-s9: recomputed from cache
+ok   replay aged_sharedmem-s0: recomputed from cache
+ok   replay aged_sharedmem-s1: recomputed from cache
+ok   replay aged_sharedmem-s10: recomputed from cache
+ok   replay aged_sharedmem-s11: recomputed from cache
+ok   replay aged_sharedmem-s2: recomputed from cache
+ok   replay aged_sharedmem-s3: recomputed from cache
+ok   replay aged_sharedmem-s4: recomputed from cache
+ok   replay aged_sharedmem-s5: recomputed from cache
+ok   replay aged_sharedmem-s6: recomputed from cache
+ok   replay aged_sharedmem-s7: recomputed from cache
+ok   replay aged_sharedmem-s8: recomputed from cache
+ok   replay aged_sharedmem-s9: recomputed from cache
+ok   replay isolated-s0: recomputed from cache
+ok   replay isolated-s1: recomputed from cache
+ok   replay isolated-s10: recomputed from cache
+ok   replay isolated-s11: recomputed from cache
+ok   replay isolated-s2: recomputed from cache
+ok   replay isolated-s3: recomputed from cache
+ok   replay isolated-s4: recomputed from cache
+ok   replay isolated-s5: recomputed from cache
+ok   replay isolated-s6: recomputed from cache
+ok   replay isolated-s7: recomputed from cache
+ok   replay isolated-s8: recomputed from cache
+ok   replay isolated-s9: recomputed from cache
+ok   replay pooled-s0: recomputed from cache
+ok   replay pooled-s1: recomputed from cache
+ok   replay pooled-s10: recomputed from cache
+ok   replay pooled-s11: recomputed from cache
+ok   replay pooled-s2: recomputed from cache
+ok   replay pooled-s3: recomputed from cache
+ok   replay pooled-s4: recomputed from cache
+ok   replay pooled-s5: recomputed from cache
+ok   replay pooled-s6: recomputed from cache
+ok   replay pooled-s7: recomputed from cache
+ok   replay pooled-s8: recomputed from cache
+ok   replay pooled-s9: recomputed from cache
+ok   canary aged-s0: recomputed from cache
+ok   canary aged-s1: recomputed from cache
+ok   canary aged-s10: recomputed from cache
+ok   canary aged-s11: recomputed from cache
+ok   canary aged-s2: recomputed from cache
+ok   canary aged-s3: recomputed from cache
+ok   canary aged-s4: recomputed from cache
+ok   canary aged-s5: recomputed from cache
+ok   canary aged-s6: recomputed from cache
+ok   canary aged-s7: recomputed from cache
+ok   canary aged-s8: recomputed from cache
+ok   canary aged-s9: recomputed from cache
+ok   canary aged_sharedmem-s0: recomputed from cache
+ok   canary aged_sharedmem-s1: recomputed from cache
+ok   canary aged_sharedmem-s10: recomputed from cache
+ok   canary aged_sharedmem-s11: recomputed from cache
+ok   canary aged_sharedmem-s2: recomputed from cache
+ok   canary aged_sharedmem-s3: recomputed from cache
+ok   canary aged_sharedmem-s4: recomputed from cache
+ok   canary aged_sharedmem-s5: recomputed from cache
+ok   canary aged_sharedmem-s6: recomputed from cache
+ok   canary aged_sharedmem-s7: recomputed from cache
+ok   canary aged_sharedmem-s8: recomputed from cache
+ok   canary aged_sharedmem-s9: recomputed from cache
+ok   index mean aged: 0.233488 vs numbers.json 0.233488
+ok   index mean aged_sharedmem: 0.268244 vs numbers.json 0.268244
+ok   index mean chat: 0.352658 vs numbers.json 0.352658
+ok   index mean isolated: 0.252387 vs numbers.json 0.252387
+ok   index mean pooled: 0.156447 vs numbers.json 0.156447
+ok   index mean portfolio: 0.199887 vs numbers.json 0.199887
+ok   index mean solo: -0.035493 vs numbers.json -0.035493
+ok   H1 pooled > isolated: p = 0.8011 (scipy, exact) vs 0.8011
+ok   H2 aged < pooled: p = 0.7610 (scipy, exact) vs 0.7610
+ok   H3 aged_sharedmem > aged: p = 0.3560 (scipy, exact) vs 0.3560
+ok   H4 isolated vs solo: p = 0.0015 (scipy, exact) vs 0.0015
+
+0 failure(s); client stats {'calls': 0, 'cached': 19872, 'prompt_tokens': 0, 'completion_tokens': 0, 'retries': 0}
