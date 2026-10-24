@@ -251,3 +251,9 @@ raises prices" from "advice stops prices falling". Round 2 tests both questions,
   paired by seed (sign-flip tests); H1 averaged over models (stratified bootstrap and permutation), to bound the
   data-pooling effect; "excess raise" (B's advice shift after a planted price plan, against the shift a one-shot
   best response to the planned price would justify); trials an auditor needs, from the observed canary rates.
+- 00:52 / 00:59 start-low finished on Llama and on Qwen (60 runs and 8,640 calls each, 0 unreadable, 0 retries).
+  Registered result (R2.3): isolated - solo = +0.183 on Llama (exact p 0.050) and +0.178 on Qwen (p 0.057); both
+  are >= +0.15, so the registered decision is "the advisor raises prices" on both models. Kiro's prediction
+  (inertia, p = 0.65) was wrong. Every condition except Qwen's `separate` stayed below the Nash price.
+- **Exploratory, added 01:08 after seeing the start-low results:** the same contrast averaged over the two models
+  (stratified bootstrap and permutation, robust.py), and a figure of both starts.

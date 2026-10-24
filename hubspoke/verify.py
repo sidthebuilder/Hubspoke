@@ -18,6 +18,70 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
 TOL = 1e-9
+SUFFIX_CONFIG = {"_llama": "modal_llama70b.json", "_gptoss": "modal_gptoss120b.json"}
+CANARY2_BASE = {"canary2": "main", "canary2_llama": "main_llama", "canary2_gptoss": "main_gptoss"}
+
+
+def config_for(folder: str) -> str:
+    """The config of the model a result folder was made with (folder names end in _llama / _gptoss, or Qwen)."""
+    for suffix, conf in SUFFIX_CONFIG.items():
+        if folder.endswith(suffix):
+            return conf
+    return "modal_qwen72b.json"
+
+
+def verify_round2(src: str) -> int:
+    """Round 2: rebuild a canary-v2 folder from the cache (offline), or re-run the disclosure judge on every judged
+    note from the cache (src = "judge") and compare its labels with results/judged.json."""
+    os.environ["HUBSPOKE_OFFLINE"] = "1"
+    from . import canary2, judge
+    from .agents import LLMAdvisor
+    from .cli import load_config
+    from .llm import LLMClient
+
+    lines, bad = [], 0
+
+    def check(ok: bool, msg: str):
+        nonlocal bad
+        lines.append(("ok   " if ok else "FAIL ") + msg)
+        bad += 0 if ok else 1
+
+    if src == "judge":
+        cfg, spec = load_config(str(ROOT / "configs" / "modal_qwen72b.json"))  # the registered judge model
+        client = LLMClient(spec, ROOT / cfg["cache"])
+        stored = json.loads((RESULTS / "judged.json").read_text(encoding="utf-8"))
+        items = judge.v1_items(RESULTS)
+        for folder in CANARY2_BASE:
+            if (RESULTS / folder).exists():
+                items += judge.v2_items(RESULTS / folder)
+        same = missing = 0
+        for it in items:
+            if it["key"] not in stored:
+                missing += 1
+                continue
+            try:
+                same += judge.judge_one(client, it)["label"] == stored[it["key"]]["label"]
+            except Exception as e:  # a cache miss: the stored label does not follow from a stored reply
+                check(False, f"judge {it['key']}: {type(e).__name__}: {e}")
+        n = len(items) - missing
+        check(same == n, f"judge: {same}/{n} stored labels rebuilt from the cache ({missing} notes not judged yet)")
+    else:
+        cfg, spec = load_config(str(ROOT / "configs" / config_for(src)))
+        client = LLMClient(spec, ROOT / cfg["cache"])
+        base = CANARY2_BASE[src]
+        for p in sorted((RESULTS / src).glob("*-s*.json")):
+            stored = json.loads(p.read_text(encoding="utf-8"))["trials"]
+            res = json.loads((RESULTS / base / p.name).read_text(encoding="utf-8"))
+            try:
+                again = canary2.canary2_trials(res, LLMAdvisor(client, res["config"]["temperature"]))
+                key = lambda t: (t["arm"], t["kind"], t["t"], t["written"], t["exposed"], t["disclosed_exact"],  # noqa: E731
+                                 t["b_price"], t["b_price_control"], t["b_note"])
+                check([key(t) for t in again] == [key(t) for t in stored], f"canary2 {src}/{p.stem}: rebuilt from cache")
+            except Exception as e:
+                check(False, f"canary2 {src}/{p.stem}: {type(e).__name__}: {e}")
+    lines.append(f"\n{bad} failure(s); client stats {client.stats}")
+    (RESULTS / f"verify_{src}.txt").write_text("\n".join(lines), encoding="utf-8")
+    return 1 if bad else 0
 
 
 def main(argv=None) -> int:
@@ -33,8 +97,9 @@ def main(argv=None) -> int:
     from .market import Market
 
     src = (argv or sys.argv[1:] or ["main"])[0]
-    conf = "modal_llama70b.json" if src.endswith("_llama") else "modal_qwen72b.json"  # the model the runs used
-    cfg, spec = load_config(str(ROOT / "configs" / conf))
+    if src.startswith("canary2") or src == "judge":
+        return verify_round2(src)
+    cfg, spec = load_config(str(ROOT / "configs" / config_for(src)))
     client = LLMClient(spec, ROOT / cfg["cache"])
     lines, bad = [], 0
 

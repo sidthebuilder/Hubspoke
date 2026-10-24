@@ -124,11 +124,71 @@ def fig_checks(data, path: Path) -> None:
     plt.close(fig)
 
 
+def _paths(folder: str, cond: str) -> list[list[float]] | None:
+    """Per-run price index for the 5 pre-periods and periods 1-40 (mean over the two firms)."""
+    from .analysis import load_runs
+
+    d = RESULTS / folder
+    if not d.exists():
+        return None
+    runs = load_runs(d).get(cond)
+    if not runs:
+        return None
+    out = []
+    for r in runs:
+        b, a = r["benchmarks"], r["alpha"]
+        idx = lambda p: (p / a - b["p_nash"]) / (b["p_mono"] - b["p_nash"])  # noqa: E731
+        pre: dict[int, list[float]] = {}
+        for rows in r["final_state"]["rows"]:
+            for row in rows:
+                if row["t"] <= 0:
+                    pre.setdefault(row["t"], []).append(idx(row["price"]))
+        out.append([sum(v) / len(v) for _, v in sorted(pre.items())] + list(r["price_index"]))
+    return out
+
+
+def fig_starts(path: Path) -> None:
+    """Mean price paths of solo and isolated runs from the main (high) start and the low start, per model."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    panels = [("Qwen2.5-72B", "main", "startlow"), ("Llama-3.1-70B", "main_llama", "startlow_llama")]
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 3.2), sharey=True)
+    for ax, (name, high, low) in zip(axes, panels):
+        for cond, col, lab in (("solo", "0.45", "no advisor (solo)"), ("isolated", "C0", "shared advisor, data kept apart (isolated)")):
+            for folder, ls, start in ((high, "-", "high start"), (low, "--", "low start")):
+                ps = _paths(folder, cond)
+                if not ps:
+                    continue
+                n = min(len(p) for p in ps)
+                mean = [sum(p[i] for p in ps) / len(ps) for i in range(n)]
+                xs = list(range(1 - (n - 40), 41))[:n]
+                ax.plot(xs, mean, ls=ls, color=col, lw=1.4, label=f"{lab}, {start}")
+        ax.axhline(0, color="black", lw=0.6)
+        ax.axvspan(26, 40, color="0.92", zorder=0)
+        ax.text(33, 0.93, "outcome\nwindow", ha="center", va="top", fontsize=7, color="0.35")
+        ax.text(-4, 0.03, "Nash price", fontsize=7, color="0.2")
+        ax.set_title(name, fontsize=9)
+        ax.set_xlabel("period (periods -4 to 0: random pre-periods)", fontsize=8)
+        ax.set_ylim(-0.8, 1.0)
+    axes[0].set_ylabel("price index (0 = Nash, 1 = joint profit)", fontsize=8)
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, fontsize=7, frameon=False, loc="lower center", ncol=2, bbox_to_anchor=(0.5, -0.02))
+    fig.suptitle("The advisor keeps prices higher than sellers alone, from a high and from a low start (12 runs per line)",
+                 fontsize=9)
+    fig.tight_layout(rect=(0, 0.12, 1, 1))
+    fig.savefig(path, dpi=200)
+    plt.close(fig)
+
+
 def main() -> int:
+    figs = RESULTS / "figures"
+    if (RESULTS / "startlow").exists() or (RESULTS / "startlow_llama").exists():
+        fig_starts(figs / "fig1_starts.png")
     data = _load()
     if not data:
         return 1
-    figs = RESULTS / "figures"
     fig_notebook(data, figs / "fig2_notebook.png")
     fig_checks(data, figs / "fig3_checks.png")
     return 0

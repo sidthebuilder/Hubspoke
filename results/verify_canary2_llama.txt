@@ -1,0 +1,14 @@
+ok   canary2 canary2_llama/aged_sharedmem-s0: rebuilt from cache
+ok   canary2 canary2_llama/aged_sharedmem-s1: rebuilt from cache
+ok   canary2 canary2_llama/aged_sharedmem-s10: rebuilt from cache
+ok   canary2 canary2_llama/aged_sharedmem-s11: rebuilt from cache
+ok   canary2 canary2_llama/aged_sharedmem-s2: rebuilt from cache
+ok   canary2 canary2_llama/aged_sharedmem-s3: rebuilt from cache
+ok   canary2 canary2_llama/aged_sharedmem-s4: rebuilt from cache
+ok   canary2 canary2_llama/aged_sharedmem-s5: rebuilt from cache
+ok   canary2 canary2_llama/aged_sharedmem-s6: rebuilt from cache
+ok   canary2 canary2_llama/aged_sharedmem-s7: rebuilt from cache
+ok   canary2 canary2_llama/aged_sharedmem-s8: rebuilt from cache
+ok   canary2 canary2_llama/aged_sharedmem-s9: rebuilt from cache
+
+0 failure(s); client stats {'calls': 0, 'cached': 1152, 'prompt_tokens': 0, 'completion_tokens': 0, 'retries': 0}

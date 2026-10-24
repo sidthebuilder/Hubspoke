@@ -108,6 +108,12 @@ Our dated predictions mostly failed (P1, P4 wrong; P2, P3 not scored; P5 right).
   the advice in 96-100% of periods, and in periods 26-40 prices do not move at all in 69-89% of decisions
   under an advisor (91% with chat), against 36% in solo. Prices start high and the advice holds them there; solo sellers keep
   cutting (index change from the pre-periods: solo -0.58, isolated -0.29, separate -0.19).
+- *Start-low test (registered, round 2; results/startlow*/round2.md)*: with pre-periods below the Nash price
+  (index -0.38), the advisor still priced above solo sellers: isolated - solo +0.178 (Qwen, p = 0.057) and +0.183
+  (Llama, p = 0.050); averaged over both models +0.180, p = 0.006 (exploratory). By the registered rule this means
+  the advisor raises prices; our inertia prediction was wrong. But almost every condition ended below Nash, and
+  solo sellers stayed where they started in both designs, so the honest summary is: LLM sellers are sticky, and an
+  advice layer adds about +0.2 to +0.4 index on top, from either start (Fig. 1).
 
 **4.5 Access versus use.** Re-asking 10 logged decisions per run with the other client's data blanked changed
 the recommended price by at most 0.003 index points on average in any condition (pooled -0.000, CI -0.002 to
@@ -166,7 +172,8 @@ on Llama too.
   rival's session and moved its advice; with private notebooks, none did. An ageing rule for data says nothing
   about memory shared across clients. The audit test (Appendix C) finds this from the outside in a handful of
   trials, which no price screen we tried could do.
-- Mechanism: inertia, not punishment. Deviations did not pay over 10 periods, but because the rival matched part
+- Mechanism: an upward push plus stickiness, not punishment. The advisor priced above solo from a high and from a
+  low start (start-low test), and deviations did not pay over 10 periods, but because the rival matched part
   of the cut and both prices then stayed put, not because it cut harder than a myopic seller. By Harrington's
   definition (supracompetitive prices sustained by a reward-punishment scheme) this is not collusion, but it
   still costs consumers [CS numbers] relative to the no-advisor baseline.

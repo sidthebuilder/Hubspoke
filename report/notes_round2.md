@@ -56,17 +56,30 @@ File: results/judge_validation.md. Judge: Qwen2.5-72B, temperature 0, fixed prom
   measure is reported as secondary only (registered).]
 
 ## Start-low (R2.3): does advice raise prices, or only stop them falling?
-Files: results/startlow_llama/round2.md; [PENDING results/startlow/round2.md for Qwen].
-- Llama: pre-periods at index -0.38 on average (below Nash). Periods 26-40: solo -0.42, isolated -0.24, pooled
-  -0.43, portfolio -0.37, separate -0.29. Every condition stays below the Nash price.
-- H5 isolated - solo +0.183 (CI +0.020 to +0.348), exact p = 0.050 (two-sided). Registered rule: >= +0.15 means
-  "the advisor raises prices" -> that is the registered conclusion for Llama. Kiro's prediction (inertia) failed.
-- H6 isolated's change from its own pre-periods: +0.140 (CI +0.067 to +0.216), sign-flip p = 0.005; 9 of 12 up.
-- Careful reading: from below Nash, "raising prices" moves them towards the competitive level, not above it.
-  Solo sellers barely move (-0.04 from their start) and all conditions depend on where they start: start-high
-  minus start-low is +0.37 for solo and +0.63 for isolated (exploratory).
-- Exploratory: portfolio - isolated -0.134 (CI -0.266 to -0.002): the joint-profit advisor again failed to raise
-  prices above the firewalled one.
+Files: results/startlow/round2.md (Qwen), results/startlow_llama/round2.md (Llama), figure fig1_starts.png.
+Pre-periods at index -0.38 on average (below Nash), the same for every condition of a seed.
+
+| periods 26-40 | solo | isolated | pooled | portfolio | separate |
+|---|---|---|---|---|---|
+| Qwen | -0.42 | -0.25 | -0.36 | -0.22 | +0.00 |
+| Llama | -0.42 | -0.24 | -0.43 | -0.37 | -0.29 |
+
+- H5 isolated - solo: Qwen +0.178 (CI +0.010 to +0.339), exact p = 0.057; Llama +0.183 (CI +0.020 to +0.348),
+  p = 0.050 (two-sided). Registered rule: >= +0.15 means "the advisor raises prices", so that is the registered
+  conclusion on both models. Kiro's prediction (inertia, p = 0.65) was wrong.
+- H6 isolated's change from its own pre-periods: Qwen +0.132 (CI +0.023 to +0.240), sign-flip p = 0.054, 8 of 12
+  up; Llama +0.140 (CI +0.067 to +0.216), p = 0.005, 9 of 12 up.
+- Exploratory: paired by seed, p = 0.036 (Qwen) and 0.020 (Llama); averaged over both models +0.180 (CI +0.063
+  to +0.296), stratified permutation p = 0.006 (results/robust.md; added after seeing the results).
+- Careful reading: from below Nash, prices that rise are moving towards the competitive level, not above it;
+  every condition except Qwen's `separate` (+0.00) ended below Nash. Solo sellers barely moved from their start
+  (-0.05 and -0.04): without an advisor, LLM sellers stay where they start, high or low (start-high minus
+  start-low: +0.39 Qwen, +0.37 Llama for solo). The advisor adds about +0.18 to +0.44 index on top of that, from
+  either start: +0.29 / +0.18 (Qwen, high / low start), +0.44 / +0.18 (Llama).
+- Exploratory: portfolio - isolated: Qwen +0.025 (p 0.84), Llama -0.134 (CI -0.266 to -0.002). The joint-profit
+  advisor again did not raise prices above the firewalled one.
+- Exploratory: Qwen's `separate` advisor (told it serves only one firm) priced highest from both starts (+0.36
+  high, +0.00 low), above the shared isolated advisor (+0.25, -0.25).
 
 ## Robustness (exploratory; results/robust.md)
 - Paired by seed (sign-flip tests): Qwen H4 +0.288, p = 0.001; Llama H2 -0.235, p = 0.004; Llama H3 +0.208,

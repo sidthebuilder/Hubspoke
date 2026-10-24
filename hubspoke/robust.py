@@ -49,12 +49,14 @@ def paired_tests(folder: str) -> dict:
 
 
 # ------------------------------------------------------------------------------------------- stratified H1
-def stratified_h1(folders: list[str], n_boot: int = 20_000, n_perm: int = 100_000, seed: int = 52) -> dict:
+def stratified_h1(folders: list[str], n_boot: int = 20_000, n_perm: int = 100_000, seed: int = 52,
+                  x: str = "pooled", y: str = "isolated", alternative: str = "greater") -> dict:
+    """mean(x) - mean(y) averaged over model folders; bootstrap within folder; labels permuted within folder."""
     groups = []
     for f in folders:
         idx = _index_by_seed(f)
-        if "pooled" in idx and "isolated" in idx:
-            groups.append((f, list(idx["pooled"].values()), list(idx["isolated"].values())))
+        if x in idx and y in idx:
+            groups.append((f, list(idx[x].values()), list(idx[y].values())))
     if not groups:
         return {}
     est = stats.mean([stats.mean(p) - stats.mean(i) for _, p, i in groups])
@@ -73,9 +75,12 @@ def stratified_h1(folders: list[str], n_boot: int = 20_000, n_perm: int = 100_00
             allv = p + i
             rng.shuffle(allv)
             vals.append(stats.mean(allv[:len(p)]) - stats.mean(allv[len(p):]))
-        hits += stats.mean(vals) >= est - 1e-12
-    return {"models": [g[0] for g in groups], "estimate": est, "ci95": [lo, hi], "upper_95_one_sided": one_sided_upper,
-            "p_greater_stratified_perm": hits / n_perm, "n_perm": n_perm}
+        v = stats.mean(vals)
+        hits += (v >= est - 1e-12) if alternative == "greater" else (abs(v) >= abs(est) - 1e-12)
+    return {"models": [g[0] for g in groups], "contrast": f"{x} - {y}", "estimate": est, "ci95": [lo, hi],
+            "upper_95_one_sided": one_sided_upper, "alternative": alternative,
+            "p_greater_stratified_perm" if alternative == "greater" else "p_two_sided_stratified_perm": hits / n_perm,
+            "n_perm": n_perm}
 
 
 # ------------------------------------------------------------------------------------------- excess raise
@@ -205,6 +210,9 @@ def main() -> int:
     out = {"paired": {m: paired_tests(f) for m, (f, _, _) in MODELS.items() if (RESULTS / f).exists()},
            "stratified H1 (Qwen + Llama)": stratified_h1(["main", "main_llama"]),
            "excess raise": excess_raise(), "audit power": audit_power()}
+    if (RESULTS / "startlow").exists() and (RESULTS / "startlow_llama").exists():
+        out["stratified H5, start-low isolated - solo (Qwen + Llama)"] = stratified_h1(
+            ["startlow", "startlow_llama"], x="isolated", y="solo", alternative="two-sided")
     if (RESULTS / "main_gptoss").exists() and len(list((RESULTS / "main_gptoss").glob("*-s*.json"))) >= 84:
         out["stratified H1 (all three models)"] = stratified_h1(["main", "main_llama", "main_gptoss"])
     (RESULTS / "robust.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
@@ -214,12 +222,14 @@ def main() -> int:
         for name, t in tests.items():
             L.append(f"| {m} | {name} | {t['n_pairs']} | {t['mean_diff']:+.3f} ({t['ci'][0]:+.3f} to {t['ci'][1]:+.3f}) | "
                      f"{t['p_signflip']:.4f} |")
-    for key in ("stratified H1 (Qwen + Llama)", "stratified H1 (all three models)"):
+    for key in ("stratified H1 (Qwen + Llama)", "stratified H1 (all three models)",
+                "stratified H5, start-low isolated - solo (Qwen + Llama)"):
         s = out.get(key)
         if s:
-            L += ["", f"## {key}: pooled - isolated, averaged over models",
+            pk = "p_greater_stratified_perm" if s["alternative"] == "greater" else "p_two_sided_stratified_perm"
+            L += ["", f"## {key}: {s['contrast']}, averaged over models",
                   f"Estimate {s['estimate']:+.3f} (95% CI {s['ci95'][0]:+.3f} to {s['ci95'][1]:+.3f}); one-sided 95% upper "
-                  f"bound {s['upper_95_one_sided']:+.3f}; stratified permutation p (greater) {s['p_greater_stratified_perm']:.4f}."]
+                  f"bound {s['upper_95_one_sided']:+.3f}; stratified permutation p ({s['alternative']}) {s[pk]:.4f}."]
     L += ["", "## Excess raise: B's advice shift vs the best-response shift to A's planned price (index units)", "",
           "| source | arm | trials | actual shift (95% CI) | justified by best response | excess (95% CI) | p |", "|---|---|---|---|---|---|---|"]
     for src, arms in out["excess raise"].items():

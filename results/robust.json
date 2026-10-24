@@ -91,12 +91,14 @@
    "main",
    "main_llama"
   ],
+  "contrast": "pooled - isolated",
   "estimate": -0.06655381937427109,
   "ci95": [
    -0.22683102419011342,
    0.09250210874224259
   ],
   "upper_95_one_sided": 0.06573771466166918,
+  "alternative": "greater",
   "p_greater_stratified_perm": 0.78331,
   "n_perm": 100000
  },
@@ -431,5 +433,21 @@
     "n_judged_vs_control_80pct_power": "> 60"
    }
   }
+ },
+ "stratified H5, start-low isolated - solo (Qwen + Llama)": {
+  "models": [
+   "startlow",
+   "startlow_llama"
+  ],
+  "contrast": "isolated - solo",
+  "estimate": 0.18043710348812717,
+  "ci95": [
+   0.06283046163842432,
+   0.29628172725716334
+  ],
+  "upper_95_one_sided": 0.27898491594132363,
+  "alternative": "two-sided",
+  "p_two_sided_stratified_perm": 0.00553,
+  "n_perm": 100000
  }
 }

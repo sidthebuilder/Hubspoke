@@ -16,6 +16,9 @@
 ## stratified H1 (Qwen + Llama): pooled - isolated, averaged over models
 Estimate -0.067 (95% CI -0.227 to +0.093); one-sided 95% upper bound +0.066; stratified permutation p (greater) 0.7833.
 
+## stratified H5, start-low isolated - solo (Qwen + Llama): isolated - solo, averaged over models
+Estimate +0.180 (95% CI +0.063 to +0.296); one-sided 95% upper bound +0.279; stratified permutation p (two-sided) 0.0055.
+
 ## Excess raise: B's advice shift vs the best-response shift to A's planned price (index units)
 
 | source | arm | trials | actual shift (95% CI) | justified by best response | excess (95% CI) | p |
