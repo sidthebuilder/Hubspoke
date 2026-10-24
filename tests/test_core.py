@@ -72,6 +72,34 @@ def test_private_notebooks_stay_private():
         assert seen_other == shared
 
 
+def test_prehistory_is_shared_across_conditions_and_in_range():
+    m = Market(alpha=ALPHAS[1])
+    firsts = []
+    for cond in ("solo", "pooled"):
+        adv = scripted.PoolingAdvisor(m) if cond == "pooled" else None
+        g = Game(RunConfig(cond, seed=7, T=1), [scripted.FollowRec(m), scripted.FollowRec(m)], adv)
+        firsts.append([[(r.t, r.price) for r in rows] for rows in g.state.rows])
+        b = m.benchmarks()
+        for rows in g.state.rows:
+            assert [r.t for r in rows] == [-4, -3, -2, -1, 0]
+            for r in rows:
+                idx = b.price_index(r.price / m.alpha)
+                assert -0.27 <= idx <= 1.27
+    assert firsts[0] == firsts[1]
+
+
+def test_reasoning_field_only_when_asked():
+    c = get_condition("pooled")
+    hist = [Row(0, 1.8, 30.0, 24.0, [1.9])]
+    for think in (False, True):
+        so = SellerObs("Firm A", 0, 1, 2, 1.0, hist, ["Firm B"], advisor=True, rec=1.9, rec_note="x", think=think)
+        ao = AdvisorObs("Firm A", 0, 1, 2, 1.0, hist, ["Firm B"], c, portfolio=[("Firm B", hist)], live_recs=[],
+                        think=think)
+        for text in (prompts.seller_system(so), prompts.advisor_system(ao)):
+            assert ('"reasoning"' in text) == think
+            assert not [w for w in prompts.BANNED if w in text.lower()]
+
+
 def test_fork_from_snapshot_is_deterministic():
     m = Market(alpha=ALPHAS[1])
     g = Game(RunConfig("solo", seed=1, T=30, snapshot_at=25), [scripted.GrimTrigger(m), scripted.GrimTrigger(m)])

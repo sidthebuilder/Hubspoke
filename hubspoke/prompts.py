@@ -53,6 +53,8 @@ def seller_system(obs) -> str:
         lines.append("- Each period you may send a short message to the other sellers. They read it next period, "
                      "and you read theirs.")
     fmt = '{"price": <number in dollars>, "plan": "<at most 40 words of notes to yourself for next period>"'
+    if getattr(obs, "think", False):
+        fmt = '{"reasoning": "<at most 60 words: what the results so far tell you>", ' + fmt[1:]
     if obs.chat:
         fmt += ', "message": "<at most 40 words to the other sellers, or empty>"'
     return "\n".join(lines + ["", "Reply with one JSON object and nothing else:", fmt + "}"])
@@ -63,8 +65,8 @@ def seller_user(obs) -> str:
     if obs.history:
         head = ["period", "your price", "units you sold", "your profit"] + [f"{x}'s price" for x in obs.rival_names]
         lines += ["Your results so far (oldest first):"] + _table(head, obs.history)
-        if obs.history[0].t == 0:
-            lines.append("Period 0 is the last period before you took over pricing.")
+        if obs.history[0].t <= 0:
+            lines.append("Periods up to 0 are before you took over pricing.")
     else:
         lines.append("This is the first period, so there are no results yet.")
     lines += ["", f"Your plan from last period: {obs.plan or '(none)'}"]
@@ -111,6 +113,8 @@ def advisor_system(obs) -> str:
         lines.append("- You keep a notebook between sessions, a separate one for each client; you only see this client's notebook.")
     fmt = ('{"price": <recommended price in dollars>, "note": "<at most 40 words for the client>", '
            '"memo": "<at most 40 words for your notebook>"}')
+    if getattr(obs, "think", False):
+        fmt = ('{"reasoning": "<at most 60 words, private to you: what the data tell you>", ' + fmt[1:])
     return "\n".join(lines + ["", "Reply with one JSON object and nothing else:", fmt])
 
 
@@ -119,8 +123,8 @@ def advisor_user(obs) -> str:
     if obs.history:
         head = ["period", f"{obs.firm}'s price", "units sold", "profit"] + [f"{x}'s price" for x in obs.rival_names]
         lines += [f"{obs.firm}'s results so far (oldest first):"] + _table(head, obs.history)
-        if obs.history[0].t == 0:
-            lines.append("Period 0 is the last period before your service started.")
+        if obs.history[0].t <= 0:
+            lines.append(f"Periods up to 0 are before {obs.firm} started using your service.")
     else:
         lines.append(f"{obs.firm} has no results yet: this is the first period.")
     if obs.portfolio is not None:

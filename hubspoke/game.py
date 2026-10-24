@@ -24,7 +24,9 @@ class RunConfig:
     n: int = 2
     aged_lag: int = 12
     snapshot_at: int = 25  # state saved here for the fork test
-    start: str = "nash"  # "nash": history starts with a period 0 at the one-shot Nash price; "none": empty
+    start: str = "history"  # "history": 5 random pre-periods; "nash": one period 0 at Nash (pilot 1); "none"
+    reasoning: bool = False  # agents write a short "reasoning" field before the price (design D2)
+    pre_periods: int = 5
 
     @property
     def run_id(self) -> str:
@@ -63,18 +65,32 @@ class Game:
         self.snapshot: dict | None = None
 
     def _initial_rows(self) -> list[list[Row]]:
-        """Period 0, the market before the agents take over: every firm at the one-shot Nash price. It gives
-        agents the price scale, so a 40-period run measures where prices go rather than the descent from an
-        arbitrary opening price (in the smoke test the advisor opened at 10x unit cost)."""
-        n = self.cfg.n
+        """The market before the agents take over, so that agents know the price scale.
+        "history" (main design): pre-periods -K+1..0 with each firm's price drawn at random (price index uniform on
+        [-0.25, 1.25], seeded by the run seed only, so every condition of a seed gets the same pre-periods). They
+        show how demand responds to own and rival prices without suggesting a status quo.
+        "nash" (pilot 1): one period 0 with every firm at the one-shot Nash price; agents anchored on it.
+        "none" (smoke test): no history; the advisor opened at 10x unit cost."""
+        n, m = self.cfg.n, self.market
         if self.cfg.start == "none":
             return [[] for _ in range(n)]
-        if self.cfg.start != "nash":
+        if self.cfg.start == "nash":
+            periods = [(0, [m.nash_price()] * n)]
+        elif self.cfg.start == "history":
+            b = m.benchmarks()
+            rng = random.Random(f"prehistory|{self.cfg.seed}")
+            periods = [(t, [b.p_nash + rng.uniform(-0.25, 1.25) * (b.p_mono - b.p_nash) for _ in range(n)])
+                       for t in range(1 - self.cfg.pre_periods, 1)]
+        else:
             raise ValueError(f"unknown start {self.cfg.start!r}")
-        p0 = [self.market.alpha * self.market.nash_price()] * n
-        q, pi = self.market.clear(p0)
-        return [[Row(0, round(p0[i], 4), round(float(q[i]), 3), round(float(pi[i]), 4),
-                     [round(p0[j], 4) for j in range(n) if j != i])] for i in range(n)]
+        rows: list[list[Row]] = [[] for _ in range(n)]
+        for t, p_norm in periods:
+            p = [round(m.alpha * x, 2) for x in p_norm]  # posted prices are whole cents
+            q, pi = m.clear(p)
+            for i in range(n):
+                rows[i].append(Row(t, p[i], round(float(q[i]), 3), round(float(pi[i]), 4),
+                                   [p[j] for j in range(n) if j != i]))
+        return rows
 
     # ---------------------------------------------------------------- one period
     def _advisor_obs(self, i: int, t: int, live: list[tuple[str, float]]) -> AdvisorObs:
@@ -87,7 +103,7 @@ class Game:
         return AdvisorObs(firm=self.names[i], index=i, t=t, n=self.cfg.n, cost=self.market.unit_cost,
                           history=s.rows[i][-W:], rival_names=[x for j, x in enumerate(self.names) if j != i],
                           condition=c, portfolio=portfolio, live_recs=list(live) if c.live_recs else None,
-                          memos=list(memos[-self.cfg.memo_window:]))
+                          memos=list(memos[-self.cfg.memo_window:]), think=self.cfg.reasoning)
 
     def step(self, forced: dict[int, float] | None = None, salt: str = "",
              forced_text: dict[int, tuple[str, str]] | None = None) -> dict:
@@ -128,7 +144,7 @@ class Game:
                                 history=s.rows[i][-self.cfg.window:],
                                 rival_names=[x for j, x in enumerate(self.names) if j != i], plan=s.plans[i],
                                 advisor=self.cond.advisor, rec=recs[i], rec_note=notes[i], chat=self.cond.chat,
-                                inbox=list(s.inbox[i]))
+                                inbox=list(s.inbox[i]), think=self.cfg.reasoning)
                 a = self.sellers[i].act(obs, CallCtx(rid, t, "seller", i, salt))
                 p, ok = a.price, a.ok
                 plans[i], msgs[i] = a.plan or s.plans[i], a.message

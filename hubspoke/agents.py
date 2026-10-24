@@ -44,6 +44,7 @@ class SellerObs:
     rec_note: str = ""
     chat: bool = False
     inbox: list[tuple[str, str]] = field(default_factory=list)
+    think: bool = False  # the reply starts with a short "reasoning" field
 
 
 @dataclass
@@ -60,6 +61,7 @@ class AdvisorObs:
     live_recs: list[tuple[str, float]] | None = None  # prices already recommended to others this period
     memos: list[Memo] = field(default_factory=list)
     extra: str = ""  # only used by the canary test (a confidential note from this client)
+    think: bool = False  # the reply starts with a short "reasoning" field
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -76,6 +78,7 @@ class AdvisorObs:
             live_recs=None if d.get("live_recs") is None else [(name, float(p)) for name, p in d["live_recs"]],
             memos=[Memo(**m) for m in d.get("memos", [])],
             extra=d.get("extra", ""),
+            think=d.get("think", False),
         )
 
 
@@ -86,6 +89,7 @@ class SellerAction:
     message: str = ""
     ok: bool = True
     trace: list[dict] = field(default_factory=list)
+    reasoning: str = ""
 
 
 @dataclass
@@ -95,6 +99,7 @@ class AdvisorAction:
     memo: str = ""
     ok: bool = True
     trace: list[dict] = field(default_factory=list)
+    reasoning: str = ""  # private to the advisor: never shown to any client
 
 
 @dataclass(frozen=True)
@@ -131,7 +136,7 @@ def _ask(client, system: str, user: str, ctx: CallCtx, temperature: float, max_t
 
 
 class LLMSeller:
-    def __init__(self, client, temperature: float = 0.7, max_tokens: int = 220):
+    def __init__(self, client, temperature: float = 0.7, max_tokens: int = 360):
         self.client, self.temperature, self.max_tokens = client, temperature, max_tokens
 
     def act(self, obs: SellerObs, ctx: CallCtx) -> SellerAction:
@@ -140,11 +145,12 @@ class LLMSeller:
         if d is None:
             return SellerAction(None, ok=False, trace=trace)
         return SellerAction(to_price(d.get("price")), clip_text(d.get("plan")),
-                            clip_text(d.get("message")) if obs.chat else "", True, trace)
+                            clip_text(d.get("message")) if obs.chat else "", True, trace,
+                            clip_text(d.get("reasoning"), 600))
 
 
 class LLMAdvisor:
-    def __init__(self, client, temperature: float = 0.7, max_tokens: int = 260):
+    def __init__(self, client, temperature: float = 0.7, max_tokens: int = 420):
         self.client, self.temperature, self.max_tokens = client, temperature, max_tokens
 
     def act(self, obs: AdvisorObs, ctx: CallCtx) -> AdvisorAction:
@@ -152,4 +158,5 @@ class LLMAdvisor:
                         self.temperature, self.max_tokens)
         if d is None:
             return AdvisorAction(None, ok=False, trace=trace)
-        return AdvisorAction(to_price(d.get("price")), clip_text(d.get("note")), clip_text(d.get("memo")), True, trace)
+        return AdvisorAction(to_price(d.get("price")), clip_text(d.get("note")), clip_text(d.get("memo")), True, trace,
+                             clip_text(d.get("reasoning"), 600))

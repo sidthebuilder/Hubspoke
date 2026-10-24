@@ -101,7 +101,7 @@ def cmd_validate(args) -> int:
             first = next((r["t"] for r, v in zip(g.log, idx) if v > 0.5), None)
             out.append(f"seed {seed} PoolingAdvisor/{cond:9s} first period near joint-profit price: {first}")
     out.append("expected: Myopic ~0, GrimTrigger ~1, FixedHigh ~1; pooling advisor: isolated never, pooled from "
-               "period 1, aged from period 12 (both see the other firm's period-0 row once it is old enough)")
+               "period 1, aged from period 8 (the other firm's pre-periods -4..0 become visible once 12 periods old)")
     out += instrument_checks()
     (RESULTS / "validate.txt").parent.mkdir(parents=True, exist_ok=True)
     (RESULTS / "validate.txt").write_text("\n".join(out), encoding="utf-8")
@@ -159,7 +159,8 @@ def cmd_run(args) -> int:
         if path.exists():
             return f"{cond}-s{seed} skip"
         t0 = time.time()
-        g = llm_game(RunConfig(cond, seed=seed, T=args.T, temperature=cfg["temperature"]), client)
+        g = llm_game(RunConfig(cond, seed=seed, T=args.T, temperature=cfg["temperature"], start=args.start,
+                               reasoning=args.reasoning), client)
         g.run()
         res = g.result()
         res["model_note"] = cfg.get("model_note", "")
@@ -213,6 +214,20 @@ def _secondary(args, kind: str, work) -> int:
     return 0
 
 
+def cmd_analyse(args) -> int:
+    from . import analysis
+
+    os.environ.setdefault("HUBSPOKE_OFFLINE", "1")  # analysis never calls the model
+    numbers = analysis.analyse(RESULTS, args.src, args.lo, args.hi)
+    lines = [analysis.table_markdown(numbers["summary"], numbers["tests"]), "",
+             json.dumps(numbers.get("predictions", {}), default=float)]
+    for key in ("replay", "canary", "forks", "detection"):
+        if numbers.get(key):
+            lines += ["", f"## {key}", json.dumps(numbers[key], default=float)[:4000]]
+    (RESULTS / args.src / "analysis.txt").write_text("\n".join(lines), encoding="utf-8")
+    return 0
+
+
 def cmd_forks(args) -> int:
     return _secondary(args, "forks", lambda res, client: forks.fork_run(
         res, lambda rc: llm_agents(rc, client)))
@@ -250,7 +265,13 @@ def main(argv=None) -> int:
     r.add_argument("--out", default="main")
     r.add_argument("--wait", type=float, default=1800)
     r.add_argument("--workers", type=int, default=0, help="games run in parallel (0 = the config's value)")
-    handlers = {"smoke": cmd_smoke, "validate": cmd_validate, "run": cmd_run}
+    r.add_argument("--start", default="history", choices=["history", "nash", "none"])
+    r.add_argument("--reasoning", action="store_true", help="agents write a short reasoning field first (D2)")
+    z = sub.add_parser("analyse", help="tables, tests, figures and numbers.json (no model calls)")
+    z.add_argument("--src", default="main")
+    z.add_argument("--lo", type=int, default=26)
+    z.add_argument("--hi", type=int, default=40)
+    handlers = {"smoke": cmd_smoke, "validate": cmd_validate, "run": cmd_run, "analyse": cmd_analyse}
     for name, (fn, conds) in SECONDARY.items():
         x = sub.add_parser(name, help=f"{name} on the main runs (resumes)")
         x.add_argument("--config", default=str(ROOT / "configs" / "modal_qwen72b.json"))

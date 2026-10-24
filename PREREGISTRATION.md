@@ -83,3 +83,26 @@ pilot (24 Oct, about 19:30 IST):
   planned price), so 24 trials per arm instead of 20, and every seed contributes equally. A control session
   for planned-price facts measures how far A's plan moved the advice to B.
 - **Dropped:** the advisor's forecast error for its client's units (the advisor's reply has no forecast field).
+
+### Pilot 1 (24 Oct, 19:18-19:21 IST; seeds 90-91, 15 periods, period-0 start at Nash): failed G1
+- Readable replies 720/720 (pass). solo mean index -0.19 (pass). portfolio mean index 0.03 (fail; needs >= 0.2).
+- Diagnosis: status-quo anchoring, not a model that cannot price. In seed 91 (alpha 3.2) all 7 conditions sat
+  at exactly the period-0 Nash price ($4.71) for all 15 periods, the portfolio advisor included ("Maintain $4.71
+  for stability and profit maximization"). In seed 90 (alpha 1) prices moved in $0.05 steps. Agents choose a
+  price before writing anything, unlike Fish et al. (2024), whose agents write observations and plans first.
+- Deviation from the pilot rule: the rule says switch model on failure. We judge the failure to be caused by
+  our period-0 design, which a model switch would not fix, so we change the design once and re-pilot. If the
+  re-pilot also fails G1, we switch to the backup model with the chosen design (and if that fails, we report the
+  instruments and pilots as a negative result, as planned).
+
+### Pilot 2 rule (written before pilot 2 is run)
+Two candidate designs, both on new seeds 92-93, 15 periods, all 7 conditions:
+- D1 "history": instead of one Nash period, every run starts with 5 pre-periods (-4 to 0) in which each firm's
+  price was drawn at random (independently per firm and period, price index uniform on [-0.25, 1.25], seeded
+  by the run seed, so identical across conditions). Agents see them as the periods before they took over.
+  It gives the price scale and how demand responds to own and rival prices, without a single status quo.
+- D2 "history + reasoning": D1, plus a "reasoning" field (at most 60 words, "what the results so far tell
+  you") that agents write before the price, as in Fish et al.'s observe-then-decide prompts.
+Selection uses only the G1 criteria (readable >= 95%, portfolio >= 0.2, solo <= 0.7), never the hypothesis
+conditions: take D1 if it passes, else D2 if it passes, else switch model with D2. The chosen design is used
+for every main, fork, replay and canary run.
