@@ -106,3 +106,31 @@ Two candidate designs, both on new seeds 92-93, 15 periods, all 7 conditions:
 Selection uses only the G1 criteria (readable >= 95%, portfolio >= 0.2, solo <= 0.7), never the hypothesis
 conditions: take D1 if it passes, else D2 if it passes, else switch model with D2. The chosen design is used
 for every main, fork, replay and canary run.
+G1 levels are the mean price index over periods 11-15 (the level reached by the end of the pilot), averaged
+over both seeds; the 1-15 mean is reported too. (Fixed at 19:31 IST, when 11 of the 14 D1 runs had finished and
+no D2 run had.)
+
+### Pilot 2 results (24 Oct, 19:27-19:34 IST) and the decision
+- D1: readable 720/720; solo -0.00; portfolio +0.115 -> **fails G1**.
+- D2: readable 720/720; solo -0.087; portfolio +0.206 -> **passes G1** (narrowly: seed 92 +0.39, seed 93 +0.02).
+- By the rule above, **every main, fork, replay and canary run uses D2** (5 random pre-periods plus a reasoning
+  field). Files: results/pilot2_d1/gate.txt, results/pilot2_d2/gate.txt.
+
+## Changes made after the pilots, before the main run (24 Oct, about 19:40 IST)
+- **12 seeds per condition instead of 6** (seeds 0-11). Reason: power. The pilots differ widely between seeds
+  (pooled: +0.27 and -0.31 in D2), so 6 runs per condition would detect only very large effects; the GPU budget
+  allows 12. The exact permutation tests stay exact (2.7 million splits for 12 vs 12). The canary test then has
+  48 trials per arm; the replay covers 12 runs per condition.
+- **Blind main run.** The main run logs only health (readable replies), not outcomes. Nobody looks at outcomes
+  before the analysis script runs.
+
+## Dated predictions (before the main run)
+Written 24 Oct, 19:40 IST, after the pilots and before any main-run data. Made by Kiro, the AI assistant on this
+project, from the pilot data; they are recorded as Kiro's, not the author's.
+- P1: pooled raises the price index over isolated by at least 0.15. p = 0.20 (in the D2 pilot pooled was lower).
+- P2: aged removes at least half of the pooled - isolated gap (scored only if the gap is positive). p = 0.35.
+- P3: aged_sharedmem restores at least half of what aged removed (scored only if aged removed something). p = 0.25.
+- P4: market prices alone separate pooled from isolated with AUROC below 0.8, but the replay reaches 0.8 or more.
+  p = 0.30.
+- P5 (added): isolated is above solo (H4 in the positive direction). p = 0.65.
+Author's own probabilities, if added, are recorded below with a timestamp before the analysis is run.

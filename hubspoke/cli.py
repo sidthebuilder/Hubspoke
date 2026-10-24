@@ -166,6 +166,8 @@ def cmd_run(args) -> int:
         res["model_note"] = cfg.get("model_note", "")
         write_json(path, res)
         calls, bad = parse_stats(res)
+        if args.blind:  # main run: the log shows health only, so no outcome is seen before the analysis
+            return f"{cond}-s{seed} done in {time.time() - t0:.0f}s; unreadable {bad}/{calls}"
         tail = res["price_index"][-15:]
         return (f"{cond}-s{seed} done in {time.time() - t0:.0f}s; index(last 15) {sum(tail) / len(tail):+.3f}; "
                 f"unreadable {bad}/{calls}")
@@ -260,23 +262,27 @@ def main(argv=None) -> int:
     r = sub.add_parser("run", help="run conditions x seeds (resumes: finished runs are skipped)")
     r.add_argument("--config", default=str(ROOT / "configs" / "modal_qwen72b.json"))
     r.add_argument("--conditions", nargs="+", default=ALL)
-    r.add_argument("--seeds", nargs="+", type=int, default=list(range(6)))
+    r.add_argument("--seeds", nargs="+", type=int, default=list(range(12)))
     r.add_argument("--T", type=int, default=40)
     r.add_argument("--out", default="main")
     r.add_argument("--wait", type=float, default=1800)
     r.add_argument("--workers", type=int, default=0, help="games run in parallel (0 = the config's value)")
     r.add_argument("--start", default="history", choices=["history", "nash", "none"])
     r.add_argument("--reasoning", action="store_true", help="agents write a short reasoning field first (D2)")
+    r.add_argument("--blind", action="store_true", help="log health only, no outcomes (main run)")
     z = sub.add_parser("analyse", help="tables, tests, figures and numbers.json (no model calls)")
     z.add_argument("--src", default="main")
     z.add_argument("--lo", type=int, default=26)
     z.add_argument("--hi", type=int, default=40)
-    handlers = {"smoke": cmd_smoke, "validate": cmd_validate, "run": cmd_run, "analyse": cmd_analyse}
+    v = sub.add_parser("verify", help="rebuild every result from the cache (offline) and recompute the numbers")
+    v.add_argument("--src", default="main")
+    handlers = {"smoke": cmd_smoke, "validate": cmd_validate, "run": cmd_run, "analyse": cmd_analyse,
+                "verify": lambda a: __import__("hubspoke.verify", fromlist=["main"]).main([a.src])}
     for name, (fn, conds) in SECONDARY.items():
         x = sub.add_parser(name, help=f"{name} on the main runs (resumes)")
         x.add_argument("--config", default=str(ROOT / "configs" / "modal_qwen72b.json"))
         x.add_argument("--conditions", nargs="+", default=conds)
-        x.add_argument("--seeds", nargs="+", type=int, default=list(range(6)))
+        x.add_argument("--seeds", nargs="+", type=int, default=list(range(12)))
         x.add_argument("--src", default="main")
         x.add_argument("--wait", type=float, default=1800)
         x.add_argument("--workers", type=int, default=0)

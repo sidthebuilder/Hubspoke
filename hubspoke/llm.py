@@ -76,7 +76,8 @@ class Cache:
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
         self._lock = threading.Lock()
-        self._db = sqlite3.connect(str(path), check_same_thread=False)
+        # timeout: several processes (e.g. two pilots) may write to the same cache file
+        self._db = sqlite3.connect(str(path), check_same_thread=False, timeout=60)
         with self._lock:
             self._db.execute("PRAGMA journal_mode=WAL")
             self._db.execute("CREATE TABLE IF NOT EXISTS replies (key TEXT PRIMARY KEY, value TEXT NOT NULL)")

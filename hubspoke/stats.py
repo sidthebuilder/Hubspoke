@@ -16,25 +16,33 @@ def mean(xs: Sequence[float]) -> float:
 
 
 def perm_test(x: Sequence[float], y: Sequence[float], alternative: str = "greater") -> float:
-    """Exact permutation test of mean(x) - mean(y) over every split of the pooled runs.
+    """Exact permutation test of mean(x) - mean(y) over every split of the pooled runs (12 vs 12 = 2.7 million
+    splits, enumerated in numpy chunks).
 
     alternative: "greater" (H: x > y), "less" (H: x < y) or "two-sided"."""
-    x, y = list(x), list(y)
-    pooled, n = x + y, len(x)
+    import numpy as np
+
+    x, y = list(map(float, x)), list(map(float, y))
+    pooled = np.array(x + y)
+    n, m = len(x), len(y)
     obs = mean(x) - mean(y)
-    hits = total = 0
+    total_sum = pooled.sum()
     eps = 1e-12
-    total_sum = sum(pooled)
-    for idx in itertools.combinations(range(len(pooled)), n):
-        sx = sum(pooled[i] for i in idx)
-        d = sx / n - (total_sum - sx) / len(y)
-        total += 1
+    hits = total = 0
+    combos = itertools.combinations(range(len(pooled)), n)
+    while True:
+        chunk = np.fromiter(itertools.chain.from_iterable(itertools.islice(combos, 200_000)), dtype=np.int16)
+        if chunk.size == 0:
+            break
+        sx = pooled[chunk.reshape(-1, n)].sum(axis=1)
+        d = sx / n - (total_sum - sx) / m
+        total += d.size
         if alternative == "greater":
-            hits += d >= obs - eps
+            hits += int((d >= obs - eps).sum())
         elif alternative == "less":
-            hits += d <= obs + eps
+            hits += int((d <= obs + eps).sum())
         else:
-            hits += abs(d) >= abs(obs) - eps
+            hits += int((np.abs(d) >= abs(obs) - eps).sum())
     return hits / total
 
 

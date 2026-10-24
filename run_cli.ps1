@@ -6,7 +6,7 @@ Set-Location $here
 $env:PYTHONIOENCODING = "utf-8"
 $cli = @($args)
 $name = if ($cli.Count -gt 0) { $cli[0] } else { "none" }
-$log = Join-Path $here "cli_${name}_log.txt"
+$log = Join-Path $here "cli_${name}_${PID}_log.txt"  # one log per process: parallel runs must not share a file
 "$(Get-Date -Format s) start: $($cli -join ' ')" | Out-File -Append -Encoding utf8 $log
 & $vpy -m hubspoke @cli *>> $log
 "$(Get-Date -Format s) exit=$LASTEXITCODE" | Out-File -Append -Encoding utf8 $log

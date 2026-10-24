@@ -1,0 +1,9 @@
+pilot2_d1: readable 720/720 = 1.000
+  solo            11-15 mean -0.000   1-15 mean +0.083   per seed s92: +0.183/+0.231  s93: -0.183/-0.064
+  chat            11-15 mean +0.225   1-15 mean +0.221   per seed s92: +0.279/+0.279  s93: +0.170/+0.163
+  isolated        11-15 mean -0.003   1-15 mean +0.005   per seed s92: +0.259/+0.135  s93: -0.265/-0.126
+  pooled          11-15 mean -0.243   1-15 mean -0.075   per seed s92: +0.279/+0.279  s93: -0.765/-0.429
+  aged            11-15 mean +0.182   1-15 mean +0.196   per seed s92: +0.281/+0.296  s93: +0.082/+0.097
+  aged_sharedmem  11-15 mean +0.243   1-15 mean +0.258   per seed s92: +0.419/+0.438  s93: +0.067/+0.078
+  portfolio       11-15 mean +0.115   1-15 mean +0.127   per seed s92: +0.392/+0.392  s93: -0.161/-0.138
+G1 FAIL {'readable': True, 'portfolio': False, 'solo': True}
