@@ -1,0 +1,13 @@
+seed 0 Myopic       mean index periods 11-20: -0.000
+seed 0 GrimTrigger  mean index periods 11-20: +1.000
+seed 0 FixedHigh    mean index periods 11-20: +1.000
+seed 0 PoolingAdvisor/isolated  first period near joint-profit price: None
+seed 0 PoolingAdvisor/pooled    first period near joint-profit price: 2
+seed 0 PoolingAdvisor/aged      first period near joint-profit price: 13
+seed 1 Myopic       mean index periods 11-20: +0.000
+seed 1 GrimTrigger  mean index periods 11-20: +1.000
+seed 1 FixedHigh    mean index periods 11-20: +1.000
+seed 1 PoolingAdvisor/isolated  first period near joint-profit price: None
+seed 1 PoolingAdvisor/pooled    first period near joint-profit price: 2
+seed 1 PoolingAdvisor/aged      first period near joint-profit price: 13
+expected: Myopic ~0, GrimTrigger ~1, FixedHigh ~1; pooling advisor: isolated never, pooled from period 2, aged from period 13

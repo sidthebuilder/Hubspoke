@@ -1,0 +1,15 @@
+{
+  "model": {
+    "backend": "openai",
+    "model": "hubspoke-qwen72b",
+    "base_url_env": "HUBSPOKE_BASE_URL",
+    "api_key_env": "HUBSPOKE_API_KEY",
+    "json_mode": true,
+    "timeout": 240,
+    "max_retries": 8
+  },
+  "model_note": "Qwen/Qwen2.5-72B-Instruct-AWQ at revision 698703eae6604af048a3d2f509995dc302088217, vLLM 0.21.0, one H100 on Modal",
+  "cache": "results/cache.sqlite",
+  "temperature": 0.7,
+  "workers": 14
+}
