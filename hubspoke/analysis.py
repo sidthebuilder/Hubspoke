@@ -469,12 +469,15 @@ def handcheck_kappa(path: Path) -> dict:
             "rule_no_human_yes": sum(x == 0 and y == 1 for x, y in zip(a, b))}
 
 
-def cohen_kappa(a: list[int], b: list[int]) -> float:
+def cohen_kappa(a: list[int], b: list[int]) -> float | None:
+    """Cohen's kappa; None when it is undefined (both raters gave every item the same single label)."""
     n = len(a)
+    if n == 0:
+        return None
     po = sum(x == y for x, y in zip(a, b)) / n
     pa, pb = sum(a) / n, sum(b) / n
     pe = pa * pb + (1 - pa) * (1 - pb)
-    return (po - pe) / (1 - pe) if pe < 1 else 1.0
+    return (po - pe) / (1 - pe) if pe < 1 else None
 
 
 # ------------------------------------------------------------------------------------------- everything

@@ -66,6 +66,13 @@ New runs draw new samples only if the cache file is removed or renamed.
 - `results/main`, `results/forks`, `results/replay`, `results/canary`: one JSON file per run, with every
   prompt input and raw reply. `results/figures`: the report's figures. `results/handcheck.csv`: the sample
   for the second rater.
+- Round 2 (registered in PREREGISTRATION.md, R2.1-R2.5, before any of its runs): `canary2.py` (four kinds of
+  planted fact x four notebook setups) -> `results/canary2*`; `judge.py` (disclosure judge and the blind human
+  sheet `results/handcheck_canary.csv`) -> `results/judged.json`, `results/judge_validation.*`; start-low runs
+  -> `results/startlow*`; the gpt-oss-120b replication -> `results/main_gptoss`; `village.py` (aggregate counts
+  from the AI Village dataset; raw text is never written to the repository). `round2.py` runs the registered
+  round-2 analyses; `robust.py` (exploratory: paired tests, a cross-model bound, excess raise, audit power) ->
+  `results/robust.*`; `figs2.py` -> `results/figures/fig2_notebook.png`, `fig3_checks.png`.
 
 ## Preexisting code (written 19-22 Oct 2026, before the sprint began on 23 Oct)
 The git history starts on 24 Oct, so it cannot show this split; it is declared here and in the report.

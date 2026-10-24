@@ -1,0 +1,435 @@
+{
+ "paired": {
+  "Qwen2.5-72B": {
+   "H1 pooled > isolated": {
+    "n_pairs": 12,
+    "mean_diff": -0.09593934976708307,
+    "p_signflip": 0.84228515625,
+    "alternative": "greater",
+    "ci": [
+     -0.2721910842397119,
+     0.08170264308654257
+    ]
+   },
+   "H2 aged < pooled": {
+    "n_pairs": 12,
+    "mean_diff": 0.07704028486960836,
+    "p_signflip": 0.77001953125,
+    "alternative": "less",
+    "ci": [
+     -0.1316290490339458,
+     0.26464451595612365
+    ]
+   },
+   "H3 aged_sharedmem > aged": {
+    "n_pairs": 12,
+    "mean_diff": 0.03475645952492302,
+    "p_signflip": 0.322021484375,
+    "alternative": "greater",
+    "ci": [
+     -0.07881459252712354,
+     0.16881654047923086
+    ]
+   },
+   "H4 isolated vs solo": {
+    "n_pairs": 12,
+    "mean_diff": 0.28787949718549194,
+    "p_signflip": 0.0009765625,
+    "alternative": "two-sided",
+    "ci": [
+     0.16804844192619403,
+     0.4200807796414503
+    ]
+   }
+  },
+  "Llama-3.1-70B": {
+   "H1 pooled > isolated": {
+    "n_pairs": 12,
+    "mean_diff": -0.037168288981459074,
+    "p_signflip": 0.57861328125,
+    "alternative": "greater",
+    "ci": [
+     -0.3062024881681888,
+     0.17041034497678262
+    ]
+   },
+   "H2 aged < pooled": {
+    "n_pairs": 12,
+    "mean_diff": -0.23474627977915938,
+    "p_signflip": 0.00390625,
+    "alternative": "less",
+    "ci": [
+     -0.3617705779876486,
+     -0.10500675318568446
+    ]
+   },
+   "H3 aged_sharedmem > aged": {
+    "n_pairs": 12,
+    "mean_diff": 0.20769384874119723,
+    "p_signflip": 0.0302734375,
+    "alternative": "greater",
+    "ci": [
+     0.024506184334644587,
+     0.4308956072682109
+    ]
+   },
+   "H4 isolated vs solo": {
+    "n_pairs": 12,
+    "mean_diff": 0.4440101219627642,
+    "p_signflip": 0.00146484375,
+    "alternative": "two-sided",
+    "ci": [
+     0.25063439834872914,
+     0.6412478451014693
+    ]
+   }
+  },
+  "gpt-oss-120b": {}
+ },
+ "stratified H1 (Qwen + Llama)": {
+  "models": [
+   "main",
+   "main_llama"
+  ],
+  "estimate": -0.06655381937427109,
+  "ci95": [
+   -0.22683102419011342,
+   0.09250210874224259
+  ],
+  "upper_95_one_sided": 0.06573771466166918,
+  "p_greater_stratified_perm": 0.78331,
+  "n_perm": 100000
+ },
+ "excess raise": {
+  "canary v1 (Qwen)": {
+   "private": {
+    "n": 24,
+    "actual": 0.0014401847869443196,
+    "actual_ci": [
+     -0.009793256551221383,
+     0.014401847869443223
+    ],
+    "justified": 0.3715989437655817,
+    "excess": -0.3701587589786373,
+    "excess_ci": [
+     -0.4098192032488745,
+     -0.32679924105028374
+    ],
+    "excess_p_two_sided": 0.0
+   },
+   "shared": {
+    "n": 24,
+    "actual": 0.09129619401397447,
+    "actual_ci": [
+     0.030359095308786332,
+     0.16635862510951255
+    ],
+    "justified": 0.35792306873882324,
+    "excess": -0.26662687472484875,
+    "excess_ci": [
+     -0.3405671090137872,
+     -0.18285908109711468
+    ],
+    "excess_p_two_sided": 0.0
+   }
+  },
+  "canary v2 (Qwen2.5-72B)": {
+   "private": {
+    "n": 24,
+    "actual": -0.0012673626125109907,
+    "actual_ci": [
+     -0.009101967853488109,
+     0.006912886977332806
+    ],
+    "justified": 0.3559371035799607,
+    "excess": -0.35720446619247176,
+    "excess_ci": [
+     -0.39935543219437997,
+     -0.3127995421561581
+    ],
+    "excess_p_two_sided": 0.0
+   },
+   "shared": {
+    "n": 24,
+    "actual": 0.12587215037893376,
+    "actual_ci": [
+     0.029955843568441845,
+     0.2543942407658451
+    ],
+    "justified": 0.3559371035799607,
+    "excess": -0.23006495320102696,
+    "excess_ci": [
+     -0.33078746841963824,
+     -0.1073341610758975
+    ],
+    "excess_p_two_sided": 0.00114
+   },
+   "shared_rule": {
+    "n": 24,
+    "actual": 0.07408310544041595,
+    "actual_ci": [
+     0.02125712745529822,
+     0.1414261460779325
+    ],
+    "justified": 0.3559371035799607,
+    "excess": -0.28185399813954476,
+    "excess_ci": [
+     -0.3459256927289029,
+     -0.2063285912973614
+    ],
+    "excess_p_two_sided": 0.0
+   },
+   "shared_tags": {
+    "n": 24,
+    "actual": 0.08779366461212589,
+    "actual_ci": [
+     0.007200923934721585,
+     0.20179869234663841
+    ],
+    "justified": 0.3559371035799607,
+    "excess": -0.2681434389678348,
+    "excess_ci": [
+     -0.35505001005399883,
+     -0.15548093916896286
+    ],
+    "excess_p_two_sided": 8e-05
+   }
+  },
+  "canary v2 (Llama-3.1-70B)": {
+   "private": {
+    "n": 24,
+    "actual": -0.01301927047397664,
+    "actual_ci": [
+     -0.04067081838330762,
+     0.012039944818854604
+    ],
+    "justified": 0.3293896368245349,
+    "excess": -0.34240890729851153,
+    "excess_ci": [
+     -0.3931290681330842,
+     -0.2902626622691052
+    ],
+    "excess_p_two_sided": 0.0
+   },
+   "shared": {
+    "n": 24,
+    "actual": 0.05996929452836161,
+    "actual_ci": [
+     0.0016130069613777222,
+     0.1324393930073999
+    ],
+    "justified": 0.3293896368245349,
+    "excess": -0.26942034229617334,
+    "excess_ci": [
+     -0.3431034982971182,
+     -0.19166316825188098
+    ],
+    "excess_p_two_sided": 0.0
+   },
+   "shared_rule": {
+    "n": 24,
+    "actual": 0.08710237591439259,
+    "actual_ci": [
+     0.027997192258197644,
+     0.154963883075209
+    ],
+    "justified": 0.3293896368245349,
+    "excess": -0.24228726091014233,
+    "excess_ci": [
+     -0.32480557933229876,
+     -0.15196916125292695
+    ],
+    "excess_p_two_sided": 8e-05
+   },
+   "shared_tags": {
+    "n": 24,
+    "actual": 0.016844401268100783,
+    "actual_ci": [
+     -0.025462467033175618,
+     0.07916407736875546
+    ],
+    "justified": 0.3293896368245349,
+    "excess": -0.31254523555643415,
+    "excess_ci": [
+     -0.37496135308788553,
+     -0.24479978070880412
+    ],
+    "excess_p_two_sided": 0.0
+   }
+  }
+ },
+ "audit power": {
+  "Qwen2.5-72B": {
+   "code|shared": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.0,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "code|shared_rule": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.0,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "code|shared_tags": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.041666666666666664,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "town|shared": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.0,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "town|shared_rule": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.0,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "town|shared_tags": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.0,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "cost|shared": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.0,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "cost|shared_rule": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.0,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "cost|shared_tags": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.0,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "price|shared": {
+    "exact_rate": 0.20833333333333334,
+    "n_one_exact_hit_95": 13,
+    "judged_rate": 0.75,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": 6
+   },
+   "price|shared_rule": {
+    "exact_rate": 0.2916666666666667,
+    "n_one_exact_hit_95": 9,
+    "judged_rate": 0.6666666666666666,
+    "control_rate": 0.041666666666666664,
+    "n_judged_vs_control_80pct_power": 9
+   },
+   "price|shared_tags": {
+    "exact_rate": 0.20833333333333334,
+    "n_one_exact_hit_95": 13,
+    "judged_rate": 0.625,
+    "control_rate": 0.08333333333333333,
+    "n_judged_vs_control_80pct_power": 11
+   }
+  },
+  "Llama-3.1-70B": {
+   "code|shared": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.041666666666666664,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "code|shared_rule": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.041666666666666664,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "code|shared_tags": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.0,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "town|shared": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.041666666666666664,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "town|shared_rule": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.041666666666666664,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "town|shared_tags": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.041666666666666664,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "cost|shared": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.125,
+    "control_rate": 0.041666666666666664,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "cost|shared_rule": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.041666666666666664,
+    "control_rate": 0.041666666666666664,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "cost|shared_tags": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.08333333333333333,
+    "control_rate": 0.041666666666666664,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "price|shared": {
+    "exact_rate": 0.041666666666666664,
+    "n_one_exact_hit_95": 71,
+    "judged_rate": 0.3333333333333333,
+    "control_rate": 0.20833333333333334,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "price|shared_rule": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.5416666666666666,
+    "control_rate": 0.16666666666666666,
+    "n_judged_vs_control_80pct_power": 24
+   },
+   "price|shared_tags": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.4583333333333333,
+    "control_rate": 0.2916666666666667,
+    "n_judged_vs_control_80pct_power": "> 60"
+   }
+  }
+ }
+}

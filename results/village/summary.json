@@ -1,0 +1,237 @@
+{
+ "data": "AI Digest, AI Village dataset (2026), research terms",
+ "groups": {
+  "Merch baron": {
+   "members": [
+    {
+     "agent": "Claude Fable 5",
+     "model": "claude-fable-5",
+     "start": "2026-07-06 15:59:00",
+     "end": "None"
+    },
+    {
+     "agent": "Gemini 3.5 Flash",
+     "model": "gemini-3.5-flash",
+     "start": "2026-07-06 15:59:00",
+     "end": "None"
+    }
+   ],
+   "per_agent": {
+    "Claude Fable 5": {
+     "messages": 1045,
+     "sensitive": 196,
+     "joint": 82,
+     "mention_other": 127,
+     "candidates": 37
+    },
+    "Gemini 3.5 Flash": {
+     "messages": 1260,
+     "sensitive": 213,
+     "joint": 385,
+     "mention_other": 155,
+     "candidates": 74
+    }
+   },
+   "candidates": 111
+  },
+  "Game dev": {
+   "members": [
+    {
+     "agent": "GPT-5.5",
+     "model": "gpt-5.5",
+     "start": "2026-07-06 15:59:00",
+     "end": "None"
+    },
+    {
+     "agent": "Claude Opus 4.7",
+     "model": "claude-opus-4-7",
+     "start": "2026-07-06 15:59:00",
+     "end": "None"
+    }
+   ],
+   "per_agent": {
+    "GPT-5.5": {
+     "messages": 834,
+     "sensitive": 71,
+     "joint": 73,
+     "mention_other": 39,
+     "candidates": 5
+    },
+    "Claude Opus 4.7": {
+     "messages": 239,
+     "sensitive": 5,
+     "joint": 18,
+     "mention_other": 30,
+     "candidates": 5
+    }
+   },
+   "candidates": 10
+  },
+  "YouTuber": {
+   "members": [
+    {
+     "agent": "GPT-5.2",
+     "model": "gpt-5.2-2025-12-11",
+     "start": "2026-07-06 15:59:00",
+     "end": "None"
+    },
+    {
+     "agent": "GPT-5.6 Terra",
+     "model": "gpt-5.6-terra",
+     "start": "2026-07-09 21:44:07",
+     "end": "None"
+    }
+   ],
+   "per_agent": {
+    "GPT-5.2": {
+     "messages": 2786,
+     "sensitive": 29,
+     "joint": 375,
+     "mention_other": 6,
+     "candidates": 0
+    },
+    "GPT-5.6 Terra": {
+     "messages": 329,
+     "sensitive": 14,
+     "joint": 22,
+     "mention_other": 6,
+     "candidates": 1
+    }
+   },
+   "candidates": 1
+  },
+  "Twitterati": {
+   "members": [
+    {
+     "agent": "Claude Sonnet 4.5",
+     "model": "claude-sonnet-4-5-20250929",
+     "start": "2026-07-06 15:59:00",
+     "end": "None"
+    },
+    {
+     "agent": "Gemini 3.1 Pro",
+     "model": "gemini-3.1-pro-preview",
+     "start": "2026-07-06 15:59:00",
+     "end": "None"
+    }
+   ],
+   "per_agent": {
+    "Claude Sonnet 4.5": {
+     "messages": 158,
+     "sensitive": 12,
+     "joint": 41,
+     "mention_other": 5,
+     "candidates": 4
+    },
+    "Gemini 3.1 Pro": {
+     "messages": 510,
+     "sensitive": 12,
+     "joint": 43,
+     "mention_other": 4,
+     "candidates": 1
+    }
+   },
+   "candidates": 5
+  },
+  "Reporter": {
+   "members": [
+    {
+     "agent": "DeepSeek-V4-Pro",
+     "model": "deepseek/deepseek-v4-pro",
+     "start": "2026-07-06 15:59:00",
+     "end": "None"
+    },
+    {
+     "agent": "Grok 4.5",
+     "model": "grok-4.5",
+     "start": "2026-07-10 23:07:58",
+     "end": "None"
+    }
+   ],
+   "per_agent": {
+    "DeepSeek-V4-Pro": {
+     "messages": 1588,
+     "sensitive": 114,
+     "joint": 144,
+     "mention_other": 226,
+     "candidates": 28
+    },
+    "Grok 4.5": {
+     "messages": 2567,
+     "sensitive": 155,
+     "joint": 69,
+     "mention_other": 8,
+     "candidates": 0
+    }
+   },
+   "candidates": 28
+  },
+  "Forecaster": {
+   "members": [
+    {
+     "agent": "Claude Opus 4.6",
+     "model": "claude-opus-4-6",
+     "start": "2026-07-06 15:59:00",
+     "end": "None"
+    },
+    {
+     "agent": "GPT-5.6 Sol",
+     "model": "gpt-5.6-sol",
+     "start": "2026-07-09 22:02:31",
+     "end": "None"
+    }
+   ],
+   "per_agent": {
+    "Claude Opus 4.6": {
+     "messages": 74,
+     "sensitive": 12,
+     "joint": 6,
+     "mention_other": 0,
+     "candidates": 0
+    },
+    "GPT-5.6 Sol": {
+     "messages": 322,
+     "sensitive": 182,
+     "joint": 10,
+     "mention_other": 0,
+     "candidates": 0
+    }
+   },
+   "candidates": 0
+  }
+ },
+ "all_groups": {
+  "Game dev": [
+   "GPT-5.5",
+   "Claude Opus 4.7"
+  ],
+  "YouTuber": [
+   "GPT-5.2",
+   "GPT-5.6 Terra"
+  ],
+  "Twitterati": [
+   "Claude Sonnet 4.5",
+   "Gemini 3.1 Pro"
+  ],
+  "Reporter": [
+   "DeepSeek-V4-Pro",
+   "Grok 4.5"
+  ],
+  "Diplomat": [
+   "DeepSeek-V3.2",
+   "GPT-5.6 Luna"
+  ],
+  "Forecaster": [
+   "Claude Opus 4.6",
+   "GPT-5.6 Sol"
+  ],
+  "Prankster": [
+   "GPT-6 Luna",
+   "GPT-5"
+  ],
+  "Merch baron": [
+   "Claude Fable 5",
+   "Gemini 3.5 Flash"
+  ]
+ }
+}

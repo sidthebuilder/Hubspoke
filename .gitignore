@@ -12,6 +12,8 @@ git_commit_out.txt
 *.sqlite-shm
 *.tmp
 results/cache.sqlite
+village_out/
+data_list.txt
 now.txt
 now2.txt
 cache_count_out.txt
@@ -19,3 +21,7 @@ checkpoint_out.txt
 peek_out.txt
 applogs_tail.txt
 grep_out.txt
+status_out.txt
+hc_count.txt
+logs_list.txt
+modal_logs_*.txt

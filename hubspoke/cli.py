@@ -186,7 +186,7 @@ def cmd_run(args) -> int:
 def _secondary(args, kind: str, work) -> int:
     """Shared driver for forks / replay / canary: one output file per main run, resumable, parallel."""
     cfg, spec = load_config(args.config)
-    outdir = RESULTS / kind
+    outdir = RESULTS / (getattr(args, "out", "") or kind)
     lp = outdir / "run_log.txt"
     if not wait_until_up(spec.base_url, timeout=args.wait):
         log(lp, "server did not come up")
@@ -231,6 +231,35 @@ def cmd_analyse(args) -> int:
     return 0
 
 
+def cmd_handsheet(args) -> int:
+    from . import judge
+    judge.write_human_sheet(RESULTS)
+    return 0
+
+
+def cmd_judge(args) -> int:
+    """Apply the fixed disclosure judge (R2.2) to canary v1 price notes and/or canary v2 folders."""
+    from . import judge
+    cfg, spec = load_config(args.config)
+    lp = RESULTS / "judge_log.txt"
+    if not wait_until_up(spec.base_url, timeout=args.wait):
+        log(lp, "server did not come up")
+        return 1
+    client = LLMClient(spec, ROOT / cfg["cache"])
+    items = judge.v1_items(RESULTS) if args.v1 else []
+    for folder in args.folders:
+        items += judge.v2_items(RESULTS / folder)
+    path = RESULTS / "judged.json"
+    done = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    todo = [it for it in items if it["key"] not in done]
+    log(lp, f"judging {len(todo)} notes ({len(items) - len(todo)} already judged) with {spec.model}")
+    res = judge.run_judge(client, todo, workers=args.workers or 16)
+    done.update({k: {**v, "judge_model": spec.model} for k, v in res.items()})
+    write_json(path, done)
+    log(lp, f"done; unreadable {sum(1 for v in res.values() if v['label'] is None)}; stats {client.stats}")
+    return 0
+
+
 def cmd_forks(args) -> int:
     return _secondary(args, "forks", lambda res, client: forks.fork_run(
         res, lambda rc: llm_agents(rc, client)))
@@ -251,12 +280,19 @@ def cmd_canary(args) -> int:
         res, LLMAdvisor(client, res["config"]["temperature"]))})
 
 
+def cmd_canary2(args) -> int:
+    from . import canary2
+    return _secondary(args, "canary2", lambda res, client: {"trials": canary2.canary2_trials(
+        res, LLMAdvisor(client, res["config"]["temperature"]))})
+
+
 ALL = ["solo", "chat", "isolated", "pooled", "aged", "aged_sharedmem", "portfolio"]  # pre-registered
 # "separate" (conditions.py) is an exploratory control added after the main analysis; run it explicitly.
 SECONDARY = {"forks": (cmd_forks, ["pooled", "isolated", "portfolio", "chat"]),
              "replay": (cmd_replay, ["isolated", "pooled", "aged", "aged_sharedmem"]),
              "canary": (cmd_canary, ["aged", "aged_sharedmem"]),
-             "livereplay": (cmd_livereplay, ["pooled", "portfolio"])}  # exploratory, added after the analysis
+             "livereplay": (cmd_livereplay, ["pooled", "portfolio"]),  # exploratory, added after the analysis
+             "canary2": (cmd_canary2, ["aged_sharedmem"])}  # round 2 (R2.1)
 
 
 def main(argv=None) -> int:
@@ -266,7 +302,7 @@ def main(argv=None) -> int:
     s.add_argument("--config", default=str(ROOT / "configs" / "modal_qwen72b.json"))
     s.add_argument("--T", type=int, default=5)  # 5 periods x 4 decisions = the 20-call gate G0
     s.add_argument("--wait", type=float, default=1800)
-    s.add_argument("--start", default="history", choices=["history", "nash", "none"])
+    s.add_argument("--start", default="history", choices=["history", "history_low", "nash", "none"])
     s.add_argument("--reasoning", action="store_true")
     sub.add_parser("validate", help="scripted agents with known answers (no model calls)")
     r = sub.add_parser("run", help="run conditions x seeds (resumes: finished runs are skipped)")
@@ -277,7 +313,7 @@ def main(argv=None) -> int:
     r.add_argument("--out", default="main")
     r.add_argument("--wait", type=float, default=1800)
     r.add_argument("--workers", type=int, default=0, help="games run in parallel (0 = the config's value)")
-    r.add_argument("--start", default="history", choices=["history", "nash", "none"])
+    r.add_argument("--start", default="history", choices=["history", "history_low", "nash", "none"])
     r.add_argument("--reasoning", action="store_true", help="agents write a short reasoning field first (D2)")
     r.add_argument("--blind", action="store_true", help="log health only, no outcomes (main run)")
     z = sub.add_parser("analyse", help="tables, tests, figures and numbers.json (no model calls)")
@@ -286,14 +322,23 @@ def main(argv=None) -> int:
     z.add_argument("--hi", type=int, default=40)
     v = sub.add_parser("verify", help="rebuild every result from the cache (offline) and recompute the numbers")
     v.add_argument("--src", default="main")
+    sub.add_parser("handsheet", help="write the blind human rating sheet for the canary-v1 price notes")
+    j = sub.add_parser("judge", help="apply the disclosure judge to canary notes")
+    j.add_argument("--config", default=str(ROOT / "configs" / "modal_qwen72b.json"))
+    j.add_argument("--v1", action="store_true", help="the 48 canary-v1 price-plan notes")
+    j.add_argument("--folders", nargs="*", default=[], help="canary-v2 result folders under results/")
+    j.add_argument("--workers", type=int, default=16)
+    j.add_argument("--wait", type=float, default=1800)
     handlers = {"smoke": cmd_smoke, "validate": cmd_validate, "run": cmd_run, "analyse": cmd_analyse,
-                "verify": lambda a: __import__("hubspoke.verify", fromlist=["main"]).main([a.src])}
+                "verify": lambda a: __import__("hubspoke.verify", fromlist=["main"]).main([a.src]),
+                "handsheet": cmd_handsheet, "judge": cmd_judge}
     for name, (fn, conds) in SECONDARY.items():
         x = sub.add_parser(name, help=f"{name} on the main runs (resumes)")
         x.add_argument("--config", default=str(ROOT / "configs" / "modal_qwen72b.json"))
         x.add_argument("--conditions", nargs="+", default=conds)
         x.add_argument("--seeds", nargs="+", type=int, default=list(range(12)))
         x.add_argument("--src", default="main")
+        x.add_argument("--out", default="", help="output folder under results/ (default: the command name)")
         x.add_argument("--wait", type=float, default=1800)
         x.add_argument("--workers", type=int, default=0)
         handlers[name] = fn

@@ -81,6 +81,13 @@ class Game:
             rng = random.Random(f"prehistory|{self.cfg.seed}")
             periods = [(t, [b.p_nash + rng.uniform(-0.25, 1.25) * (b.p_mono - b.p_nash) for _ in range(n)])
                        for t in range(1 - self.cfg.pre_periods, 1)]
+        elif self.cfg.start == "history_low":
+            # round 2 (R2.3): the same design with pre-periods below the Nash price, index uniform on [-0.75, 0]
+            # (still above unit cost); its own random stream, so the main runs' pre-periods are unchanged
+            b = m.benchmarks()
+            rng = random.Random(f"prehistory-low|{self.cfg.seed}")
+            periods = [(t, [b.p_nash + rng.uniform(-0.75, 0.0) * (b.p_mono - b.p_nash) for _ in range(n)])
+                       for t in range(1 - self.cfg.pre_periods, 1)]
         else:
             raise ValueError(f"unknown start {self.cfg.start!r}")
         rows: list[list[Row]] = [[] for _ in range(n)]

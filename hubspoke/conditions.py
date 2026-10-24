@@ -15,6 +15,8 @@ class Condition:
     objective: str = "client"  # "client": this client's profit; "portfolio": all clients' combined profit
     chat: bool = False  # sellers can message each other directly
     one_client: bool = False  # the advisor is told it serves only this firm (exploratory "separate" control)
+    memo_rule: bool = False  # round 2 canary arm: a rule that other clients' notebook entries are confidential
+    memo_tags: bool = False  # round 2 canary arm: entries from other clients' sessions carry a confidential tag
     description: str = ""
 
 

@@ -1,5 +1,5 @@
 # Can a shared AI advisor make competing agents collude without talking?
-## Testing the RealPage remedy, and the memory gap it leaves, with LLM pricing agents
+## A data-ageing rule modelled on the RealPage settlement, and the memory channel it leaves open
 
 Shashank Kumar (independent)
 
@@ -105,8 +105,8 @@ Our dated predictions mostly failed (P1, P4 wrong; P2, P3 not scored; P5 right).
   under the shared advisor (separate 0.36; separate - isolated +0.11, CI -0.09 to +0.30, p = 0.31; separate -
   solo +0.40, p = 0.0003).
 - *Inertia*: advisor notes say "maintain", "stable" or "consistent" in 82-96% of sessions, sellers follow
-  the advice in 96-100% of periods, and in periods 26-40 prices do not move at all in 69-91% of decisions
-  under an advisor, against 36% in solo. Prices start high and the advice holds them there; solo sellers keep
+  the advice in 96-100% of periods, and in periods 26-40 prices do not move at all in 69-89% of decisions
+  under an advisor (91% with chat), against 36% in solo. Prices start high and the advice holds them there; solo sellers keep
   cutting (index change from the pre-periods: solo -0.58, isolated -0.29, separate -0.19).
 
 **4.5 Access versus use.** Re-asking 10 logged decisions per run with the other client's data blanked changed
@@ -124,14 +124,15 @@ account code into its notebook (0 of 24 per arm), but it wrote every planted pri
 arm). With private notebooks that entry stayed with Firm A: 0 of 48 trials reached Firm B's session (95% CI 0
 to 0.07) and B's advice did not move (+0.001 index). With one shared notebook all 24 price plans reached B's
 session, 5 of 24 were told to B outright, B's own notebook entry repeated the plan in 20 of 24, and B's
-recommendation moved by +0.091 index points on average over all 48 shared trials (CI +0.031 to +0.166). One
+recommendation moved by +0.091 index points on average over the 24 shared price-plan trials (CI +0.031 to
++0.166; only price-plan trials have a control session). One
 example (aged_sharedmem, seed 0, period 36): Firm A's confidential note said it would charge $2.02 for five
 periods; the advisor's note to Firm B read "Firm A has increased their price to $2.02. Testing a higher price
 of $1.75 to gauge market reaction and potential profit increase", against $1.49 in the control session
 without the plant. A's private plan, not any public price, moved B's advice.
 
 **4.7 Punishment.** When Firm A was forced to undercut once in period 26 (by 0.10-0.22 index points), Firm B
-cut back in the next period (B's price 0.09-0.13 below the original run; placebo copies moved by at most 0.02),
+cut back in the next period (B's price 0.085-0.130 below the original run; placebo copies moved by at most 0.02),
 but by less than a myopic best response would: the excess cut was positive (isolated +0.085, CI +0.040 to
 +0.131; chat +0.159; pooled +0.035 and portfolio +0.038, CIs include 0). Over 10 periods the undercut did not
 pay in chat (-6.7%, CI -9.2 to -4.1) or pooled (-2.7%, CI -5.0 to -0.8), and was unclear under isolated (-1.4%,
@@ -144,11 +145,13 @@ numbers in any note), one firm's own records 0.43, market prices 0.33 (pooled pr
 lower). No pre-registered vantage point separates the two reliably; this matches H1's null.
 
 **4.9 Replication on Llama 3.1 70B (pre-registered).** Same design, 84 runs, 0 unreadable replies. H4 replicates
-(isolated - solo +0.44, CI +0.15 to +0.73, p = 0.009, Holm 0.034) and H1 again fails (-0.04). Unlike Qwen, data
-ageing lowered prices: aged was 0.23 below pooled (CI -0.44 to -0.05, p = 0.016, Holm 0.047), and also 0.27
-below isolated. A shared notebook restored most of that drop (aged_sharedmem - aged +0.21, CI +0.01 to +0.42,
-p = 0.036, Holm 0.072, so not significant after correction). Both positive controls rose (chat 0.35, portfolio
-0.41).
+(isolated - solo +0.44, CI +0.15 to +0.73, p = 0.009, Holm 0.034) and H1 again fails (-0.04). Unlike Qwen, the
+aged condition priced lower: 0.23 below pooled (CI -0.44 to -0.05, p = 0.016, Holm 0.047) and 0.27 below
+isolated. Because pooling did not raise prices in the first place (H1), this is not the ageing rule removing a
+pooling effect: aged sits below even the firewalled advisor, and we have no explanation for it. aged_sharedmem
+was 0.21 above aged (CI +0.01 to +0.42, p = 0.036, Holm 0.072, so not significant after correction). Chat (0.35)
+stayed well above solo, but portfolio (0.41) was barely above isolated (0.39): the hub positive control failed
+on Llama too.
 
 ## 5 Discussion
 - What held in both models: an LLM advice layer kept prices above the no-advisor level (H4: +0.29 Qwen, +0.44
@@ -156,8 +159,9 @@ p = 0.036, Holm 0.072, so not significant after correction). Both positive contr
   RealPage-style remedies target what the hub knows about rivals; in our runs that knowledge was not where the
   price lift came from. The Cendyn line (shared software is fine if data stay siloed) would not catch the
   lift we saw, and on Qwen separate advisors produced it too (exploratory).
-- What depended on the model: on Llama, ageing the data lowered prices and a shared notebook brought most of the
-  drop back (the memory gap we pre-registered, p = 0.036 before correction); on Qwen neither moved prices.
+- What depended on the model: on Llama, aged runs priced below every other advisor condition and a shared
+  notebook brought prices back up (p = 0.036 before correction, 0.072 after); since pooled was not above
+  isolated, we cannot read this as the ageing rule removing a pooling effect. On Qwen neither moved prices.
 - The shared notebook is a working channel either way. With one notebook, every planted price plan reached the
   rival's session and moved its advice; with private notebooks, none did. An ageing rule for data says nothing
   about memory shared across clients. The audit test (Appendix C) finds this from the outside in a handful of

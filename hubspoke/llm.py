@@ -50,6 +50,7 @@ class ModelSpec:
     num_ctx: int = 8192  # Ollama context window; its default is too small for the advisor prompts
     timeout: float = 180.0
     max_retries: int = 6
+    min_max_tokens: int = 0  # raise every call's max_tokens to at least this (reasoning models think first)
 
     @staticmethod
     def from_dict(d: dict) -> "ModelSpec":
@@ -134,6 +135,7 @@ class LLMClient:
         return hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
     def complete(self, messages, temperature: float = 0.7, max_tokens: int = 250, sample_key: str = "") -> Completion:
+        max_tokens = max(max_tokens, self.spec.min_max_tokens)
         key = self._key(messages, temperature, max_tokens, sample_key)
         hit = self.cache.get(key)
         if hit is not None:

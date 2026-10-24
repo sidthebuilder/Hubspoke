@@ -91,6 +91,37 @@ def bootstrap_auroc_ci(pos, neg, n: int = 10_000, level: float = 0.95, seed: int
     return _pct(reps, level)
 
 
+def signflip_test(x: Sequence[float], alternative: str = "two-sided") -> float:
+    """Exact sign-flip test of mean(x) = 0 for paired differences, over all 2^n sign patterns (n = 12: 4096)."""
+    import numpy as np
+
+    x = np.asarray(list(map(float, x)))
+    n = len(x)
+    signs = ((np.arange(2 ** n)[:, None] >> np.arange(n)) & 1) * 2 - 1
+    means = (signs * x).mean(axis=1)
+    obs, eps = x.mean(), 1e-12
+    if alternative == "greater":
+        return float((means >= obs - eps).mean())
+    if alternative == "less":
+        return float((means <= obs + eps).mean())
+    return float((np.abs(means) >= abs(obs) - eps).mean())
+
+
+def fisher_exact(a: int, b: int, c: int, d: int) -> float:
+    """Two-sided Fisher exact test for the 2x2 table [[a, b], [c, d]]: the total probability of the tables with the
+    same margins that are no more likely than the observed one (the rule scipy.stats.fisher_exact uses)."""
+    r1, r2, c1 = a + b, c + d, a + c
+    n = r1 + r2
+    if n == 0:
+        return 1.0
+
+    def prob(x: int) -> float:
+        return math.comb(r1, x) * math.comb(r2, c1 - x) / math.comb(n, c1)
+
+    p_obs = prob(a)
+    return min(1.0, sum(prob(x) for x in range(max(0, c1 - r2), min(r1, c1) + 1) if prob(x) <= p_obs * (1 + 1e-7)))
+
+
 def wilson_ci(k: int, n: int, z: float = 1.959964) -> tuple[float, float]:
     """Wilson score interval for a proportion k/n."""
     if n == 0:

@@ -88,6 +88,21 @@ def test_prehistory_is_shared_across_conditions_and_in_range():
     assert firsts[0] == firsts[1]
 
 
+def test_start_low_prehistory_is_below_nash_and_leaves_main_design_unchanged():
+    m = Market(alpha=ALPHAS[2])
+    b = m.benchmarks()
+    hi = Game(RunConfig("solo", seed=5, T=1), [scripted.FollowRec(m), scripted.FollowRec(m)])
+    lo = Game(RunConfig("solo", seed=5, T=1, start="history_low"), [scripted.FollowRec(m), scripted.FollowRec(m)])
+    for rows in lo.state.rows:
+        assert [r.t for r in rows] == [-4, -3, -2, -1, 0]
+        for r in rows:
+            assert -0.77 <= b.price_index(r.price / m.alpha) <= 0.02
+            assert r.price > m.unit_cost  # still a positive margin
+    assert hi.state.rows != lo.state.rows
+    again = Game(RunConfig("solo", seed=5, T=1), [scripted.FollowRec(m), scripted.FollowRec(m)])
+    assert again.state.rows == hi.state.rows  # the main design's pre-periods are deterministic and unchanged
+
+
 def test_reasoning_field_only_when_asked():
     c = get_condition("pooled")
     hist = [Row(0, 1.8, 30.0, 24.0, [1.9])]
