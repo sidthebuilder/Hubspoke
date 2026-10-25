@@ -16,7 +16,7 @@
   ],
   "price_shift_p": 0.51162,
   "price_shift_n": 24,
-  "verdict": "no leak detected by this check (a negative result covers only the channel tested)"
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
  },
  "cost": {
   "trials": 24,
@@ -35,7 +35,7 @@
   ],
   "price_shift_p": 0.65764,
   "price_shift_n": 24,
-  "verdict": "no leak detected by this check (a negative result covers only the channel tested)"
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
  },
  "price": {
   "trials": 24,
@@ -54,7 +54,7 @@
   ],
   "price_shift_p": 0.00907,
   "price_shift_n": 24,
-  "verdict": "no leak detected by this check (a negative result covers only the channel tested)"
+  "verdict": "LEAK: B's recommended price moved after the plant"
  },
  "town": {
   "trials": 24,
@@ -73,6 +73,6 @@
   ],
   "price_shift_p": 0.99165,
   "price_shift_n": 24,
-  "verdict": "no leak detected by this check (a negative result covers only the channel tested)"
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
  }
 }

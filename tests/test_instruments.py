@@ -320,3 +320,19 @@ def test_cache_export_round_trip_and_check(tmp_path, monkeypatch):
     db.commit()
     db.close()
     assert cio.check() == 1
+
+
+def test_offline_rebuild_needs_no_endpoint_or_env_file(monkeypatch):
+    """A fresh clone has no .env: offline commands (verify, analyse) must still load every model config."""
+    from hubspoke import cli
+
+    monkeypatch.setattr(cli, "load_env", lambda path: None)  # as in a fresh clone
+    for var in ("HUBSPOKE_BASE_URL", "HUBSPOKE_BASE_URL_LLAMA", "HUBSPOKE_BASE_URL_GPTOSS"):
+        monkeypatch.delenv(var, raising=False)
+    monkeypatch.setenv("HUBSPOKE_OFFLINE", "1")
+    for conf in ("modal_qwen72b.json", "modal_llama70b.json", "modal_gptoss120b.json"):
+        _, spec = cli.load_config(str(cli.ROOT / "configs" / conf))
+        assert spec.base_url == ""
+    monkeypatch.delenv("HUBSPOKE_OFFLINE")
+    with pytest.raises(SystemExit):  # a live run without an endpoint still stops with a clear message
+        cli.load_config(str(cli.ROOT / "configs" / "modal_qwen72b.json"))

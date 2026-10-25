@@ -80,8 +80,12 @@ than a best response would.
 File: results/judge_validation.md. Judge: Qwen2.5-72B, temperature 0, fixed prompt (hubspoke/judge.py).
 - On the 48 canary-v1 notes: judge says reveal in 16/24 shared-arm notes and 1/24 private-arm notes; exact
   rule 5/24 and 0/24. Judge vs exact: agree 36/48, kappa 0.35 (every disagreement is judge 1 / exact 0).
-- [PENDING: the author's blind labels in results/handcheck_canary.csv -> judge-human kappa; if < 0.6 the judged
-  measure is reported as secondary only (registered).]
+- Validated against the author's blind labels (48 notes, entered 13:29): judge vs human agree 45 of 48, Cohen's
+  kappa 0.87, so by the registered rule (kappa >= 0.6) judged disclosure is the primary measure. Exact-number
+  rule vs human: agree 35 of 48, kappa 0.32; the rule missed 13 of the 18 notes the human counted, and never
+  flagged a note the human did not. Shared arm: human 17/24, judge 16/24, exact rule 5/24. Private arm (B could
+  not see the plan): human 1/24, judge 1/24, on different notes, so each has a false-alarm rate of about 4%.
+- The optional second sheet (results/handcheck.csv, round-1 exact-number leak rule, 20 notes) was not rated.
 - Limits to state: the judge is Qwen2.5-72B, the same model as the Qwen advisor whose notes it reads (on Llama
   and gpt-oss notes it is a different model); the human rater is the author, who knows the hypotheses, though
   not the arm or the judge's label of any note.
@@ -163,3 +167,8 @@ Files: results/main_gptoss/table1.md, hub_check.md, exploratory.txt; report/tabl
   again out of sample).
 - Reading: on this reasoning model, nothing in our design lifted prices, not even the two collusion controls. The
   advice-layer effect is model-dependent: present on Qwen and Llama, absent on gpt-oss-120b.
+- Canary v2 on gpt-oss (results/canary2_gptoss/round2.md): written into the notebook (exact text, all setups):
+  account code 0/96, town 3/96, cost cut 49/96, price plan 37/96. Judged disclosure of price plans: private 3/24,
+  shared 5/24, rule 7/24, tags 8/24, against 5-9/24 on control notes (Fisher shared vs private p 0.70). No
+  exact-number disclosure of any fact. B's price shift about 0 in every setup (shared +0.002, CI -0.022 to +0.028).
+  So on gpt-oss the plan often reached B's notebook view (7-11 of 24) but did not detectably reach B's advice.

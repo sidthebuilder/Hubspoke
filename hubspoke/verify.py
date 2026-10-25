@@ -2,8 +2,9 @@
 Written during the sprint.
 
 1. Replay. Every main run is played again with HUBSPOKE_OFFLINE=1: every model call must be answered from the
-   cache (a cache miss is an error), and the replayed prices must equal the stored ones. The fork, replay and
-   canary measures are recomputed the same way. This shows the stored run files follow from the raw replies.
+   cache (a cache miss is an error), and the replayed prices must equal the stored ones. The fork, replay,
+   canary and (exploratory) live-replay measures are recomputed the same way. This shows the stored run files
+   follow from the raw replies.
 2. Recompute. The outcome of every run is recomputed from raw posted prices with numpy and freshly computed
    benchmarks, and the H1-H4 p-values with scipy's exact permutation test. Both are compared with numbers.json.
 Round 2: start-low folders are compared with their round2.json (H5 with scipy, H6 by brute-force sign flips);
@@ -129,14 +130,16 @@ def main(argv=None) -> int:
     secondary = () if src != "main" else (
                     ("forks", lambda res: forks.fork_run(res, lambda rc: llm_agents(rc, client))),
                      ("replay", lambda res: replay.replay_run(res, LLMAdvisor(client, res["config"]["temperature"]))),
-                     ("canary", lambda res: {"trials": canary.canary_trials(res, LLMAdvisor(client, res["config"]["temperature"]))}))
+                     ("canary", lambda res: {"trials": canary.canary_trials(res, LLMAdvisor(client, res["config"]["temperature"]))}),
+                     ("livereplay", lambda res: replay.live_replay_run(res, LLMAdvisor(client, res["config"]["temperature"]))))
     for kind, fn in secondary:
         for p in sorted((RESULTS / kind).glob("*-s*.json")) if (RESULTS / kind).exists() else []:
             stored = json.loads(p.read_text(encoding="utf-8"))
             try:
                 again = fn(runs[p.stem])
                 keys = {"forks": ["excess_cut", "net_gain_pct", "placebo_gain_pct", "reaction"],
-                        "replay": ["data_effect", "memo_effect", "abs_noise"]}.get(kind)
+                        "replay": ["data_effect", "memo_effect", "abs_noise"],
+                        "livereplay": ["dist_same", "dist_nolive"]}.get(kind)
                 if keys:
                     same = all((again[k] is None and stored[k] is None) or abs(again[k] - stored[k]) < TOL for k in keys)
                 else:

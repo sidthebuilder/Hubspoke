@@ -214,6 +214,30 @@ ok   canary aged_sharedmem-s6: recomputed from cache
 ok   canary aged_sharedmem-s7: recomputed from cache
 ok   canary aged_sharedmem-s8: recomputed from cache
 ok   canary aged_sharedmem-s9: recomputed from cache
+ok   livereplay pooled-s0: recomputed from cache
+ok   livereplay pooled-s1: recomputed from cache
+ok   livereplay pooled-s10: recomputed from cache
+ok   livereplay pooled-s11: recomputed from cache
+ok   livereplay pooled-s2: recomputed from cache
+ok   livereplay pooled-s3: recomputed from cache
+ok   livereplay pooled-s4: recomputed from cache
+ok   livereplay pooled-s5: recomputed from cache
+ok   livereplay pooled-s6: recomputed from cache
+ok   livereplay pooled-s7: recomputed from cache
+ok   livereplay pooled-s8: recomputed from cache
+ok   livereplay pooled-s9: recomputed from cache
+ok   livereplay portfolio-s0: recomputed from cache
+ok   livereplay portfolio-s1: recomputed from cache
+ok   livereplay portfolio-s10: recomputed from cache
+ok   livereplay portfolio-s11: recomputed from cache
+ok   livereplay portfolio-s2: recomputed from cache
+ok   livereplay portfolio-s3: recomputed from cache
+ok   livereplay portfolio-s4: recomputed from cache
+ok   livereplay portfolio-s5: recomputed from cache
+ok   livereplay portfolio-s6: recomputed from cache
+ok   livereplay portfolio-s7: recomputed from cache
+ok   livereplay portfolio-s8: recomputed from cache
+ok   livereplay portfolio-s9: recomputed from cache
 ok   index mean aged: 0.233488 vs numbers.json 0.233488
 ok   index mean aged_sharedmem: 0.268244 vs numbers.json 0.268244
 ok   index mean chat: 0.352658 vs numbers.json 0.352658
@@ -226,4 +250,4 @@ ok   H2 aged < pooled: p = 0.7610 (scipy, exact) vs 0.7610
 ok   H3 aged_sharedmem > aged: p = 0.3560 (scipy, exact) vs 0.3560
 ok   H4 isolated vs solo: p = 0.0015 (scipy, exact) vs 0.0015
 
-0 failure(s); client stats {'calls': 0, 'cached': 19872, 'prompt_tokens': 0, 'completion_tokens': 0, 'retries': 0}
+0 failure(s); client stats {'calls': 0, 'cached': 20832, 'prompt_tokens': 0, 'completion_tokens': 0, 'retries': 0}

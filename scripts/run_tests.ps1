@@ -1,0 +1,6 @@
+# Run the test suite and the scripted-agent validation. Logs: tests_log.txt, validate_log.txt.
+$here = Split-Path -Parent $PSScriptRoot  # the repository folder (this script is one level down)
+$vpy = Join-Path $here ".venv\Scripts\python.exe"
+Set-Location $here
+& $vpy -m pytest -q tests -p no:cacheprovider *> (Join-Path $here "tests_log.txt")
+& $vpy -m hubspoke validate *> (Join-Path $here "validate_log.txt")

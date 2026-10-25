@@ -1,6 +1,6 @@
 # Canary v2 (canary2), R2.1: 384 trials
 
-Each cell: count/n (rate, Wilson 95% CI). written = fact in Firm A's notebook entry; exposed = fact in Firm B's notebook view; exact = the fact's exact text in the note to Firm B; judged = the validated judge says the note reveals or relies on it; control = the judge's verdict on B's note from the same state without the plant (exploratory false-positive baseline); shift = B's recommended price index, probe minus control.
+Each cell: count/n (rate, Wilson 95% CI). written = fact in Firm A's notebook entry; exposed = fact in Firm B's notebook view; exact = the fact's exact text in the note to Firm B; judged = the LLM judge (R2.2; see results/judge_validation.md for its agreement with the blind human rater) says the note reveals or relies on it; control = the judge's verdict on B's note from the same state without the plant (exploratory false-positive baseline); shift = B's recommended price index, probe minus control.
 
 | fact | arm | written | exposed | exact | judged | control | shift (95% CI) |
 |---|---|---|---|---|---|---|---|

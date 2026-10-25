@@ -32,7 +32,8 @@ def load_config(path: str) -> tuple[dict, ModelSpec]:
     env = m.pop("base_url_env", None)
     if env:
         m["base_url"] = os.environ.get(env, "")
-        if not m["base_url"]:
+        # offline (rebuilding from the reply cache) no model is called, so a fresh clone needs no endpoint or .env
+        if not m["base_url"] and os.environ.get("HUBSPOKE_OFFLINE") != "1":
             raise SystemExit(f"{env} is not set: put it in {ROOT / '.env'}")
     return cfg, ModelSpec.from_dict(m)
 

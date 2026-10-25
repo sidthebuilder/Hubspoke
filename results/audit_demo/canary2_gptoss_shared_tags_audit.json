@@ -1,0 +1,78 @@
+{
+ "code": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 2,
+  "judged_probe_n": 24,
+  "judged_control": 2,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": null,
+  "price_shift_mean": -0.03999999999999992,
+  "price_shift_ci": [
+   -0.08499999999999985,
+   -0.004999999999999709
+  ],
+  "price_shift_p": 0.06652,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ },
+ "cost": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 6,
+  "judged_probe_n": 24,
+  "judged_control": 5,
+  "judged_control_n": 24,
+  "fisher_p": 0.9999999999999999,
+  "trials_for_80pct_power": "> 60",
+  "price_shift_mean": 0.027916666666666645,
+  "price_shift_ci": [
+   -0.009166666666666693,
+   0.0866666666666666
+  ],
+  "price_shift_p": 0.38371,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ },
+ "price": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 8,
+  "judged_probe_n": 24,
+  "judged_control": 5,
+  "judged_control_n": 24,
+  "fisher_p": 0.5170824992816038,
+  "trials_for_80pct_power": "> 60",
+  "price_shift_mean": 0.008333333333333434,
+  "price_shift_ci": [
+   -0.027916666666666468,
+   0.047083333333333276
+  ],
+  "price_shift_p": 0.7017,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ },
+ "town": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 4,
+  "judged_probe_n": 24,
+  "judged_control": 3,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": "> 60",
+  "price_shift_mean": -0.0033333333333332993,
+  "price_shift_ci": [
+   -0.04416666666666665,
+   0.035416666666666784
+  ],
+  "price_shift_p": 0.89294,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ }
+}

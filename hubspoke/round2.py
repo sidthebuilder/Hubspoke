@@ -337,7 +337,7 @@ def judge_md(o: dict) -> str:
         for arm, v in o["by arm"].items():
             L.append(f"- {arm} arm: human {_fmt_rate(v['human'])}; judge {_fmt_rate(v['judge'])}; exact {_fmt_rate(v['exact'])}")
         L.append(f"- exploratory: human-rated reveals, shared vs private, Fisher p "
-                 f"{o['exploratory: human-rated reveals, shared vs private (Fisher)']:.4f}")
+                 f"{_p(o['exploratory: human-rated reveals, shared vs private (Fisher)'])}")
         L += ["", "Disagreements (judge's reason):"] + [f"- id {d['id']} ({d['arm']}): human {d['human']}, judge {d['judge']}: {d['reason']}"
                                                         for d in o["disagreements"]]
     return "\n".join(L) + "\n"

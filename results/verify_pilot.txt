@@ -1,0 +1,17 @@
+replayed with the code of commit 5e15448 (scripts/replay_at_commit.py)
+ok   replay aged-s90: 15 periods rebuilt from cache
+ok   replay aged-s91: 15 periods rebuilt from cache
+ok   replay aged_sharedmem-s90: 15 periods rebuilt from cache
+ok   replay aged_sharedmem-s91: 15 periods rebuilt from cache
+ok   replay chat-s90: 15 periods rebuilt from cache
+ok   replay chat-s91: 15 periods rebuilt from cache
+ok   replay isolated-s90: 15 periods rebuilt from cache
+ok   replay isolated-s91: 15 periods rebuilt from cache
+ok   replay pooled-s90: 15 periods rebuilt from cache
+ok   replay pooled-s91: 15 periods rebuilt from cache
+ok   replay portfolio-s90: 15 periods rebuilt from cache
+ok   replay portfolio-s91: 15 periods rebuilt from cache
+ok   replay solo-s90: 15 periods rebuilt from cache
+ok   replay solo-s91: 15 periods rebuilt from cache
+
+0 failure(s); client stats {'calls': 0, 'cached': 720, 'prompt_tokens': 0, 'completion_tokens': 0, 'retries': 0}

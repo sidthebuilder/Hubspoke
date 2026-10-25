@@ -12,10 +12,18 @@
 | Llama-3.1-70B | H2 aged < pooled | 12 | -0.235 (-0.362 to -0.105) | 0.0039 |
 | Llama-3.1-70B | H3 aged_sharedmem > aged | 12 | +0.208 (+0.025 to +0.431) | 0.0303 |
 | Llama-3.1-70B | H4 isolated vs solo | 12 | +0.444 (+0.251 to +0.641) | 0.0015 |
+| gpt-oss-120b | H1 pooled > isolated | 12 | +0.016 (-0.095 to +0.153) | 0.4329 |
+| gpt-oss-120b | H2 aged < pooled | 12 | -0.118 (-0.251 to -0.019) | 0.0208 |
+| gpt-oss-120b | H3 aged_sharedmem > aged | 12 | +0.045 (-0.020 to +0.113) | 0.1182 |
+| gpt-oss-120b | H4 isolated vs solo | 12 | +0.020 (-0.063 to +0.108) | 0.6641 |
 
 ## stratified H1 (Qwen + Llama): pooled - isolated, averaged over models
 Exploratory, and a departure from the registration, which said the replication would be reported beside the main results and never pooled with them. The per-model tests above are the registered ones.
 Estimate -0.067 (95% CI -0.227 to +0.093); one-sided 95% upper bound +0.066; stratified permutation p (greater) 0.7833.
+
+## stratified H1 (all three models): pooled - isolated, averaged over models
+Exploratory, and a departure from the registration, which said the replication would be reported beside the main results and never pooled with them. The per-model tests above are the registered ones.
+Estimate -0.039 (95% CI -0.157 to +0.076); one-sided 95% upper bound +0.058; stratified permutation p (greater) 0.7342.
 
 ## stratified H5, start-low isolated - solo (Qwen + Llama): isolated - solo, averaged over models
 Exploratory, and a departure from the registration, which said the replication would be reported beside the main results and never pooled with them. The per-model tests above are the registered ones.
@@ -35,6 +43,10 @@ Estimate +0.180 (95% CI +0.063 to +0.296); one-sided 95% upper bound +0.279; str
 | canary v2 (Llama-3.1-70B) | shared | 24 | +0.060 (+0.002 to +0.132) | +0.329 | -0.269 (-0.343 to -0.192) | 0.0000 |
 | canary v2 (Llama-3.1-70B) | shared_rule | 24 | +0.087 (+0.028 to +0.155) | +0.329 | -0.242 (-0.325 to -0.152) | 0.0001 |
 | canary v2 (Llama-3.1-70B) | shared_tags | 24 | +0.017 (-0.025 to +0.079) | +0.329 | -0.313 (-0.375 to -0.245) | 0.0000 |
+| canary v2 (gpt-oss-120b) | private | 24 | +0.009 (-0.017 to +0.042) | +0.493 | -0.484 (-0.524 to -0.444) | 0.0000 |
+| canary v2 (gpt-oss-120b) | shared | 24 | +0.002 (-0.022 to +0.028) | +0.493 | -0.491 (-0.528 to -0.454) | 0.0000 |
+| canary v2 (gpt-oss-120b) | shared_rule | 24 | -0.010 (-0.029 to +0.008) | +0.493 | -0.503 (-0.542 to -0.464) | 0.0000 |
+| canary v2 (gpt-oss-120b) | shared_tags | 24 | +0.007 (-0.010 to +0.025) | +0.493 | -0.486 (-0.519 to -0.452) | 0.0000 |
 
 ## Audit power: planted trials needed
 
@@ -64,3 +76,15 @@ Estimate +0.180 (95% CI +0.063 to +0.296); one-sided 95% upper bound +0.279; str
 | Llama-3.1-70B | price|shared | 0.04 | 71 | 0.33 | 0.21 | > 60 |
 | Llama-3.1-70B | price|shared_rule | 0.00 | never | 0.54 | 0.17 | 24 |
 | Llama-3.1-70B | price|shared_tags | 0.00 | never | 0.46 | 0.29 | > 60 |
+| gpt-oss-120b | code|shared | 0.00 | never | 0.04 | 0.00 | > 60 |
+| gpt-oss-120b | code|shared_rule | 0.00 | never | 0.04 | 0.04 | n/a |
+| gpt-oss-120b | code|shared_tags | 0.00 | never | 0.08 | 0.08 | n/a |
+| gpt-oss-120b | town|shared | 0.00 | never | 0.08 | 0.12 | n/a |
+| gpt-oss-120b | town|shared_rule | 0.00 | never | 0.12 | 0.08 | > 60 |
+| gpt-oss-120b | town|shared_tags | 0.00 | never | 0.17 | 0.12 | > 60 |
+| gpt-oss-120b | cost|shared | 0.00 | never | 0.38 | 0.25 | > 60 |
+| gpt-oss-120b | cost|shared_rule | 0.00 | never | 0.25 | 0.29 | n/a |
+| gpt-oss-120b | cost|shared_tags | 0.00 | never | 0.25 | 0.21 | > 60 |
+| gpt-oss-120b | price|shared | 0.00 | never | 0.21 | 0.38 | n/a |
+| gpt-oss-120b | price|shared_rule | 0.00 | never | 0.29 | 0.29 | n/a |
+| gpt-oss-120b | price|shared_tags | 0.00 | never | 0.33 | 0.21 | > 60 |

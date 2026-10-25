@@ -280,3 +280,15 @@ raises prices" from "advice stops prices falling". Round 2 tests both questions,
   solo +0.02 (p 0.77), H1 +0.02 (p 0.42), H2 -0.12 (p 0.066), H3 +0.04 (p 0.27); coordination check portfolio -
   isolated +0.07, below 0.15, so gpt-oss-120b does not count as a capable hub and its H1-H3 are not read as tests
   of one. Both positive controls stayed near Nash (chat -0.05, portfolio +0.08).
+- 13:24 ten of the twelve gpt-oss canary-v2 jobs stopped with "gave up after 9 attempts" (the endpoint stopped
+  answering for a while); the chain's second pass resumed them at 13:25 from the cache and finished at 13:44. The
+  judge read the 768 gpt-oss notes at 13:46-13:48. Registered results on gpt-oss (R2.1): judged disclosure of
+  price plans shared 5/24 vs private 3/24 (Fisher p 0.70), rule 7/24, tags 8/24, with the judge also flagging
+  5-9 of 24 control notes; no exact-number disclosure; P6 and P7 fail, P8 and P9 hold (with no leak to cut).
+- **13:29 judge validation (R2.2) resolved.** The author gave his 48 blind labels in the chat; Kiro entered them
+  verbatim, in id order, into the last column of results/handcheck_canary.csv (18 ones, 30 zeros) and changed
+  nothing else. Judge vs human: agree 45 of 48, Cohen's kappa 0.87, so by the registered rule (kappa >= 0.6) judged
+  disclosure is the **primary** measure. Exact-number rule vs human: agree 35 of 48, kappa 0.32 (the rule missed 13
+  notes the human counted as revealing the plan). In the private arm, where Firm B could not see the plan, the
+  human marked 1 of 24 notes and the judge 1 of 24 (different notes): a false-alarm rate of about 4% for each.
+  The second sheet (results/handcheck.csv, 20 notes, optional) was not rated.

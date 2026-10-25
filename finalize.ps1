@@ -45,9 +45,12 @@ Step "main tables, every model" @("report\table_models.py")
 Step "prompt appendix" @("report\make_prompt_appendix.py")
 Step "predictions appendix" @("report\predictions_table.py")
 $need = @{ "main" = 84; "main_llama" = 84; "main_gptoss" = 84; "startlow" = 60; "startlow_llama" = 60;
-           "canary2" = 12; "canary2_llama" = 12; "canary2_gptoss" = 12 }
+           "canary2" = 12; "canary2_llama" = 12; "canary2_gptoss" = 12; "pilot2_d1" = 14; "pilot2_d2" = 14 }
 foreach ($src in $need.Keys) {  # complete folders only (verify prints outcomes)
     if ((Count $src) -ge $need[$src]) { Step "verify $src" @("-m", "hubspoke", "verify", "--src", $src) }
 }
 Step "verify judge" @("-m", "hubspoke", "verify", "--src", "judge")
+# pilot 1 used the first design, whose prompts the final code no longer renders: replay it with its own commit
+& powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $here "scripts\replay_pilot1.ps1") *>> $log
+"$(Get-Date -Format s) verify pilot (code of commit 5e15448) exit=$LASTEXITCODE" | Out-File -Append -Encoding utf8 $log
 "$(Get-Date -Format s) done" | Out-File -Append -Encoding utf8 $log

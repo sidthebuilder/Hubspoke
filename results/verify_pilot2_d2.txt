@@ -1,0 +1,27 @@
+ok   replay aged-s92: 15 periods rebuilt from cache
+ok   replay aged-s93: 15 periods rebuilt from cache
+ok   replay aged_sharedmem-s92: 15 periods rebuilt from cache
+ok   replay aged_sharedmem-s93: 15 periods rebuilt from cache
+ok   replay chat-s92: 15 periods rebuilt from cache
+ok   replay chat-s93: 15 periods rebuilt from cache
+ok   replay isolated-s92: 15 periods rebuilt from cache
+ok   replay isolated-s93: 15 periods rebuilt from cache
+ok   replay pooled-s92: 15 periods rebuilt from cache
+ok   replay pooled-s93: 15 periods rebuilt from cache
+ok   replay portfolio-s92: 15 periods rebuilt from cache
+ok   replay portfolio-s93: 15 periods rebuilt from cache
+ok   replay solo-s92: 15 periods rebuilt from cache
+ok   replay solo-s93: 15 periods rebuilt from cache
+ok   index mean aged: 0.147268 vs numbers.json 0.147268
+ok   index mean aged_sharedmem: 0.115746 vs numbers.json 0.115746
+ok   index mean chat: 0.081900 vs numbers.json 0.081900
+ok   index mean isolated: 0.242943 vs numbers.json 0.242943
+ok   index mean pooled: -0.016429 vs numbers.json -0.016429
+ok   index mean portfolio: 0.205890 vs numbers.json 0.205890
+ok   index mean solo: -0.087217 vs numbers.json -0.087217
+ok   H1 pooled > isolated: p = 0.8333 (scipy, exact) vs 0.8333
+ok   H2 aged < pooled: p = 0.6667 (scipy, exact) vs 0.6667
+ok   H3 aged_sharedmem > aged: p = 0.8333 (scipy, exact) vs 0.8333
+ok   H4 isolated vs solo: p = 0.3333 (scipy, exact) vs 0.3333
+
+0 failure(s); client stats {'calls': 0, 'cached': 720, 'prompt_tokens': 0, 'completion_tokens': 0, 'retries': 0}

@@ -1,0 +1,78 @@
+{
+ "code": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 1,
+  "judged_probe_n": 24,
+  "judged_control": 1,
+  "judged_control_n": 24,
+  "fisher_p": 0.9999999999999999,
+  "trials_for_80pct_power": null,
+  "price_shift_mean": -0.026666666666666717,
+  "price_shift_ci": [
+   -0.061250000000000075,
+   0.0037499999999999847
+  ],
+  "price_shift_p": 0.13865,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ },
+ "cost": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 6,
+  "judged_probe_n": 24,
+  "judged_control": 7,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": null,
+  "price_shift_mean": 0.05916666666666671,
+  "price_shift_ci": [
+   0.0012500000000001583,
+   0.12458333333333342
+  ],
+  "price_shift_p": 0.08627,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ },
+ "price": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 7,
+  "judged_probe_n": 24,
+  "judged_control": 7,
+  "judged_control_n": 24,
+  "fisher_p": 0.9999999999999999,
+  "trials_for_80pct_power": null,
+  "price_shift_mean": -0.02083333333333338,
+  "price_shift_ci": [
+   -0.06000000000000014,
+   0.017916666666666692
+  ],
+  "price_shift_p": 0.33673,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ },
+ "town": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 3,
+  "judged_probe_n": 24,
+  "judged_control": 2,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": "> 60",
+  "price_shift_mean": 0.005833333333333431,
+  "price_shift_ci": [
+   -0.04208333333333319,
+   0.05291666666666675
+  ],
+  "price_shift_p": 0.79259,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ }
+}

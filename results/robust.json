@@ -83,6 +83,48 @@
      0.6412478451014693
     ]
    }
+  },
+  "gpt-oss-120b": {
+   "H1 pooled > isolated": {
+    "n_pairs": 12,
+    "mean_diff": 0.015663833792082933,
+    "p_signflip": 0.432861328125,
+    "alternative": "greater",
+    "ci": [
+     -0.09462359694573069,
+     0.15344304794019578
+    ]
+   },
+   "H2 aged < pooled": {
+    "n_pairs": 12,
+    "mean_diff": -0.11751907861465671,
+    "p_signflip": 0.020751953125,
+    "alternative": "less",
+    "ci": [
+     -0.2507035272185024,
+     -0.019248549739106544
+    ]
+   },
+   "H3 aged_sharedmem > aged": {
+    "n_pairs": 12,
+    "mean_diff": 0.04467645233739548,
+    "p_signflip": 0.1181640625,
+    "alternative": "greater",
+    "ci": [
+     -0.01951354373990415,
+     0.11343279431250004
+    ]
+   },
+   "H4 isolated vs solo": {
+    "n_pairs": 12,
+    "mean_diff": 0.020187934269470787,
+    "p_signflip": 0.6640625,
+    "alternative": "two-sided",
+    "ci": [
+     -0.06279359290787843,
+     0.10793935346117965
+    ]
+   }
   }
  },
  "stratified H1 (Qwen + Llama)": {
@@ -254,6 +296,68 @@
     "excess_ci": [
      -0.37496135308788553,
      -0.24479978070880412
+    ],
+    "excess_p_two_sided": 0.0
+   }
+  },
+  "canary v2 (gpt-oss-120b)": {
+   "private": {
+    "n": 24,
+    "actual": 0.009090446375192534,
+    "actual_ci": [
+     -0.016521799875825322,
+     0.041742315864794155
+    ],
+    "justified": 0.4933461620159476,
+    "excess": -0.48425571564075515,
+    "excess_ci": [
+     -0.5238533500339605,
+     -0.44439933110571933
+    ],
+    "excess_p_two_sided": 0.0
+   },
+   "shared": {
+    "n": 24,
+    "actual": 0.0019010439187665056,
+    "actual_ci": [
+     -0.022006023544509257,
+     0.027997192258197644
+    ],
+    "justified": 0.4933461620159476,
+    "excess": -0.4914451180971811,
+    "excess_ci": [
+     -0.5282211308435273,
+     -0.45432088050723113
+    ],
+    "excess_p_two_sided": 0.0
+   },
+   "shared_rule": {
+    "n": 24,
+    "actual": -0.009562826985310321,
+    "actual_ci": [
+     -0.02851565878149764,
+     0.008468286547232627
+    ],
+    "justified": 0.4933461620159476,
+    "excess": -0.502908989001258,
+    "excess_ci": [
+     -0.5423730859376615,
+     -0.46412631830448364
+    ],
+    "excess_p_two_sided": 0.0
+   },
+   "shared_tags": {
+    "n": 24,
+    "actual": 0.007431353500632743,
+    "actual_ci": [
+     -0.01002368611713248,
+     0.025404859641697915
+    ],
+    "justified": 0.4933461620159476,
+    "excess": -0.4859148085153149,
+    "excess_ci": [
+     -0.5193258277333755,
+     -0.45175811675051786
     ],
     "excess_p_two_sided": 0.0
    }
@@ -431,6 +535,92 @@
     "control_rate": 0.2916666666666667,
     "n_judged_vs_control_80pct_power": "> 60"
    }
+  },
+  "gpt-oss-120b": {
+   "code|shared": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.041666666666666664,
+    "control_rate": 0.0,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "code|shared_rule": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.041666666666666664,
+    "control_rate": 0.041666666666666664,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "code|shared_tags": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.08333333333333333,
+    "control_rate": 0.08333333333333333,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "town|shared": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.08333333333333333,
+    "control_rate": 0.125,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "town|shared_rule": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.125,
+    "control_rate": 0.08333333333333333,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "town|shared_tags": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.16666666666666666,
+    "control_rate": 0.125,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "cost|shared": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.375,
+    "control_rate": 0.25,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "cost|shared_rule": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.25,
+    "control_rate": 0.2916666666666667,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "cost|shared_tags": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.25,
+    "control_rate": 0.20833333333333334,
+    "n_judged_vs_control_80pct_power": "> 60"
+   },
+   "price|shared": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.20833333333333334,
+    "control_rate": 0.375,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "price|shared_rule": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.2916666666666667,
+    "control_rate": 0.2916666666666667,
+    "n_judged_vs_control_80pct_power": null
+   },
+   "price|shared_tags": {
+    "exact_rate": 0.0,
+    "n_one_exact_hit_95": null,
+    "judged_rate": 0.3333333333333333,
+    "control_rate": 0.20833333333333334,
+    "n_judged_vs_control_80pct_power": "> 60"
+   }
   }
  },
  "stratified H5, start-low isolated - solo (Qwen + Llama)": {
@@ -447,6 +637,23 @@
   "upper_95_one_sided": 0.27898491594132363,
   "alternative": "two-sided",
   "p_two_sided_stratified_perm": 0.00553,
+  "n_perm": 100000
+ },
+ "stratified H1 (all three models)": {
+  "models": [
+   "main",
+   "main_llama",
+   "main_gptoss"
+  ],
+  "contrast": "pooled - isolated",
+  "estimate": -0.03914793498548642,
+  "ci95": [
+   -0.15653899717463698,
+   0.07611242181753959
+  ],
+  "upper_95_one_sided": 0.058247473605303635,
+  "alternative": "greater",
+  "p_greater_stratified_perm": 0.73418,
   "n_perm": 100000
  }
 }
