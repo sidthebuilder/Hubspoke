@@ -3,6 +3,33 @@
 Registered in PREREGISTRATION.md (R2.1-R2.5, commit d2dbc03, 25 Oct 00:10 IST) before any round-2 run.
 Every number below is in the file named next to it. "Exploratory" = not registered.
 
+## Generated files to write from (rebuilt by finalize.ps1; never edit them by hand)
+- `report/table_models.md`: the main tables, every model side by side (prices by condition, H1-H4, the hub
+  check, start-low, canary v2). This is the paper's Table 1 and Table 2.
+- `report/appendix_predictions.md`: Appendix D (every dated prediction, its outcome, a Brier score).
+- `report/prompts_appendix.md`: Appendix B (exact prompts, including the round-2 notebook setups and the judge).
+- `report/appendix_corrections.md`: Appendix E (hand-written log; items 10-14 are round 2).
+- `report/audit_test.md` + `hubspoke/audit.py`: Appendix C, the audit test and the tool; `results/audit_demo/`
+  shows the tool reproducing our canary counts.
+- Figures in `results/figures/`: `fig0_conditions.png` (prices by condition and model), `fig1_starts.png`
+  (high vs low start), `fig2_notebook.png` (what the notebook carries; what reaches B), `fig3_checks.png`
+  (which checks catch a known leak).
+- `report/check_numbers.py FILE --where`: lists every number in your text that no result file contains.
+
+## Where each asset fits in 8 pages (a map, not text)
+| section | asset | about |
+|---|---|---|
+| 1 Introduction | WINNER_ANALYSIS.md field cases; AI Village counts (below) | hub-and-spoke coordination; the question |
+| 2 Related work | draft.md table + the 2026 memory-leak papers | what is new here |
+| 3 Method | README conditions table; prompts_appendix.md | market, agents, conditions, 3 models, instruments |
+| 4.1 Prices | fig0_conditions.png; table_models.md tables 1-2 | prices by condition; H1-H4 per model |
+| 4.2 High vs low start | fig1_starts.png; start-low table | inertia or a push (R2.3) |
+| 4.3 The notebook leak | fig2_notebook.png; canary v2 table | what is stored, what reaches B, rule and tags |
+| 4.4 Who can catch it | fig3_checks.png; audit power; audit_demo | which checks find a known leak |
+| 4.5 Replications | table_models.md (Llama, gpt-oss) | what holds across models |
+| 5 Discussion and limits | appendix_limits.md, robust.md | remedies, auditors, what we cannot claim |
+| Appendices | A limits and dual use; B prompts; C audit test; D predictions; E corrections; F AI use | |
+
 ## Canary v2 (R2.1): what a shared notebook carries, and whether a rule or owner tags stop it
 Files: results/canary2/round2.md (Qwen), results/canary2_llama/round2.md (Llama), figures fig2_notebook.png,
 fig3_checks.png. 384 trials per model: 4 facts x 4 notebook setups x 24 states (12 runs x periods 30 and 36).
@@ -45,8 +72,9 @@ fig3_checks.png. 384 trials per model: 4 facts x 4 notebook setups x 24 states (
   noise floor (identical inputs, fresh sample) 1/24; Llama 12/24 vs 5/24.
 
 **Exploratory "excess raise" (results/robust.md).** A one-shot best response to A's planned price, instead of
-A's last price, would raise B's price by +0.33 to +0.36 index. The advice moved by +0.06 to +0.13 (25-35% of
-that on Qwen, 18-26% on Llama). The leak pulls B's price up, by less than a best response would.
+A's last price, would raise B's price by +0.33 to +0.36 index. The advice moved by +0.02 to +0.13: 21-35% of that
+on Qwen across the three shared setups (canary v1: 25%), 5-26% on Llama. The leak pulls B's price up, by less
+than a best response would.
 
 ## Judge validation (R2.2)
 File: results/judge_validation.md. Judge: Qwen2.5-72B, temperature 0, fixed prompt (hubspoke/judge.py).
@@ -54,6 +82,9 @@ File: results/judge_validation.md. Judge: Qwen2.5-72B, temperature 0, fixed prom
   rule 5/24 and 0/24. Judge vs exact: agree 36/48, kappa 0.35 (every disagreement is judge 1 / exact 0).
 - [PENDING: the author's blind labels in results/handcheck_canary.csv -> judge-human kappa; if < 0.6 the judged
   measure is reported as secondary only (registered).]
+- Limits to state: the judge is Qwen2.5-72B, the same model as the Qwen advisor whose notes it reads (on Llama
+  and gpt-oss notes it is a different model); the human rater is the author, who knows the hypotheses, though
+  not the arm or the judge's label of any note.
 
 ## Start-low (R2.3): does advice raise prices, or only stop them falling?
 Files: results/startlow/round2.md (Qwen), results/startlow_llama/round2.md (Llama), figure fig1_starts.png.
@@ -95,6 +126,12 @@ Pre-periods at index -0.38 on average (below Nash), the same for every condition
   one hit.
 - Llama: the judge's false alarms are high, so judged reading needs 24 trials (rule setup) to > 60 (others);
   the "advice raised vs control" check separates better (12/24 vs 5/24).
+- The audit tool (hubspoke/audit.py) on our own trials, shared notebook (results/audit_demo/): Qwen price plans
+  LEAK (judged 18/24 vs 0/24 controls, Fisher p 3.7e-08); Llama price plans LEAK through the price-shift check
+  only (judged 8/24 vs 5/24, p 0.52; B's price +$0.28, 95% CI +0.07 to +0.58, sign-flip p 0.009). Codes, towns
+  and cost cuts: no leak detected on either model. With private notebooks: no leak detected for any fact (the
+  negative control). The tool works in dollars; our runs use three currency scales, so its shift test gives the
+  high-price runs more weight than the index-based numbers above.
 
 ## AI Village field check (R2.5; results/village/summary.json, merch_cases.json; aggregate only)
 - Data: AI Digest, "AI Village dataset", 2026, https://theaidigest.org/village (research terms: analysis only).
@@ -103,11 +140,26 @@ Pre-periods at index -0.38 on average (below Nash), the same for every condition
   declines joint action 5. Gemini proposed cross-promotion and shared promo codes; Fable shared its order counts
   and profit and steered its designs away from the other's; Fable later declined cross-promotion.
 - 2025 village-wide merch contest (26 Jun - 16 Jul 2025): 2,227 messages, 510 addressed; own sales or profit 49,
-  prices 71. Agents tracked and announced each other's prices and orders; some undercut ("most competitive").
+  prices 71. Agents tracked and announced each other's prices and orders; some cut prices to undercut others.
 - Reading: competing agents with a shared channel do share sensitive business information and allocate
   products without being told to; this is open sharing between competitors, not hidden coordination, and no
   price-fixing was proposed.
 
 ## gpt-oss-120b (R2.4)
-- Smoke gate passed (20/20 readable, 00:30). [PENDING: main run (84 runs), coordination check portfolio -
-  isolated >= 0.15, H1-H4, canary v2.]
+Files: results/main_gptoss/table1.md, hub_check.md, exploratory.txt; report/table_models.md.
+- Smoke gate passed (20/20 readable, 00:30). Main run: 84 runs complete at 12:07 (interrupted 01:16-10:45, resumed
+  from the cache; see the corrections log). Readable replies 99.2-100% per condition.
+- Every condition priced at about the Nash level (index, periods 26-40): solo -0.01, chat -0.05, isolated +0.01,
+  pooled +0.02, aged -0.09, aged + shared notebook -0.05, portfolio +0.08.
+- Registered tests: H4 isolated - solo +0.02 (CI -0.09 to +0.15), p = 0.77: the advice-layer lift does not
+  replicate on this model. H1 +0.02 (p 0.42); H2 -0.12 (p 0.066, Holm 0.26); H3 +0.04 (p 0.27).
+- Coordination check (R2.4): portfolio - isolated +0.07 (CI -0.12 to +0.27), below 0.15, so by the registered
+  rule this model is not a capable hub and its H1-H3 nulls are not read as tests of a capable hub.
+- Both positive controls failed on this model: sellers who could talk (chat -0.05) and an advisor told to
+  maximise joint profit (portfolio +0.08) stayed near Nash. Sellers followed the advice less often (61-88% of
+  decisions within 2% of the recommendation, against 96-100% for Qwen).
+- Exploratory: prices fell from the pre-periods by about the same amount with and without an advisor (change:
+  solo -0.56, isolated -0.54). The price-gap statistic separated pooled from isolated with AUROC 0.39 (it failed
+  again out of sample).
+- Reading: on this reasoning model, nothing in our design lifted prices, not even the two collusion controls. The
+  advice-layer effect is model-dependent: present on Qwen and Llama, absent on gpt-oss-120b.

@@ -1,5 +1,5 @@
 # Rebuild every round-2 table and figure from the result files (offline; no model calls). Log: round2_all_log.txt
-$here = "d:\we make devs\apart\hubspoke"
+$here = $PSScriptRoot  # the repository folder
 $vpy = Join-Path $here ".venv\Scripts\python.exe"
 $log = Join-Path $here "round2_all_log.txt"
 Set-Location $here

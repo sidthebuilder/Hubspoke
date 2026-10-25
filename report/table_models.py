@@ -59,7 +59,8 @@ def main():
         cs = n["summary"]["conditions"]
         d = cs["portfolio"]["index_mean"] - cs["isolated"]["index_mean"] if "portfolio" in cs and "isolated" in cs else None
         row.append("" if d is None else f"{d:+.2f} ({'capable hub' if d >= 0.15 else 'not capable'})")
-    L.append("| hub check: portfolio - isolated >= 0.15 (R2.4) | " + " | ".join(row) + " |")
+    L.append("| hub check: portfolio - isolated >= 0.15 (registered for gpt-oss in R2.4; shown for every model) | "
+             + " | ".join(row) + " |")
 
     sl_models = [(name, load(R / sl / "round2.json")) for name, _, _, sl, _ in have if sl and (R / sl / "round2.json").exists()]
     if sl_models:

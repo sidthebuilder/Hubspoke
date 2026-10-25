@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import gzip
 import json
+import os
 import re
 import sys
 from collections import defaultdict
@@ -20,7 +21,9 @@ from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT.parents[1] / "data"
+# The dataset is not redistributed here. Request it from AI Digest (https://theaidigest.org/village) and point
+# HUBSPOKE_VILLAGE_DATA at the folder that holds chat_messages.jsonl.gz, agents.jsonl.gz and village_goals.jsonl.gz.
+DATA = Path(os.environ.get("HUBSPOKE_VILLAGE_DATA", str(ROOT.parents[1] / "data")))
 OUT_PUBLIC = ROOT / "results" / "village"
 OUT_PRIVATE = ROOT / "village_out"
 

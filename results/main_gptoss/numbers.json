@@ -1,0 +1,1024 @@
+{
+ "src": "main_gptoss",
+ "summary": {
+  "window": [
+   26,
+   40
+  ],
+  "conditions": {
+   "solo": {
+    "n": 12,
+    "runs": [
+     {
+      "seed": 0,
+      "alpha": 1.0,
+      "index": 0.05251583446915225,
+      "profit_index": 0.08139698244051734,
+      "cs_change_pct": -3.045463492227623,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 1,
+      "alpha": 3.2,
+      "index": 0.08431511456488261,
+      "profit_index": 0.13447730069624902,
+      "cs_change_pct": -4.959840360792023,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 2,
+      "alpha": 10.0,
+      "index": 0.17956547992989177,
+      "profit_index": 0.2831767208453186,
+      "cs_change_pct": -10.564518914546941,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 3,
+      "alpha": 1.0,
+      "index": -0.20114103168577738,
+      "profit_index": -0.35153387449895407,
+      "cs_change_pct": 12.183456020760262,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 4,
+      "alpha": 3.2,
+      "index": -0.07468128591377057,
+      "profit_index": -0.12953843638800355,
+      "cs_change_pct": 4.529025573399015,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 5,
+      "alpha": 10.0,
+      "index": 0.005323859370560698,
+      "profit_index": 0.00682138179886714,
+      "cs_change_pct": -0.2851355473294514,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 6,
+      "alpha": 1.0,
+      "index": -0.1841814156347211,
+      "profit_index": -0.34606605798770435,
+      "cs_change_pct": 11.571115942223004,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 7,
+      "alpha": 3.2,
+      "index": -0.2998109718089071,
+      "profit_index": -0.5267625168478209,
+      "cs_change_pct": 18.153501229283332,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 8,
+      "alpha": 10.0,
+      "index": 0.01675316583975079,
+      "profit_index": 0.02696760186088443,
+      "cs_change_pct": -0.9865533469585839,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 9,
+      "alpha": 1.0,
+      "index": 0.23759686180894105,
+      "profit_index": 0.3387362656454058,
+      "cs_change_pct": -13.458431803959948,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 10,
+      "alpha": 3.2,
+      "index": -0.009239289195020517,
+      "profit_index": -0.022990804517200317,
+      "cs_change_pct": 0.6498836803224859,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 11,
+      "alpha": 10.0,
+      "index": 0.053990583690983224,
+      "profit_index": 0.08684319787650215,
+      "cs_change_pct": -3.185798748317105,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     }
+    ],
+    "index_mean": -0.01158275788033619,
+    "index_ci": [
+     -0.09726722386582265,
+     0.07102547340023715
+    ],
+    "profit_index_mean": -0.03487268658966156,
+    "cs_change_pct_mean": 0.8834366859880354,
+    "follow_rate_mean": null,
+    "readable_share": 1.0
+   },
+   "chat": {
+    "n": 12,
+    "runs": [
+     {
+      "seed": 0,
+      "alpha": 1.0,
+      "index": -0.052928734891763335,
+      "profit_index": -0.09394586622229438,
+      "cs_change_pct": 3.245753381624986,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 1,
+      "alpha": 3.2,
+      "index": -0.12214977649145563,
+      "profit_index": -0.2085093146834853,
+      "cs_change_pct": 7.339191011721551,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 2,
+      "alpha": 10.0,
+      "index": -0.2564441275044393,
+      "profit_index": -0.45253226325401297,
+      "cs_change_pct": 15.577917100399704,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 3,
+      "alpha": 1.0,
+      "index": 0.10708155567689875,
+      "profit_index": 0.16532180471169075,
+      "cs_change_pct": -6.216517320449355,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 4,
+      "alpha": 3.2,
+      "index": -0.09518951727985767,
+      "profit_index": -0.16653967445773507,
+      "cs_change_pct": 5.790227928174535,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 5,
+      "alpha": 10.0,
+      "index": 0.03924309147267336,
+      "profit_index": 0.06143443728221128,
+      "cs_change_pct": -2.2821525555562494,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 6,
+      "alpha": 1.0,
+      "index": 0.0008996117050676831,
+      "profit_index": -0.008317539201770119,
+      "cs_change_pct": 0.10697435917706637,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 7,
+      "alpha": 3.2,
+      "index": -0.2995805422429958,
+      "profit_index": -0.553443833356363,
+      "cs_change_pct": 18.58511179558035,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 8,
+      "alpha": 10.0,
+      "index": -0.32907552667961537,
+      "profit_index": -0.5838923719578197,
+      "cs_change_pct": 20.007156372709314,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 9,
+      "alpha": 1.0,
+      "index": 0.0982330603459128,
+      "profit_index": 0.1316754150756877,
+      "cs_change_pct": -5.397492378694861,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 10,
+      "alpha": 3.2,
+      "index": 0.26381974640962313,
+      "profit_index": 0.4004955124891799,
+      "cs_change_pct": -15.36213524171312,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     },
+     {
+      "seed": 11,
+      "alpha": 10.0,
+      "index": 0.02486428655982118,
+      "profit_index": 0.03945176007232161,
+      "cs_change_pct": -1.4555461711423419,
+      "follow_rate": null,
+      "readable": 80,
+      "calls": 80
+     }
+    ],
+    "index_mean": -0.05176890607667751,
+    "index_ci": [
+     -0.14824208433812125,
+     0.0440705908785107
+    ],
+    "profit_index_mean": -0.10573349445853246,
+    "cs_change_pct_mean": 3.3282073568192985,
+    "follow_rate_mean": null,
+    "readable_share": 1.0
+   },
+   "isolated": {
+    "n": 12,
+    "runs": [
+     {
+      "seed": 0,
+      "alpha": 1.0,
+      "index": -0.04555498878260843,
+      "profit_index": -0.07855156012470985,
+      "cs_change_pct": 2.757506496710978,
+      "follow_rate": 0.9,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 1,
+      "alpha": 3.2,
+      "index": -0.01730432400190853,
+      "profit_index": -0.029843894552754924,
+      "cs_change_pct": 1.0490490104451715,
+      "follow_rate": 0.8333333333333334,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 2,
+      "alpha": 10.0,
+      "index": -0.03346204516359428,
+      "profit_index": -0.05786535324309948,
+      "cs_change_pct": 2.0297326604401404,
+      "follow_rate": 0.9333333333333333,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 3,
+      "alpha": 1.0,
+      "index": -0.07062572555373521,
+      "profit_index": -0.12125494777942773,
+      "cs_change_pct": 4.263161121540936,
+      "follow_rate": 0.7666666666666667,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 4,
+      "alpha": 3.2,
+      "index": -0.018686901397375104,
+      "profit_index": -0.03213729801148495,
+      "cs_change_pct": 1.129095228831336,
+      "follow_rate": 1.0,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 5,
+      "alpha": 10.0,
+      "index": -0.17127735994369983,
+      "profit_index": -0.2955733524271018,
+      "cs_change_pct": 10.325555681126223,
+      "follow_rate": 0.7333333333333333,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 6,
+      "alpha": 1.0,
+      "index": 0.10413205723323678,
+      "profit_index": 0.1622927334911828,
+      "cs_change_pct": -6.070980056948655,
+      "follow_rate": 0.8333333333333334,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 7,
+      "alpha": 3.2,
+      "index": -0.13251910695745442,
+      "profit_index": -0.23004240072892201,
+      "cs_change_pct": 8.0226028844299,
+      "follow_rate": 0.8333333333333334,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 8,
+      "alpha": 10.0,
+      "index": 0.02302085003253249,
+      "profit_index": 0.03686929339323363,
+      "cs_change_pct": -1.3519814549324232,
+      "follow_rate": 0.9333333333333333,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 9,
+      "alpha": 1.0,
+      "index": 0.4669203658036593,
+      "profit_index": 0.6596867290118793,
+      "cs_change_pct": -26.839057632711395,
+      "follow_rate": 0.8333333333333334,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 10,
+      "alpha": 3.2,
+      "index": -0.02145205618830814,
+      "profit_index": -0.0369424916659027,
+      "cs_change_pct": 1.29954162743461,
+      "follow_rate": 0.9,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 11,
+      "alpha": 10.0,
+      "index": 0.020071351588870554,
+      "profit_index": 0.032063654795751746,
+      "cs_change_pct": -1.1768542928754222,
+      "follow_rate": 1.0,
+      "readable": 160,
+      "calls": 160
+     }
+    ],
+    "index_mean": 0.008605176389134599,
+    "index_ci": [
+     -0.06443869170902232,
+     0.10841804715918302
+    ],
+    "profit_index_mean": 0.000725092679887003,
+    "cs_change_pct_mean": -0.38021906054238325,
+    "follow_rate_mean": 0.875,
+    "readable_share": 1.0
+   },
+   "pooled": {
+    "n": 12,
+    "runs": [
+     {
+      "seed": 0,
+      "alpha": 1.0,
+      "index": -0.19376728557662257,
+      "profit_index": -0.3369805930892492,
+      "cs_change_pct": 11.714732662117976,
+      "follow_rate": 0.5666666666666667,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 1,
+      "alpha": 3.2,
+      "index": -0.01523045790870876,
+      "profit_index": -0.02603089088994659,
+      "cs_change_pct": 0.919485820521348,
+      "follow_rate": 0.9333333333333333,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 2,
+      "alpha": 10.0,
+      "index": -0.0038933232658829677,
+      "profit_index": -0.006907940060026049,
+      "cs_change_pct": 0.2389985585997535,
+      "follow_rate": 0.9666666666666667,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 3,
+      "alpha": 1.0,
+      "index": -0.0831610939392986,
+      "profit_index": -0.14271218621069448,
+      "cs_change_pct": 5.016766993075948,
+      "follow_rate": 0.7666666666666667,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 4,
+      "alpha": 3.2,
+      "index": -0.08343760941839204,
+      "profit_index": -0.14695873371113805,
+      "cs_change_pct": 5.090216702369036,
+      "follow_rate": 0.6333333333333333,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 5,
+      "alpha": 10.0,
+      "index": -0.03523174422979151,
+      "profit_index": -0.060545291153386596,
+      "cs_change_pct": 2.1308093769594083,
+      "follow_rate": 0.9,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 6,
+      "alpha": 1.0,
+      "index": -0.09938333537943943,
+      "profit_index": -0.17701949674446688,
+      "cs_change_pct": 6.091465912961469,
+      "follow_rate": 0.6333333333333333,
+      "readable": 155,
+      "calls": 160
+     },
+     {
+      "seed": 7,
+      "alpha": 3.2,
+      "index": 0.01864268828022168,
+      "profit_index": 0.029815763014006753,
+      "cs_change_pct": -1.0947779418255519,
+      "follow_rate": 1.0,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 8,
+      "alpha": 10.0,
+      "index": -0.002787261349509752,
+      "profit_index": -0.014595785384228316,
+      "cs_change_pct": 0.32898705800202155,
+      "follow_rate": 0.8333333333333334,
+      "readable": 156,
+      "calls": 160
+     },
+     {
+      "seed": 9,
+      "alpha": 1.0,
+      "index": 0.21547562348147636,
+      "profit_index": 0.3352615405927532,
+      "cs_change_pct": -12.631151594340645,
+      "follow_rate": 0.9333333333333333,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 10,
+      "alpha": 3.2,
+      "index": 0.6129205387649268,
+      "profit_index": 0.7947686398825974,
+      "cs_change_pct": -34.40243095738575,
+      "follow_rate": 1.0,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 11,
+      "alpha": 10.0,
+      "index": -0.038918617284368844,
+      "profit_index": -0.06590149455983182,
+      "cs_change_pct": 2.3372060297335926,
+      "follow_rate": 0.8333333333333334,
+      "readable": 159,
+      "calls": 160
+     }
+    ],
+    "index_mean": 0.02426901018121753,
+    "index_ci": [
+     -0.0682100556044339,
+     0.15424280683336877
+    ],
+    "profit_index_mean": 0.015182794307199113,
+    "cs_change_pct_mean": -1.1883076149342824,
+    "follow_rate_mean": 0.8333333333333334,
+    "readable_share": 0.99375
+   },
+   "aged": {
+    "n": 12,
+    "runs": [
+     {
+      "seed": 0,
+      "alpha": 1.0,
+      "index": -0.17975716796922817,
+      "profit_index": -0.312552868574408,
+      "cs_change_pct": 10.872089839146145,
+      "follow_rate": 0.8666666666666667,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 1,
+      "alpha": 3.2,
+      "index": -0.11178044602545621,
+      "profit_index": -0.19248898275753143,
+      "cs_change_pct": 6.74700799962031,
+      "follow_rate": 0.9666666666666667,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 2,
+      "alpha": 10.0,
+      "index": 0.05399058369098323,
+      "profit_index": 0.0869176103502581,
+      "cs_change_pct": -3.183691449209292,
+      "follow_rate": 0.9333333333333333,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 3,
+      "alpha": 1.0,
+      "index": -0.25128250522803086,
+      "profit_index": -0.4422135986988661,
+      "cs_change_pct": 15.251007750382668,
+      "follow_rate": 0.6666666666666666,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 4,
+      "alpha": 3.2,
+      "index": -0.17053998533278478,
+      "profit_index": -0.29632014436134296,
+      "cs_change_pct": 10.309984990464537,
+      "follow_rate": 0.6333333333333333,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 5,
+      "alpha": 10.0,
+      "index": -0.3154340963776787,
+      "profit_index": -0.5564505529846889,
+      "cs_change_pct": 19.130997505869082,
+      "follow_rate": 0.5333333333333333,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 6,
+      "alpha": 1.0,
+      "index": -0.13256519287063662,
+      "profit_index": -0.233468297657188,
+      "cs_change_pct": 8.078702221076629,
+      "follow_rate": 0.6666666666666666,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 7,
+      "alpha": 3.2,
+      "index": -0.10095025642763514,
+      "profit_index": -0.1720521117355953,
+      "cs_change_pct": 6.065995229564736,
+      "follow_rate": 0.9666666666666667,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 8,
+      "alpha": 10.0,
+      "index": 0.06320776632742692,
+      "profit_index": 0.10199677393959874,
+      "cs_change_pct": -3.732455529563233,
+      "follow_rate": 1.0,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 9,
+      "alpha": 1.0,
+      "index": 0.264142347801899,
+      "profit_index": 0.4064796640004149,
+      "cs_change_pct": -15.45565831018306,
+      "follow_rate": 0.7,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 10,
+      "alpha": 3.2,
+      "index": -0.11984548083234439,
+      "profit_index": -0.21794187552182676,
+      "cs_change_pct": 7.421322551159633,
+      "follow_rate": 0.5333333333333333,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 11,
+      "alpha": 10.0,
+      "index": -0.11818638795778445,
+      "profit_index": -0.2029896632084177,
+      "cs_change_pct": 7.12297370533904,
+      "follow_rate": 0.8,
+      "readable": 160,
+      "calls": 160
+     }
+    ],
+    "index_mean": -0.09325006843343918,
+    "index_ci": [
+     -0.1715154704951415,
+     -0.0030637768286030636
+    ],
+    "profit_index_mean": -0.1692570039341328,
+    "cs_change_pct_mean": 5.7190230419722665,
+    "follow_rate_mean": 0.7722222222222221,
+    "readable_share": 0.9984375
+   },
+   "aged_sharedmem": {
+    "n": 12,
+    "runs": [
+     {
+      "seed": 0,
+      "alpha": 1.0,
+      "index": -0.29257548343929835,
+      "profit_index": -0.5128517898646455,
+      "cs_change_pct": 17.702682827325535,
+      "follow_rate": 0.8666666666666667,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 1,
+      "alpha": 3.2,
+      "index": -0.2212344898332249,
+      "profit_index": -0.39520266565374695,
+      "cs_change_pct": 13.537909906669938,
+      "follow_rate": 0.8,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 2,
+      "alpha": 10.0,
+      "index": 0.13989472586263824,
+      "profit_index": 0.2200659336851499,
+      "cs_change_pct": -8.197177432995172,
+      "follow_rate": 0.9666666666666667,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 3,
+      "alpha": 1.0,
+      "index": 0.018596602367039534,
+      "profit_index": 0.02830869684386687,
+      "cs_change_pct": -1.0682749779491207,
+      "follow_rate": 0.6333333333333333,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 4,
+      "alpha": 3.2,
+      "index": -0.1292930930346993,
+      "profit_index": -0.22061209357732361,
+      "cs_change_pct": 7.765256343567169,
+      "follow_rate": 0.9666666666666667,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 5,
+      "alpha": 10.0,
+      "index": -0.19450466018753781,
+      "profit_index": -0.33546478577638966,
+      "cs_change_pct": 11.714160624029216,
+      "follow_rate": 0.8666666666666667,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 6,
+      "alpha": 1.0,
+      "index": -0.023433750455143603,
+      "profit_index": -0.03980490468598231,
+      "cs_change_pct": 1.41051830484512,
+      "follow_rate": 0.9,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 7,
+      "alpha": 3.2,
+      "index": -0.10786314340496768,
+      "profit_index": -0.18606242387210156,
+      "cs_change_pct": 6.516328339277721,
+      "follow_rate": 0.9,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 8,
+      "alpha": 10.0,
+      "index": -0.04039336650619976,
+      "profit_index": -0.06956844943323923,
+      "cs_change_pct": 2.4453113758574556,
+      "follow_rate": 0.9,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 9,
+      "alpha": 1.0,
+      "index": 0.41309201920682814,
+      "profit_index": 0.6037590575831132,
+      "cs_change_pct": -23.923475496209278,
+      "follow_rate": 0.8,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 10,
+      "alpha": 3.2,
+      "index": -0.17630072448056186,
+      "profit_index": -0.3096530100541297,
+      "cs_change_pct": 10.714229601635617,
+      "follow_rate": 0.6666666666666666,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 11,
+      "alpha": 10.0,
+      "index": 0.03113197075260287,
+      "profit_index": 0.050120519107394575,
+      "cs_change_pct": -1.8329886457481135,
+      "follow_rate": 1.0,
+      "readable": 160,
+      "calls": 160
+     }
+    ],
+    "index_mean": -0.04857361609604371,
+    "index_ci": [
+     -0.1445436898052482,
+     0.0631962448491312
+    ],
+    "profit_index_mean": -0.09724715964150284,
+    "cs_change_pct_mean": 3.0653733975255073,
+    "follow_rate_mean": 0.8555555555555556,
+    "readable_share": 0.9989583333333333
+   },
+   "portfolio": {
+    "n": 12,
+    "runs": [
+     {
+      "seed": 0,
+      "alpha": 1.0,
+      "index": -0.2608683751699323,
+      "profit_index": -0.4578850044622666,
+      "cs_change_pct": 15.8079278989353,
+      "follow_rate": 0.4,
+      "readable": 158,
+      "calls": 160
+     },
+     {
+      "seed": 1,
+      "alpha": 3.2,
+      "index": -0.23390811595833483,
+      "profit_index": -0.4130466960503062,
+      "cs_change_pct": 14.222808204850333,
+      "follow_rate": 0.5862068965517241,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 2,
+      "alpha": 10.0,
+      "index": 0.2833140876857016,
+      "profit_index": 0.42453041274518194,
+      "cs_change_pct": -16.44204462996847,
+      "follow_rate": 0.4666666666666667,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 3,
+      "alpha": 1.0,
+      "index": -0.12224194831781975,
+      "profit_index": -0.21190835864081628,
+      "cs_change_pct": 7.395806835631951,
+      "follow_rate": 0.4666666666666667,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 4,
+      "alpha": 3.2,
+      "index": 0.03892049008039756,
+      "profit_index": 0.060609564559352166,
+      "cs_change_pct": -2.260323548395018,
+      "follow_rate": 0.7666666666666667,
+      "readable": 157,
+      "calls": 160
+     },
+     {
+      "seed": 5,
+      "alpha": 10.0,
+      "index": 0.12735935747707483,
+      "profit_index": 0.20198318925359116,
+      "cs_change_pct": -7.48822554053689,
+      "follow_rate": 0.7666666666666667,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 6,
+      "alpha": 1.0,
+      "index": -0.14067631359070706,
+      "profit_index": -0.24977589173337503,
+      "cs_change_pct": 8.605854364731908,
+      "follow_rate": 0.6333333333333333,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 7,
+      "alpha": 3.2,
+      "index": -0.026521506638352257,
+      "profit_index": -0.05678995033115761,
+      "cs_change_pct": 1.790113986811861,
+      "follow_rate": 0.3,
+      "readable": 159,
+      "calls": 160
+     },
+     {
+      "seed": 8,
+      "alpha": 10.0,
+      "index": -0.24059057336975628,
+      "profit_index": -0.41985599895499776,
+      "cs_change_pct": 14.543292629861572,
+      "follow_rate": 0.6,
+      "readable": 157,
+      "calls": 160
+     },
+     {
+      "seed": 9,
+      "alpha": 1.0,
+      "index": 0.7537590894497862,
+      "profit_index": 0.918378214438918,
+      "cs_change_pct": -42.14623783737372,
+      "follow_rate": 0.8,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 10,
+      "alpha": 3.2,
+      "index": 0.5599217386053756,
+      "profit_index": 0.7473516379851904,
+      "cs_change_pct": -31.630234276249254,
+      "follow_rate": 0.8,
+      "readable": 160,
+      "calls": 160
+     },
+     {
+      "seed": 11,
+      "alpha": 10.0,
+      "index": 0.19040488671034955,
+      "profit_index": 0.29948326887193055,
+      "cs_change_pct": -11.195636021135426,
+      "follow_rate": 0.7,
+      "readable": 157,
+      "calls": 160
+     }
+    ],
+    "index_mean": 0.07740606808031524,
+    "index_ci": [
+     -0.08562669029454728,
+     0.26567086392244227
+    ],
+    "profit_index_mean": 0.07025619897343706,
+    "cs_change_pct_mean": -4.0664081610696545,
+    "follow_rate_mean": 0.607183908045977,
+    "readable_share": 0.9916666666666667
+   }
+  }
+ },
+ "tests": {
+  "H1 pooled > isolated": {
+   "x": "pooled",
+   "y": "isolated",
+   "alternative": "greater",
+   "diff": 0.015663833792082933,
+   "ci": [
+    -0.12478529092638654,
+    0.16638781285452797
+   ],
+   "p": 0.4156213620811817,
+   "p_holm": 0.8312427241623634
+  },
+  "H2 aged < pooled": {
+   "x": "aged",
+   "y": "pooled",
+   "alternative": "less",
+   "diff": -0.11751907861465671,
+   "ci": [
+    -0.26360374241675844,
+    0.016222241440140867
+   ],
+   "p": 0.065650428451613,
+   "p_holm": 0.262601713806452
+  },
+  "H3 aged_sharedmem > aged": {
+   "x": "aged_sharedmem",
+   "y": "aged",
+   "alternative": "greater",
+   "diff": 0.04467645233739547,
+   "ci": [
+    -0.08623826504222612,
+    0.1843359717433429
+   ],
+   "p": 0.2709839964854099,
+   "p_holm": 0.8129519894562296
+  },
+  "H4 isolated vs solo": {
+   "x": "isolated",
+   "y": "solo",
+   "alternative": "two-sided",
+   "diff": 0.02018793426947079,
+   "ci": [
+    -0.09473036264460281,
+    0.15029153957708533
+   ],
+   "p": 0.7681058341308712,
+   "p_holm": 0.8312427241623634
+  },
+  "aged - isolated": {
+   "diff": -0.10185524482257377,
+   "ci": [
+    -0.22376784716060202,
+    0.013826542053218517
+   ]
+  }
+ },
+ "predictions": {
+  "P1 pooled - isolated >= 0.15": {
+   "value": 0.015663833792082933,
+   "holds": false
+  },
+  "P2 aged removes >= half the gap": {
+   "value": 7.50257441278872,
+   "holds": true
+  },
+  "P3 shared notebook restores >= half": {
+   "value": 0.3801633986928104,
+   "holds": false
+  },
+  "P5 isolated above solo": {
+   "value": 0.02018793426947079,
+   "holds": true
+  }
+ }
+}

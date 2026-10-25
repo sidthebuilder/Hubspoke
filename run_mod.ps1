@@ -1,6 +1,6 @@
 # Runs `python -m <module> <args>` with the project venv; console output goes to mod_<module>_<PID>_log.txt.
 # Example: run_mod.ps1 hubspoke.round2 startlow startlow main
-$here = "d:\we make devs\apart\hubspoke"
+$here = $PSScriptRoot  # the repository folder
 $vpy = Join-Path $here ".venv\Scripts\python.exe"
 Set-Location $here
 $env:PYTHONIOENCODING = "utf-8"

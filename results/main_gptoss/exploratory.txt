@@ -1,0 +1,11 @@
+Exploratory descriptives (main_gptoss); means over runs, 95% bootstrap CI for 'change'
+solo            start +0.546  p1_5 +0.384  p26_40 -0.012  change -0.558  moves +0.051  frozen +0.283  gap +0.059  hold_words n/a  change CI -0.658 to -0.457
+chat            start +0.546  p1_5 +0.294  p26_40 -0.052  change -0.598  moves +0.062  frozen +0.311  gap +0.073  hold_words n/a  change CI -0.715 to -0.500
+isolated        start +0.546  p1_5 +0.263  p26_40 +0.009  change -0.538  moves +0.032  frozen +0.375  gap +0.037  hold_words +0.283  change CI -0.645 to -0.422
+pooled          start +0.546  p1_5 +0.264  p26_40 +0.024  change -0.522  moves +0.034  frozen +0.403  gap +0.055  hold_words +0.408  change CI -0.635 to -0.395
+aged            start +0.546  p1_5 +0.290  p26_40 -0.093  change -0.640  moves +0.043  frozen +0.344  gap +0.052  hold_words +0.175  change CI -0.750 to -0.534
+aged_sharedmem  start +0.546  p1_5 +0.287  p26_40 -0.049  change -0.595  moves +0.027  frozen +0.419  gap +0.048  hold_words +0.292  change CI -0.702 to -0.481
+portfolio       start +0.546  p1_5 +0.328  p26_40 +0.077  change -0.469  moves +0.045  frozen +0.383  gap +0.071  hold_words +0.214  change CI -0.625 to -0.295
+change, isolated - solo: +0.020 (CI -0.128 to +0.174)
+isolated runs that end above their own pre-period level by > 0.02: 0/12; solo: 0/12
+exploratory: price parallelism (-gap) separates pooled from isolated with AUROC 0.39 (CI 0.18 to 0.63)

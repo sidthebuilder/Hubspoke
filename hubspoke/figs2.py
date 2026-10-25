@@ -182,8 +182,61 @@ def fig_starts(path: Path) -> None:
     plt.close(fig)
 
 
+def fig_conditions(path: Path) -> None:
+    """Price index by condition (mean and 95% bootstrap CI over 12 runs), one marker per model."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    from . import stats
+
+    models = [("Qwen2.5-72B", "main", "C0", "o"), ("Llama-3.1-70B", "main_llama", "C1", "s"),
+              ("gpt-oss-120b", "main_gptoss", "C2", "^")]
+    conds = [("solo", "no advisor (solo)"), ("chat", "sellers can talk (chat, +control)"),
+             ("isolated", "shared advisor, data kept apart (isolated)"), ("pooled", "advisor sees both firms' data (pooled)"),
+             ("aged", "only old rival data (aged)"), ("aged_sharedmem", "old data + shared notebook"),
+             ("portfolio", "told to maximise joint profit (portfolio, +control)"),
+             ("separate", "one advisor per firm (separate, exploratory)")]
+    have = []
+    for name, folder, col, mk in models:
+        p = RESULTS / folder / "numbers.json"
+        if p.exists():
+            n = json.loads(p.read_text(encoding="utf-8"))
+            ex = RESULTS / folder / "exploratory.json"
+            have.append((name, n, json.loads(ex.read_text(encoding="utf-8")) if ex.exists() else {}, col, mk))
+    if not have:
+        return
+    fig, ax = plt.subplots(figsize=(7.4, 3.9))
+    k = len(have)
+    for i, (name, n, ex, col, mk) in enumerate(have):
+        for j, (c, _) in enumerate(conds):
+            y = len(conds) - 1 - j + (i - (k - 1) / 2) * 0.22
+            v = n["summary"]["conditions"].get(c)
+            if v:
+                m, (lo, hi) = v["index_mean"], v["index_ci"]
+            elif c == "separate" and "separate" in ex:
+                xs = [r["p26_40"] for r in ex["separate"]["runs"]]
+                m, (lo, hi) = stats.mean(xs), stats.bootstrap_mean_ci(xs, seed=1)
+            else:
+                continue
+            ax.plot([lo, hi], [y, y], color=col, lw=1.1)
+            ax.plot([m], [y], mk, color=col, ms=5, label=name if j == 0 else None)
+    ax.axvline(0, color="black", lw=0.6)
+    ax.set_ylim(-0.6, len(conds) - 0.4)
+    ax.text(0.008, -0.5, "Nash price", fontsize=7, color="0.25")
+    ax.set_yticks(range(len(conds)), [lab for _, lab in reversed(conds)], fontsize=7.5)
+    ax.set_xlabel("price index, periods 26-40 (0 = Nash, 1 = joint profit)\nmean and 95% bootstrap CI over 12 runs", fontsize=8)
+    ax.set_title("Price index by condition and model", fontsize=9)
+    ax.legend(fontsize=7, frameon=False, loc="upper center", bbox_to_anchor=(0.4, -0.2), ncol=len(have))
+    ax.grid(axis="x", lw=0.3, alpha=0.5)
+    fig.tight_layout()
+    fig.savefig(path, dpi=200, bbox_inches="tight")
+    plt.close(fig)
+
+
 def main() -> int:
     figs = RESULTS / "figures"
+    fig_conditions(figs / "fig0_conditions.png")
     if (RESULTS / "startlow").exists() or (RESULTS / "startlow_llama").exists():
         fig_starts(figs / "fig1_starts.png")
     data = _load()

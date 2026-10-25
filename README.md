@@ -22,7 +22,9 @@ The report is in `report/`. Pre-registration and every change to it, with times:
 
 Market: logit-demand Bertrand duopoly of Calvano et al. (2020), as used by Fish et al. (2024); price index
 0 = one-shot Nash price, 1 = joint-profit price. 12 seeds per condition, 40 periods, outcome = mean price index
-over periods 26-40. Every role in a run uses the same model, temperature 0.7, on vLLM 0.21.0 and one H100 on Modal:
+over periods 26-40. Every role in a run (both sellers and the advisor) uses the same model, temperature 0.7, on
+vLLM 0.21.0 and one H100 on Modal. The disclosure judge (round 2) is Qwen2.5-72B at temperature 0 for every
+model's notes.
 
 | model (pinned Hugging Face revision) | results |
 |---|---|
@@ -38,6 +40,7 @@ Replaying from the cache reproduces every run exactly.
 python -m venv .venv
 .venv\Scripts\python -m pip install -r requirements.txt     (Linux/macOS: .venv/bin/python)
 .venv\Scripts\python cache_io.py import                      restores results/cache.sqlite from the export
+.venv\Scripts\python cache_io.py check                       confirms the database matches the export exactly
 powershell -File finalize.ps1                                every step below, in order (log: finalize_log.txt)
 ```
 The steps, one python command each (set `HUBSPOKE_OFFLINE=1` first so no model is ever called):

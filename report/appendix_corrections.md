@@ -35,9 +35,9 @@ Round 2 (25 Oct, IST):
 10. **A registered statement we departed from.** The Llama registration said the replication would never be
     pooled with the main results. Two exploratory checks average over Qwen and Llama (robust.py); they are
     labelled as a departure, and every registered test is reported per model.
-11. **An interrupted run (01:16-10:45).** The author's computer shut down overnight during the gpt-oss main run
-    (10 of 84 runs done). The run was resumed with the same command; interrupted games replayed their cached
-    replies first, so nothing was re-sampled. The run was blind throughout.
+11. **An interrupted run (01:16-10:45).** The local machine that drives the runs went offline overnight during
+    the gpt-oss main run (10 of 84 runs done). The run was resumed with the same command; interrupted games
+    replayed their cached replies first, so nothing was re-sampled. The run was blind throughout.
 12. **A dropped exploratory metric.** explore.py measured how often the advisor's private reasoning named the
     other firm (Qwen: isolated 0.81, pooled 0.43, aged 0.95, aged + shared notebook 0.71, portfolio 0.50,
     separate 0.87). Every advisor sees the rival's posted price, so naming the rival says nothing about the use
@@ -47,3 +47,6 @@ Round 2 (25 Oct, IST):
     registered measure and tests are unchanged.
 14. **Our own predictions.** Kiro's start-low prediction (inertia, p = 0.65) was wrong on both models. Every
     prediction and its outcome, with a Brier score, is in Appendix D (report/appendix_predictions.md).
+15. **A blinding slip (11:46).** With about 62 of 84 gpt-oss runs finished, an exploratory script computed paired
+    tests on them and the AI assistant read the interim values (logged in PREREGISTRATION.md). No analysis choice
+    changed afterwards; the scripts now refuse to read a run until it is complete.

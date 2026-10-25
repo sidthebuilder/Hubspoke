@@ -281,4 +281,42 @@ def test_audit_tool_scores_sessions(tmp_path):
     assert s["price"]["exact_probe"] == 2 and s["price"]["exact_control"] == 0
     assert s["price"]["judged_probe"] == 4 and s["price"]["judged_control"] == 0
     assert s["price"]["price_shift_mean"] > 0 and s["code"]["verdict"].startswith("LEAK")
+    assert s["price"]["verdict"].startswith("no leak")  # 4/6 vs 0/6 (Fisher p 0.06) and 6 shifts (p 0.125)
     assert not audit.exact("charge $6.315", "price", "$6.31")
+
+
+def test_robust_reads_only_complete_runs(tmp_path, monkeypatch):
+    from hubspoke import robust
+
+    monkeypatch.setattr(robust, "RESULTS", tmp_path)
+    d = tmp_path / "main_x"
+    d.mkdir()
+    for i in range(83):
+        (d / f"solo-s{i}.json").write_text("{}", encoding="utf-8")
+    assert not robust._complete("main_x")  # a blind run is not read until all 84 runs are on disk
+    (d / "solo-s83.json").write_text("{}", encoding="utf-8")
+    assert robust._complete("main_x") and not robust._complete("missing_folder")
+
+
+def test_cache_export_round_trip_and_check(tmp_path, monkeypatch):
+    import importlib.util
+    import sqlite3
+    from pathlib import Path
+
+    spec = importlib.util.spec_from_file_location("cache_io", Path(__file__).resolve().parents[1] / "cache_io.py")
+    cio = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cio)
+    db_path, gz_path = tmp_path / "c.sqlite", tmp_path / "c.jsonl.gz"
+    monkeypatch.setattr(cio, "DB", db_path)
+    monkeypatch.setattr(cio, "GZ", gz_path)
+    db = sqlite3.connect(str(db_path))
+    db.execute("CREATE TABLE replies (key TEXT PRIMARY KEY, value TEXT NOT NULL)")
+    db.executemany("INSERT INTO replies VALUES (?, ?)", [("a", '{"text": "x", "ts": 1}'), ("b", '{"text": "y", "ts": 2}')])
+    db.commit()
+    db.close()
+    assert cio.export() == 0 and cio.check() == 0
+    db = sqlite3.connect(str(db_path))
+    db.execute("UPDATE replies SET value = ? WHERE key = 'b'", ('{"text": "changed", "ts": 2}',))
+    db.commit()
+    db.close()
+    assert cio.check() == 1

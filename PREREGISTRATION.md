@@ -257,14 +257,26 @@ raises prices" from "advice stops prices falling". Round 2 tests both questions,
   (inertia, p = 0.65) was wrong. Every condition except Qwen's `separate` stayed below the Nash price.
 - **Exploratory, added 01:08 after seeing the start-low results:** the same contrast averaged over the two models
   (stratified bootstrap and permutation, robust.py), and a figure of both starts.
-- **Deviation, noted 25 Oct 11:00:** the Llama registration (24 Oct, 20:20) says the replication is "never pooled"
-  with the main results. The cross-model averages in robust.py (H1 and the start-low contrast, averaged over Qwen
-  and Llama) do pool them. They are exploratory, labelled as a departure in results/robust.md, and every
-  registered test stays per model.
-- 01:16 the gpt-oss main run stopped when the author's computer shut down overnight, with 10 of 84 runs complete
-  and every reply up to then in the cache. 10:45 it was resumed with the same command: finished runs were skipped,
-  and interrupted games replayed their stored replies from the cache before making new calls (the cache key is the
-  full prompt, so a resumed game is the game that would have been played without the interruption, given those
-  replies). No outcome had been looked at (the run is blind).
+- 01:16 the gpt-oss main run stopped when the local machine that drives the runs went offline overnight, with 10
+  of 84 runs complete and every reply up to then in the cache. 10:45 it was resumed with the same command:
+  finished runs were skipped, and interrupted games replayed their stored replies from the cache before making
+  new calls (the cache key is the full prompt, so a resumed game is the game that would have been played without
+  the interruption, given those replies). No outcome had been looked at (the run is blind).
 - 10:50 dropped the exploratory descriptive "reason_mentions_other" from explore.py (see
   report/appendix_corrections.md). Added independent recomputation of the round-2 numbers to verify.py.
+- **Deviation, noted 11:00:** the Llama registration (24 Oct, 20:20) says the replication is "never pooled" with
+  the main results. The cross-model averages in robust.py (H1 and the start-low contrast, averaged over Qwen and
+  Llama) do pool them. They are exploratory, labelled as a departure in results/robust.md, and every registered
+  test stays per model.
+- **Blinding slip, 11:46.** While the gpt-oss run was still going (about 62 of 84 runs done), Kiro re-ran the exploratory
+  robust.py to refresh its text; the script included every model folder it found, so it computed paired tests on
+  the finished gpt-oss runs and Kiro read them: H1 +0.056 (6 seed pairs), H2 -0.084 (4), H3 +0.058 (6), H4 +0.007
+  (11). Nothing was changed after this: the registered analysis of R2.4 is fixed, and the remaining runs were
+  already playing with fixed prompts. Fixed at 11:48: robust.py and finalize.ps1 now read a main run only when all
+  84 runs are on disk, and a canary-v2 folder only when all 12 jobs are.
+- 12:07 gpt-oss main run complete: 84 of 84 runs. The resumed pass made 6,192 new calls and replayed 4,723 from
+  the cache, with 1 retry. 12:07 canary v2 on gpt-oss started. 12:09 the registered analysis (H1-H4 and the
+  coordination check) was run on the complete run, before canary v2 finished. Registered results: H4 isolated -
+  solo +0.02 (p 0.77), H1 +0.02 (p 0.42), H2 -0.12 (p 0.066), H3 +0.04 (p 0.27); coordination check portfolio -
+  isolated +0.07, below 0.15, so gpt-oss-120b does not count as a capable hub and its H1-H3 are not read as tests
+  of one. Both positive controls stayed near Nash (chat -0.05, portfolio +0.08).

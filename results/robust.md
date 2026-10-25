@@ -14,9 +14,11 @@
 | Llama-3.1-70B | H4 isolated vs solo | 12 | +0.444 (+0.251 to +0.641) | 0.0015 |
 
 ## stratified H1 (Qwen + Llama): pooled - isolated, averaged over models
+Exploratory, and a departure from the registration, which said the replication would be reported beside the main results and never pooled with them. The per-model tests above are the registered ones.
 Estimate -0.067 (95% CI -0.227 to +0.093); one-sided 95% upper bound +0.066; stratified permutation p (greater) 0.7833.
 
 ## stratified H5, start-low isolated - solo (Qwen + Llama): isolated - solo, averaged over models
+Exploratory, and a departure from the registration, which said the replication would be reported beside the main results and never pooled with them. The per-model tests above are the registered ones.
 Estimate +0.180 (95% CI +0.063 to +0.296); one-sided 95% upper bound +0.279; stratified permutation p (two-sided) 0.0055.
 
 ## Excess raise: B's advice shift vs the best-response shift to A's planned price (index units)

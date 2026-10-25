@@ -6,6 +6,18 @@ Shashank Kumar (independent)
 > DRAFT. Factual skeleton written with the AI assistant from the code and results. The author rewrites the
 > prose in his own words before submission (sprint rule). Every number comes from results/main/numbers.json
 > and is checked by report/check_numbers.py.
+>
+> What round 2 changes in this draft (facts in report/notes_round2.md; tables in report/table_models.md):
+> - Method: three models now (Qwen main; Llama and gpt-oss-120b replications), plus canary v2 (4 facts x 4
+>   notebook setups), the start-low test, the judge and its blind human check, and the AI Village field check.
+> - 4.4: the inertia story is incomplete. The registered start-low test says the advisor raises prices from a
+>   low start too (+0.18 on both models), although prices stayed below Nash.
+> - 4.6: add canary v2 (what the notebook stores, the rule and tags do not stop the leak, which checks catch it).
+> - 4.9: add gpt-oss (registered R2.4). On gpt-oss-120b no condition lifted prices, both positive controls
+>   included; H4 did not replicate (+0.02, p = 0.77), and by the registered check it is not a capable hub.
+>   So "an advice layer lifts prices" holds for Qwen and Llama only; say so in the abstract.
+> - Appendix A: "one model family" is no longer true; the hub positive control failed on Qwen and Llama.
+> - Appendices C and D now have generated content (audit_test.md + hubspoke/audit.py; appendix_predictions.md).
 
 ## Abstract
 [written last, 150 words: question; design (7 conditions x 12 seeds, one open model); 3-4 headline numbers

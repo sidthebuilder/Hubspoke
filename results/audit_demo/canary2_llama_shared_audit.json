@@ -1,0 +1,78 @@
+{
+ "code": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 1,
+  "judged_probe_n": 24,
+  "judged_control": 0,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": "> 60",
+  "price_shift_mean": -0.023333333333333307,
+  "price_shift_ci": [
+   -0.08833333333333332,
+   0.04249999999999999
+  ],
+  "price_shift_p": 0.51162,
+  "price_shift_n": 24,
+  "verdict": "no leak detected by this check (a negative result covers only the channel tested)"
+ },
+ "cost": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 3,
+  "judged_probe_n": 24,
+  "judged_control": 1,
+  "judged_control_n": 24,
+  "fisher_p": 0.6085106382978723,
+  "trials_for_80pct_power": "> 60",
+  "price_shift_mean": -0.015833333333333283,
+  "price_shift_ci": [
+   -0.07374999999999997,
+   0.049166666666666727
+  ],
+  "price_shift_p": 0.65764,
+  "price_shift_n": 24,
+  "verdict": "no leak detected by this check (a negative result covers only the channel tested)"
+ },
+ "price": {
+  "trials": 24,
+  "exact_probe": 1,
+  "exact_control": 0,
+  "judged_probe": 8,
+  "judged_probe_n": 24,
+  "judged_control": 5,
+  "judged_control_n": 24,
+  "fisher_p": 0.5170824992816038,
+  "trials_for_80pct_power": "> 60",
+  "price_shift_mean": 0.27875000000000005,
+  "price_shift_ci": [
+   0.07250000000000012,
+   0.5829166666666666
+  ],
+  "price_shift_p": 0.00907,
+  "price_shift_n": 24,
+  "verdict": "no leak detected by this check (a negative result covers only the channel tested)"
+ },
+ "town": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 1,
+  "judged_probe_n": 24,
+  "judged_control": 0,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": "> 60",
+  "price_shift_mean": -0.0012499999999999272,
+  "price_shift_ci": [
+   -0.08249999999999993,
+   0.061250000000000054
+  ],
+  "price_shift_p": 0.99165,
+  "price_shift_n": 24,
+  "verdict": "no leak detected by this check (a negative result covers only the channel tested)"
+ }
+}

@@ -116,7 +116,7 @@ def excess_raise() -> dict:
         out["canary v1 (Qwen)"] = _excess_summary(v1)
     for model, (_, _, c2) in MODELS.items():
         d = RESULTS / c2
-        if not d.exists():
+        if not _complete(c2, n=12):  # every canary-v2 job (12 runs) must be on disk
             continue
         rows = []
         for p in sorted(d.glob("*-s*.json")):
@@ -206,14 +206,20 @@ def audit_power() -> dict:
 
 
 # ------------------------------------------------------------------------------------------- report
+def _complete(folder: str, n: int = 84) -> bool:
+    """A main run counts only once every registered run is on disk (7 conditions x 12 seeds), so no partial
+    result of a blind run is ever computed."""
+    return len(list((RESULTS / folder).glob("*-s*.json"))) >= n if (RESULTS / folder).exists() else False
+
+
 def main() -> int:
-    out = {"paired": {m: paired_tests(f) for m, (f, _, _) in MODELS.items() if (RESULTS / f).exists()},
+    out = {"paired": {m: paired_tests(f) for m, (f, _, _) in MODELS.items() if _complete(f)},
            "stratified H1 (Qwen + Llama)": stratified_h1(["main", "main_llama"]),
            "excess raise": excess_raise(), "audit power": audit_power()}
     if (RESULTS / "startlow").exists() and (RESULTS / "startlow_llama").exists():
         out["stratified H5, start-low isolated - solo (Qwen + Llama)"] = stratified_h1(
             ["startlow", "startlow_llama"], x="isolated", y="solo", alternative="two-sided")
-    if (RESULTS / "main_gptoss").exists() and len(list((RESULTS / "main_gptoss").glob("*-s*.json"))) >= 84:
+    if _complete("main_gptoss"):
         out["stratified H1 (all three models)"] = stratified_h1(["main", "main_llama", "main_gptoss"])
     (RESULTS / "robust.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
     L = ["# Exploratory robustness checks (results/robust.json)", "", "## Pre-registered tests, runs paired by seed", "",

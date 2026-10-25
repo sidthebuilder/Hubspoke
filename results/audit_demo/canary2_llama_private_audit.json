@@ -1,0 +1,78 @@
+{
+ "code": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 0,
+  "judged_probe_n": 24,
+  "judged_control": 0,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": null,
+  "price_shift_mean": -0.004999999999999875,
+  "price_shift_ci": [
+   -0.09833333333333329,
+   0.08541666666666681
+  ],
+  "price_shift_p": 0.92346,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ },
+ "cost": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 5,
+  "judged_probe_n": 24,
+  "judged_control": 1,
+  "judged_control_n": 24,
+  "fisher_p": 0.18819066468744847,
+  "trials_for_80pct_power": 54,
+  "price_shift_mean": 0.043333333333333474,
+  "price_shift_ci": [
+   -0.04708333333333326,
+   0.13833333333333345
+  ],
+  "price_shift_p": 0.39303,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ },
+ "price": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 4,
+  "judged_probe_n": 24,
+  "judged_control": 5,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": null,
+  "price_shift_mean": -0.0266666666666666,
+  "price_shift_ci": [
+   -0.11625,
+   0.0516666666666667
+  ],
+  "price_shift_p": 0.58776,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ },
+ "town": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 0,
+  "judged_probe_n": 24,
+  "judged_control": 0,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": null,
+  "price_shift_mean": 0.04208333333333325,
+  "price_shift_ci": [
+   -0.00041666666666675956,
+   0.08666666666666652
+  ],
+  "price_shift_p": 0.078,
+  "price_shift_n": 24,
+  "verdict": "no leak detected (a negative result covers only the channel and the fact tested)"
+ }
+}
