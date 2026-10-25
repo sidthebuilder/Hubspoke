@@ -1,4 +1,4 @@
-"""Round-2 analyses as registered in PREREGISTRATION.md, R2.1-R2.4 (commit d2dbc03, 25 Oct 00:10 IST), plus a few
+"""Round-2 analyses as registered in PREREGISTRATION.md, R2.1-R2.4 (commit d2dbc03, 25 Oct 00:06 IST), plus a few
 extras labelled exploratory. Written during the sprint. Offline: reads result files only, never calls a model.
 
     python -m hubspoke.round2 startlow <folder> [<start-high folder>]  -> results/<folder>/round2.json and .md

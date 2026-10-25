@@ -4,6 +4,8 @@
 
 Shashank Kumar. Produced during the Apart Research AI Collusion Research Sprint, 23-25 October 2026.
 
+**Report (PDF): [Advice, Not Data](report/paper/main.pdf)**
+
 This repository holds the code, the data and every model reply behind the sprint report. Every result can be
 rebuilt from it offline, with no GPU and no API key; the one exception is the AI Village field check, whose
 dataset is not re-hosted here.
@@ -119,6 +121,7 @@ rater, the gpt-oss replication, and a descriptive check of the AI Village datase
 | `results/verify_*.txt` | output of the offline rebuild check, one file per result folder |
 | `results/figures/` | figures |
 | `results/pilot*` | the pilots that fixed the design (see `PREREGISTRATION.md`) |
+| `report/paper/` | the report: `main.pdf`, its LaTeX source `main.tex`, `make_figures.py` (figures from `results/`), `check_text.py` (traces every number in the text to a result file) and `build.ps1` |
 | `report/` | generated tables and appendices (`table_models.md`, `prompts_appendix.md`, `appendix_predictions.md`), the audit test, the corrections log, the hand-check instructions, and the scripts that generate the tables |
 | `modal_serve.py`, `modal_deploy.py`, `modal_secret.py` | the vLLM server on Modal |
 | `finalize.ps1`, `cache_io.py` | the full offline rebuild; moving the reply cache in and out of git |
@@ -154,6 +157,9 @@ python report/table_models.py                        the main tables, all models
 python report/predictions_table.py                   every dated prediction and how it resolved
 python -m hubspoke verify --src main                 replay from the cache and recompute (every folder; also --src judge)
 ```
+
+The report PDF is rebuilt with `powershell -File report/paper/build.ps1` (needs a LaTeX install with pdflatex);
+`python report/paper/check_text.py` lists any number in its text that no result file contains.
 
 `verify` refuses to call a model: a reply missing from the cache is an error. It replays every run and
 instrument from the stored replies, checks that the result files follow from them, and recomputes the

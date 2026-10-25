@@ -33,3 +33,9 @@ report/notes_for_writing.md
 report/notes_round2.md
 report/appendix_ai_use.md
 report/appendix_limits.md
+# LaTeX build files for the report (the PDF and its sources are tracked)
+report/paper/*.aux
+report/paper/*.log
+report/paper/*.out
+report/paper/pass*.txt
+report/paper/main_plain.txt

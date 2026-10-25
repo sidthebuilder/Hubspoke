@@ -1,4 +1,4 @@
-"""Canary v2 (round 2, R2.1, registered 25 Oct 00:10 IST): what a shared notebook carries between competing
+"""Canary v2 (round 2, R2.1, registered 25 Oct 00:06 IST, commit d2dbc03): what a shared notebook carries between competing
 clients, and whether a confidentiality rule or owner tags stop it. Written during the sprint.
 
 Every trial starts from a logged aged_sharedmem state (Firm A's and Firm B's advisor inputs at period 30 or 36),
