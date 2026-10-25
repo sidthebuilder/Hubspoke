@@ -2,7 +2,7 @@
 
 Do sheet 1 first. It decides whether the LLM judge can be trusted (registered in PREREGISTRATION.md, R2.2).
 Until both sheets are done, do not open: either `_key.csv` file, `results/judged.json`,
-`results/judge_validation.*`, `results/canary2*/round2.*` or `report/notes_round2.md`. They hold the arm, the
+`results/judge_validation.*` or `results/canary2*/round2.*`. They hold the arm, the
 rule's label or the judge's verdicts, so looking would un-blind you. Edit only the last column, then save as CSV
 with the same name (Excel's "CSV UTF-8" or plain "CSV" both work).
 

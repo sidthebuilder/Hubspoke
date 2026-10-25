@@ -119,7 +119,7 @@ rater, the gpt-oss replication, and a descriptive check of the AI Village datase
 | `results/verify_*.txt` | output of the offline rebuild check, one file per result folder |
 | `results/figures/` | figures |
 | `results/pilot*` | the pilots that fixed the design (see `PREREGISTRATION.md`) |
-| `report/` | generated tables and appendices (`table_models.md`, `prompts_appendix.md`, `appendix_predictions.md`), the audit test, the corrections log, working notes and drafts |
+| `report/` | generated tables and appendices (`table_models.md`, `prompts_appendix.md`, `appendix_predictions.md`), the audit test, the corrections log, the hand-check instructions, and the scripts that generate the tables |
 | `modal_serve.py`, `modal_deploy.py`, `modal_secret.py` | the vLLM server on Modal |
 | `finalize.ps1`, `cache_io.py` | the full offline rebuild; moving the reply cache in and out of git |
 | `scripts/` | the commands used to run, deploy and analyse |
