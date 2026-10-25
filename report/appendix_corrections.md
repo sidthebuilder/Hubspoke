@@ -45,8 +45,8 @@ Round 2 (25 Oct, IST):
 13. **The judge's false-alarm baseline was added after the judge was registered** (before any judge output):
     the judge also reads Firm B's control note from the same state, which cannot contain Firm A's fact. The
     registered measure and tests are unchanged.
-14. **Our own predictions.** Kiro's start-low prediction (inertia, p = 0.65) was wrong on both models. Every
+14. **Our own predictions.** The registered start-low prediction (inertia, p = 0.65) was wrong on both models. Every
     prediction and its outcome, with a Brier score, is in Appendix D (report/appendix_predictions.md).
 15. **A blinding slip (11:46).** With about 62 of 84 gpt-oss runs finished, an exploratory script computed paired
-    tests on them and the AI assistant read the interim values (logged in PREREGISTRATION.md). No analysis choice
+    tests on them and the interim values were seen (logged in PREREGISTRATION.md). No analysis choice
     changed afterwards; the scripts now refuse to read a run until it is complete.

@@ -30,5 +30,5 @@ value, allowing rounding to 1 decimal), `0` if not.
 
 ## After you finish
 
-Tell Kiro "sheets done". The analysis then reports judge-human agreement and Cohen's kappa (sheet 1), and
+Then run `python -m hubspoke.round2 judge`. The analysis reports judge-human agreement and Cohen's kappa (sheet 1), and
 rule-human agreement (sheet 2), including which way the disagreements go.

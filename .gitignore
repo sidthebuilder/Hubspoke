@@ -26,3 +26,10 @@ hc_count.txt
 logs_list.txt
 modal_logs_*.txt
 *_out.txt
+# working drafts for the report (kept locally, not part of the repository)
+report/draft.md
+report/abstract_draft.md
+report/notes_for_writing.md
+report/notes_round2.md
+report/appendix_ai_use.md
+report/appendix_limits.md

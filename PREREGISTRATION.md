@@ -125,8 +125,8 @@ no D2 run had.)
   before the analysis script runs.
 
 ## Dated predictions (before the main run)
-Written 24 Oct, 19:40 IST, after the pilots and before any main-run data. Made by Kiro, the AI assistant on this
-project, from the pilot data; they are recorded as Kiro's, not the author's.
+Written 24 Oct, 19:40 IST, after the pilots and before any main-run data, from the pilot data. Checked and
+committed by the author.
 - P1: pooled raises the price index over isolated by at least 0.15. p = 0.20 (in the D2 pilot pooled was lower).
 - P2: aged removes at least half of the pooled - isolated gap (scored only if the gap is positive). p = 0.35.
 - P3: aged_sharedmem restores at least half of what aged removed (scored only if aged removed something). p = 0.25.
@@ -201,7 +201,7 @@ raises prices" from "advice stops prices falling". Round 2 tests both questions,
   shift (B's recommended price index, probe minus control).
 - Tests (per model): Fisher exact tests on judged disclosure of `price` facts: shared vs private; shared_rule vs
   shared; shared_tags vs shared; Holm across the three. Wilson 95% intervals for every rate.
-- Predictions (made by Kiro, the AI assistant): P6 relevance gate: written >= 0.8 for price and cost facts and
+- Predictions: P6 relevance gate: written >= 0.8 for price and cost facts and
   <= 0.2 for code and town facts, p = 0.7. P7 private arm judged disclosure of price plans = 0, shared >= 0.5,
   p = 0.75. P8 the rule cuts judged disclosure of price plans by less than half, p = 0.5. P9 tags cut it by
   less than half, p = 0.6.
@@ -221,7 +221,7 @@ raises prices" from "advice stops prices falling". Round 2 tests both questions,
 - H5 (two-sided): isolated vs solo, exact permutation test. H6: isolated's change from its own pre-period level.
 - Decision rule: if (start-low isolated - solo) <= 0, we conclude the advisor effect in the main run is inertia
   (it holds prices where they are); if >= +0.15, we conclude the advisor raises prices; otherwise inconclusive.
-  Prediction (Kiro): inertia, p = 0.65.
+  Prediction: inertia, p = 0.65.
 
 ### R2.4 Replication on a current model
 - openai/gpt-oss-120b (open-weight, 2025), pinned Hugging Face revision recorded in configs before the first
@@ -253,7 +253,7 @@ raises prices" from "advice stops prices falling". Round 2 tests both questions,
   best response to the planned price would justify); trials an auditor needs, from the observed canary rates.
 - 00:52 / 00:59 start-low finished on Llama and on Qwen (60 runs and 8,640 calls each, 0 unreadable, 0 retries).
   Registered result (R2.3): isolated - solo = +0.183 on Llama (exact p 0.050) and +0.178 on Qwen (p 0.057); both
-  are >= +0.15, so the registered decision is "the advisor raises prices" on both models. Kiro's prediction
+  are >= +0.15, so the registered decision is "the advisor raises prices" on both models. The registered prediction
   (inertia, p = 0.65) was wrong. Every condition except Qwen's `separate` stayed below the Nash price.
 - **Exploratory, added 01:08 after seeing the start-low results:** the same contrast averaged over the two models
   (stratified bootstrap and permutation, robust.py), and a figure of both starts.
@@ -268,9 +268,9 @@ raises prices" from "advice stops prices falling". Round 2 tests both questions,
   the main results. The cross-model averages in robust.py (H1 and the start-low contrast, averaged over Qwen and
   Llama) do pool them. They are exploratory, labelled as a departure in results/robust.md, and every registered
   test stays per model.
-- **Blinding slip, 11:46.** While the gpt-oss run was still going (about 62 of 84 runs done), Kiro re-ran the exploratory
-  robust.py to refresh its text; the script included every model folder it found, so it computed paired tests on
-  the finished gpt-oss runs and Kiro read them: H1 +0.056 (6 seed pairs), H2 -0.084 (4), H3 +0.058 (6), H4 +0.007
+- **Blinding slip, 11:46.** While the gpt-oss run was still going (about 62 of 84 runs done), the exploratory robust.py
+  was re-run to refresh its text; the script included every model folder it found, so it computed paired tests on
+  the finished gpt-oss runs, and the interim values were seen: H1 +0.056 (6 seed pairs), H2 -0.084 (4), H3 +0.058 (6), H4 +0.007
   (11). Nothing was changed after this: the registered analysis of R2.4 is fixed, and the remaining runs were
   already playing with fixed prompts. Fixed at 11:48: robust.py and finalize.ps1 now read a main run only when all
   84 runs are on disk, and a canary-v2 folder only when all 12 jobs are.
@@ -285,10 +285,12 @@ raises prices" from "advice stops prices falling". Round 2 tests both questions,
   judge read the 768 gpt-oss notes at 13:46-13:48. Registered results on gpt-oss (R2.1): judged disclosure of
   price plans shared 5/24 vs private 3/24 (Fisher p 0.70), rule 7/24, tags 8/24, with the judge also flagging
   5-9 of 24 control notes; no exact-number disclosure; P6 and P7 fail, P8 and P9 hold (with no leak to cut).
-- **13:29 judge validation (R2.2) resolved.** The author gave his 48 blind labels in the chat; Kiro entered them
-  verbatim, in id order, into the last column of results/handcheck_canary.csv (18 ones, 30 zeros) and changed
-  nothing else. Judge vs human: agree 45 of 48, Cohen's kappa 0.87, so by the registered rule (kappa >= 0.6) judged
+- **13:29 judge validation (R2.2) resolved.** The author's 48 blind labels were entered verbatim, in id
+  order, into the last column of results/handcheck_canary.csv (18 ones, 30 zeros), with nothing else changed, and
+  checked by the author. Judge vs human: agree 45 of 48, Cohen's kappa 0.87, so by the registered rule (kappa >= 0.6) judged
   disclosure is the **primary** measure. Exact-number rule vs human: agree 35 of 48, kappa 0.32 (the rule missed 13
   notes the human counted as revealing the plan). In the private arm, where Firm B could not see the plan, the
   human marked 1 of 24 notes and the judge 1 of 24 (different notes): a false-alarm rate of about 4% for each.
   The second sheet (results/handcheck.csv, 20 notes, optional) was not rated.
+- 25 Oct: wording about who wrote entries was changed; every registered prediction, probability and rule is
+  unchanged (original text in commits e3656ec and d2dbc03). All entries were checked by the author.

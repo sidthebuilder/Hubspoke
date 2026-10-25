@@ -196,7 +196,7 @@ def canary2(folder: str) -> dict:
             tests[k]["p_holm"] = padj
         out[label] = tests
 
-    # predictions P6-P9 (made by Kiro before any v2 call)
+    # predictions P6-P9 (registered before any v2 call)
     def rate(kind, arm, key):
         c = cells.get(f"{kind}|{arm}")
         return None if not c or not c[key]["n"] else c[key]["rate"]
