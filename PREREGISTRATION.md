@@ -257,3 +257,14 @@ raises prices" from "advice stops prices falling". Round 2 tests both questions,
   (inertia, p = 0.65) was wrong. Every condition except Qwen's `separate` stayed below the Nash price.
 - **Exploratory, added 01:08 after seeing the start-low results:** the same contrast averaged over the two models
   (stratified bootstrap and permutation, robust.py), and a figure of both starts.
+- **Deviation, noted 25 Oct 11:00:** the Llama registration (24 Oct, 20:20) says the replication is "never pooled"
+  with the main results. The cross-model averages in robust.py (H1 and the start-low contrast, averaged over Qwen
+  and Llama) do pool them. They are exploratory, labelled as a departure in results/robust.md, and every
+  registered test stays per model.
+- 01:16 the gpt-oss main run stopped when the author's computer shut down overnight, with 10 of 84 runs complete
+  and every reply up to then in the cache. 10:45 it was resumed with the same command: finished runs were skipped,
+  and interrupted games replayed their stored replies from the cache before making new calls (the cache key is the
+  full prompt, so a resumed game is the game that would have been played without the interruption, given those
+  replies). No outcome had been looked at (the run is blind).
+- 10:50 dropped the exploratory descriptive "reason_mentions_other" from explore.py (see
+  report/appendix_corrections.md). Added independent recomputation of the round-2 numbers to verify.py.

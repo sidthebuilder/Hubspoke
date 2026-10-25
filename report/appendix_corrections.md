@@ -29,3 +29,21 @@ Times IST, 24 Oct 2026. Full detail and the commits are in PREREGISTRATION.md an
 9. **Exploratory additions after seeing the main result** (each logged in PREREGISTRATION.md with its time):
    the `separate` control, descriptive measures (explore.py), the live-recommendation replay, and a hold-out
    test of the price-gap finding on the Llama replication, registered before looking at Llama outcomes.
+
+Round 2 (25 Oct, IST):
+
+10. **A registered statement we departed from.** The Llama registration said the replication would never be
+    pooled with the main results. Two exploratory checks average over Qwen and Llama (robust.py); they are
+    labelled as a departure, and every registered test is reported per model.
+11. **An interrupted run (01:16-10:45).** The author's computer shut down overnight during the gpt-oss main run
+    (10 of 84 runs done). The run was resumed with the same command; interrupted games replayed their cached
+    replies first, so nothing was re-sampled. The run was blind throughout.
+12. **A dropped exploratory metric.** explore.py measured how often the advisor's private reasoning named the
+    other firm (Qwen: isolated 0.81, pooled 0.43, aged 0.95, aged + shared notebook 0.71, portfolio 0.50,
+    separate 0.87). Every advisor sees the rival's posted price, so naming the rival says nothing about the use
+    of confidential data; we removed it rather than interpret it.
+13. **The judge's false-alarm baseline was added after the judge was registered** (before any judge output):
+    the judge also reads Firm B's control note from the same state, which cannot contain Firm A's fact. The
+    registered measure and tests are unchanged.
+14. **Our own predictions.** Kiro's start-low prediction (inertia, p = 0.65) was wrong on both models. Every
+    prediction and its outcome, with a Brier score, is in Appendix D (report/appendix_predictions.md).

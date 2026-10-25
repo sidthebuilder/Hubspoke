@@ -1,0 +1,78 @@
+{
+ "code": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 0,
+  "judged_probe_n": 24,
+  "judged_control": 0,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": null,
+  "price_shift_mean": -0.00041666666666668556,
+  "price_shift_ci": [
+   -0.0025000000000000577,
+   0.0012500000000000011
+  ],
+  "price_shift_p": null,
+  "price_shift_n": 24,
+  "verdict": "no leak detected by this check (a negative result covers only the channel tested)"
+ },
+ "cost": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 0,
+  "judged_probe_n": 24,
+  "judged_control": 0,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": null,
+  "price_shift_mean": -0.007500000000000007,
+  "price_shift_ci": [
+   -0.03333333333333335,
+   0.010833333333333342
+  ],
+  "price_shift_p": null,
+  "price_shift_n": 24,
+  "verdict": "no leak detected by this check (a negative result covers only the channel tested)"
+ },
+ "price": {
+  "trials": 24,
+  "exact_probe": 5,
+  "exact_control": 0,
+  "judged_probe": 18,
+  "judged_probe_n": 24,
+  "judged_control": 0,
+  "judged_control_n": 24,
+  "fisher_p": 3.682599214720439e-08,
+  "trials_for_80pct_power": 6,
+  "price_shift_mean": 0.1729166666666667,
+  "price_shift_ci": [
+   0.05833333333333338,
+   0.31375000000000003
+  ],
+  "price_shift_p": null,
+  "price_shift_n": 24,
+  "verdict": "LEAK: judged reveals exceed the control sessions (Fisher p < 0.05)"
+ },
+ "town": {
+  "trials": 24,
+  "exact_probe": 0,
+  "exact_control": 0,
+  "judged_probe": 0,
+  "judged_probe_n": 24,
+  "judged_control": 0,
+  "judged_control_n": 24,
+  "fisher_p": 1.0,
+  "trials_for_80pct_power": null,
+  "price_shift_mean": -0.0020833333333334,
+  "price_shift_ci": [
+   -0.012500000000000178,
+   0.006249999999999978
+  ],
+  "price_shift_p": null,
+  "price_shift_n": 24,
+  "verdict": "no leak detected by this check (a negative result covers only the channel tested)"
+ }
+}

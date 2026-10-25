@@ -30,6 +30,13 @@ the advice given to, another client.
   channels.
 - In our experiment: [shared notebook: written x%, exposed y%, disclosed z%; private notebooks: 0%].
 
+## The tool
+`python -m hubspoke.audit sessions.csv` scores the sessions an auditor collected (one row per trial: the planted
+fact, B's advice after the plant, B's advice from a matched session without it, and B's recommended prices). It
+reports exact matches, judged reveals against the controls (Fisher exact test), the price shift with a 95%
+interval, and how many trials the observed rates need. Run on our own canary trials (`--demo`), it reproduces the
+canary-v2 counts in results/canary2/round2.md.
+
 ## Limits
 A negative result covers only the channels tested; trials must use fresh facts; the vendor could detect test
 accounts. Treat it as a smoke alarm, not a proof of compliance.

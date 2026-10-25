@@ -16,6 +16,7 @@ MODEL_NAME = os.environ.get("HUBSPOKE_MODEL", "Qwen/Qwen2.5-72B-Instruct-AWQ")
 MODEL_REVISION = os.environ.get("HUBSPOKE_REVISION", "698703eae6604af048a3d2f509995dc302088217")  # pinned HF commit
 SERVED_NAME = os.environ.get("HUBSPOKE_SERVED", "hubspoke-qwen72b")
 APP_NAME = os.environ.get("HUBSPOKE_APP", "hubspoke-vllm")
+MAX_LEN = os.environ.get("HUBSPOKE_MAXLEN", "8192")  # reasoning models need room for their thinking
 VLLM_VERSION = "0.21.0"
 MINUTES = 60
 PORT = 8000
@@ -39,7 +40,7 @@ app = modal.App(APP_NAME)
     volumes={"/root/.cache/huggingface": hf_cache, "/root/.cache/vllm": vllm_cache},
     secrets=[modal.Secret.from_name("hubspoke-vllm")],
     env={"HUBSPOKE_MODEL": MODEL_NAME, "HUBSPOKE_REVISION": MODEL_REVISION, "HUBSPOKE_SERVED": SERVED_NAME,
-         "HUBSPOKE_APP": APP_NAME},
+         "HUBSPOKE_APP": APP_NAME, "HUBSPOKE_MAXLEN": MAX_LEN},
     port=PORT,
     target_concurrency=64,
     unauthenticated=True,  # Modal-level auth off; vLLM itself requires the bearer key on /v1
@@ -50,7 +51,7 @@ class Server:
         import subprocess
 
         cmd = ["vllm", "serve", MODEL_NAME, "--revision", MODEL_REVISION, "--served-model-name", SERVED_NAME,
-               "--host", "0.0.0.0", "--port", str(PORT), "--max-model-len", "8192",
+               "--host", "0.0.0.0", "--port", str(PORT), "--max-model-len", MAX_LEN,
                "--gpu-memory-utilization", "0.92", "--max-num-seqs", "64", "--generation-config", "vllm",
                "--uvicorn-log-level=warning"]
         print("starting:", " ".join(cmd))  # the API key comes from the VLLM_API_KEY env var and is never printed

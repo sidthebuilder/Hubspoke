@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import concurrent.futures as cf
 import csv
+import io
 import json
 import random
 from pathlib import Path
@@ -114,13 +115,42 @@ def write_human_sheet(results: Path, seed: int = 25) -> Path:
     return sheet
 
 
+def read_sheet(path: Path, label_prefix: str = "your_label") -> dict[str, str]:
+    """id -> the rater's label text, from a CSV the rater may have re-saved in Excel or Google Sheets: tolerates a
+    byte-order mark, Windows-1252 encoding, a semicolon delimiter, extra columns and labels such as "1.0"."""
+    raw = path.read_bytes()
+    for enc in ("utf-8-sig", "cp1252"):
+        try:
+            text = raw.decode(enc)
+            break
+        except UnicodeDecodeError:
+            continue
+    first = text.splitlines()[0] if text else ""
+    delim = ";" if first.count(";") > first.count(",") else ","
+    rows = list(csv.reader(io.StringIO(text), delimiter=delim))  # StringIO keeps quoted line breaks inside a cell
+    if not rows:
+        return {}
+    head = [h.strip().lower() for h in rows[0]]
+    col = next((i for i, h in enumerate(head) if h.startswith(label_prefix)), len(head) - 1)
+    out = {}
+    for r in rows[1:]:
+        if not r or not r[0].strip():
+            continue
+        v = r[col].strip() if col < len(r) else ""
+        if v in ("1.0", "1,0"):
+            v = "1"
+        elif v in ("0.0", "0,0"):
+            v = "0"
+        out[r[0].strip()] = v
+    return out
+
+
 def read_human(results: Path) -> dict[str, int]:
-    """key -> human label, for the rows the rater has filled in."""
+    """key -> human label, for the rows the rater has filled in (only 0 and 1 count)."""
     sheet, key = results / "handcheck_canary.csv", results / "handcheck_canary_key.csv"
     if not sheet.exists() or not key.exists():
         return {}
-    with sheet.open(encoding="utf-8") as fh:
-        labels = {r[0]: r[-1].strip() for r in list(csv.reader(fh))[1:]}
+    labels = read_sheet(sheet)
     with key.open(encoding="utf-8") as fh:
         keys = {r[0]: r[1] for r in list(csv.reader(fh))[1:]}
     return {keys[i]: int(v) for i, v in labels.items() if v in ("0", "1") and i in keys}

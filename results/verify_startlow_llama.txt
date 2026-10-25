@@ -58,6 +58,18 @@ ok   replay solo-s6: 40 periods rebuilt from cache
 ok   replay solo-s7: 40 periods rebuilt from cache
 ok   replay solo-s8: 40 periods rebuilt from cache
 ok   replay solo-s9: 40 periods rebuilt from cache
-note: D:\we make devs\apart\hubspoke\results\startlow_llama\numbers.json not found; run `python -m hubspoke analyse --src startlow_llama` first
+ok   start-low isolated: index -0.237679 vs round2.json -0.237679
+ok   start-low isolated: change from pre-periods +0.140335 vs +0.140335
+ok   start-low pooled: index -0.432672 vs round2.json -0.432672
+ok   start-low pooled: change from pre-periods -0.054658 vs -0.054658
+ok   start-low portfolio: index -0.371312 vs round2.json -0.371312
+ok   start-low portfolio: change from pre-periods +0.006702 vs +0.006702
+ok   start-low separate: index -0.292852 vs round2.json -0.292852
+ok   start-low separate: change from pre-periods +0.085162 vs +0.085162
+ok   start-low solo: index -0.420414 vs round2.json -0.420414
+ok   start-low solo: change from pre-periods -0.042400 vs -0.042400
+ok   H5 isolated - solo: +0.182735 vs +0.182735
+ok   H5: p = 0.0500 (scipy, exact) vs 0.0500
+ok   H6: change +0.140335, sign-flip p 0.0049 (brute force) vs +0.140335, 0.0049
 
 0 failure(s); client stats {'calls': 0, 'cached': 8640, 'prompt_tokens': 0, 'completion_tokens': 0, 'retries': 0}

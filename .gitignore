@@ -25,3 +25,4 @@ status_out.txt
 hc_count.txt
 logs_list.txt
 modal_logs_*.txt
+*_out.txt

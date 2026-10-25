@@ -455,8 +455,9 @@ def handcheck_kappa(path: Path) -> dict:
     """Agreement between the rule and the blind human rating, once handcheck.csv's last column is filled."""
     import csv
 
-    with path.open(encoding="utf-8") as fh:
-        human = {row[0]: row[-1].strip() for row in list(csv.reader(fh))[1:]}
+    from .judge import read_sheet
+
+    human = read_sheet(path, label_prefix="your_label")  # tolerant of Excel re-saves (BOM, cp1252, semicolons)
     with path.with_name(path.stem + "_key.csv").open(encoding="utf-8") as fh:
         rule = {row[0]: row[5] for row in list(csv.reader(fh))[1:]}
     ids = [i for i in rule if human.get(i) in ("0", "1")]
@@ -500,10 +501,10 @@ def analyse(results: Path, src: str = "main", lo: int = 26, hi: int = 40) -> dic
         if det:
             fig_detection(det, figs / "fig3_detection.png")
         hc = results / "handcheck.csv"
-        if hc.exists() and handcheck_kappa(hc).get("n"):
-            numbers["handcheck"] = handcheck_kappa(hc)  # never overwrite a filled-in sheet
-        else:
+        if not hc.exists():  # never rewrite an existing sheet: it may hold the rater's labels, or be open in Excel
             handcheck_sheet(runs, lo, hi, hc)
+        elif handcheck_kappa(hc).get("n"):
+            numbers["handcheck"] = handcheck_kappa(hc)
     else:
         numbers["predictions"] = predictions(summary)
     (results / src / "numbers.json").write_text(json.dumps(numbers, indent=1, default=float), encoding="utf-8")

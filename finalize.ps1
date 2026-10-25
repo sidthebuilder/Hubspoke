@@ -1,32 +1,49 @@
-# Wait for the Llama replication and the live replay to finish, then build every result and verify it.
-# Writes finalize_log.txt. Safe to run more than once.
+# Rebuild every table, figure and check from the stored run files and the reply cache, in order. Offline: no model
+# is called (HUBSPOKE_OFFLINE=1, so a missing reply is an error). Windows PowerShell; each step is one python
+# command that runs the same on any OS (see README). Log: finalize_log.txt. Safe to run more than once.
 $here = "d:\we make devs\apart\hubspoke"
 $vpy = Join-Path $here ".venv\Scripts\python.exe"
 $log = Join-Path $here "finalize_log.txt"
 Set-Location $here
 $env:PYTHONIOENCODING = "utf-8"
-function Say($m) { "$(Get-Date -Format s) $m" | Out-File -Append -Encoding utf8 $log }
-Say "start"
-for ($i = 0; $i -lt 120; $i++) {
-    $nl = (Get-ChildItem (Join-Path $here "results\main_llama") -Filter "*-s*.json" -ErrorAction SilentlyContinue).Count
-    $nr = (Get-ChildItem (Join-Path $here "results\livereplay") -Filter "*-s*.json" -ErrorAction SilentlyContinue).Count
-    if ($nl -ge 84 -and $nr -ge 24) { break }
-    if ($i % 4 -eq 0) { Say "waiting: llama $nl/84, livereplay $nr/24" }
-    Start-Sleep -Seconds 30
+$env:HUBSPOKE_OFFLINE = "1"
+"$(Get-Date -Format s) start" | Out-File -Encoding utf8 $log
+function Step($label, [string[]]$cmd) {
+    & $vpy @cmd *>> $log
+    "$(Get-Date -Format s) $label exit=$LASTEXITCODE" | Out-File -Append -Encoding utf8 $log
 }
-Say "runs complete"
-& $vpy -m hubspoke analyse --src main *>> $log
-& $vpy -m hubspoke.explore main *>> $log
-& $vpy (Join-Path $here "report\results_auto.py") main *>> $log
-& $vpy -m hubspoke analyse --src main_llama *>> $log
-& $vpy -m hubspoke.explore main_llama *>> $log
-& $vpy (Join-Path $here "report\results_auto.py") main_llama *>> $log
-& $vpy (Join-Path $here "report\make_prompt_appendix.py") *>> $log
-Say "analysis done"
-& $vpy -m hubspoke verify --src main *>> $log
-Say "verify main exit=$LASTEXITCODE"
-& $vpy -m hubspoke verify --src main_llama *>> $log
-Say "verify main_llama exit=$LASTEXITCODE"
-& $vpy -m pytest -q tests -p no:cacheprovider *>> $log
-Say "tests exit=$LASTEXITCODE"
-Say "done"
+function Has($folder) { (Get-ChildItem (Join-Path $here "results\$folder") -Filter "*-s*.json" -ErrorAction SilentlyContinue).Count -gt 0 }
+
+Step "tests" @("-m", "pytest", "-q", "tests", "-p", "no:cacheprovider")
+Step "validate (scripted agents)" @("-m", "hubspoke", "validate")
+foreach ($src in @("main", "main_llama", "main_gptoss")) {        # registered H1-H4 per model
+    if (Has $src) {
+        Step "analyse $src" @("-m", "hubspoke", "analyse", "--src", $src)
+        Step "explore $src" @("-m", "hubspoke.explore", $src)
+        Step "tables $src" @("report\results_auto.py", $src)
+        Step "hub check $src" @("-m", "hubspoke.round2", "hub", $src)
+    }
+}
+if (Has "startlow") { Step "start-low qwen (R2.3)" @("-m", "hubspoke.round2", "startlow", "startlow", "main") }
+if (Has "startlow_llama") { Step "start-low llama (R2.3)" @("-m", "hubspoke.round2", "startlow", "startlow_llama", "main_llama") }
+foreach ($f in @("canary2", "canary2_llama", "canary2_gptoss")) {  # R2.1
+    if (Has $f) { Step "canary v2 $f" @("-m", "hubspoke.round2", "canary2", $f) }
+}
+Step "judge validation (R2.2)" @("-m", "hubspoke.round2", "judge")
+Step "robustness (exploratory)" @("-m", "hubspoke.robust")
+Step "round-2 figures" @("-m", "hubspoke.figs2")
+foreach ($f in @("canary2", "canary2_llama", "canary2_gptoss")) {  # the audit tool, run on our own canary trials
+    if (Has $f) {
+        foreach ($arm in @("shared", "shared_rule", "shared_tags", "private")) {
+            Step "audit demo $f $arm" @("-m", "hubspoke.audit", "--demo", "--demo-folder", $f, "--demo-arm", $arm)
+        }
+    }
+}
+Step "main tables, every model" @("report\table_models.py")
+Step "prompt appendix" @("report\make_prompt_appendix.py")
+Step "predictions appendix" @("report\predictions_table.py")
+foreach ($src in @("main", "main_llama", "main_gptoss", "startlow", "startlow_llama", "canary2", "canary2_llama", "canary2_gptoss")) {
+    if (Has $src) { Step "verify $src" @("-m", "hubspoke", "verify", "--src", $src) }
+}
+Step "verify judge" @("-m", "hubspoke", "verify", "--src", "judge")
+"$(Get-Date -Format s) done" | Out-File -Append -Encoding utf8 $log

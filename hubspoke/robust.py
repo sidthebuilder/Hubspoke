@@ -228,6 +228,8 @@ def main() -> int:
         if s:
             pk = "p_greater_stratified_perm" if s["alternative"] == "greater" else "p_two_sided_stratified_perm"
             L += ["", f"## {key}: {s['contrast']}, averaged over models",
+                  "Exploratory, and a departure from the registration, which said the replication would be reported "
+                  "beside the main results and never pooled with them. The per-model tests above are the registered ones.",
                   f"Estimate {s['estimate']:+.3f} (95% CI {s['ci95'][0]:+.3f} to {s['ci95'][1]:+.3f}); one-sided 95% upper "
                   f"bound {s['upper_95_one_sided']:+.3f}; stratified permutation p ({s['alternative']}) {s[pk]:.4f}."]
     L += ["", "## Excess raise: B's advice shift vs the best-response shift to A's planned price (index units)", "",

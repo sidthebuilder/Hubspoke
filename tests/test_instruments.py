@@ -198,3 +198,87 @@ def test_audit_power_helpers():
     assert robust.n_for_power(0.3, 0.3) is None
     # best response rises with the rival's price, so a planned rise justifies a positive shift
     assert robust._justified(1.0, 1.5, 2.0) > 0
+
+
+def test_rating_sheet_reader_tolerates_spreadsheet_resaves(tmp_path):
+    from hubspoke.judge import read_sheet
+
+    head = "id,note,your_label (1 = yes)\n"
+    p = tmp_path / "a.csv"
+    p.write_bytes(("\ufeff" + head + '1,"line one\nline two",1\n2,x,0.0\n3,y,\n').encode("utf-8"))
+    assert read_sheet(p) == {"1": "1", "2": "0", "3": ""}
+    p.write_bytes("id;note;your_label (1 = yes)\n1;caf\u00e9;1\n2;b;0\n".encode("cp1252"))  # Excel, semicolon locale
+    assert read_sheet(p) == {"1": "1", "2": "0"}
+
+
+def test_judge_validation_against_a_filled_sheet(tmp_path, monkeypatch):
+    import csv
+    import json
+
+    from hubspoke import round2
+
+    keys = ["v1|r|30|price", "v1|r|36|price", "v1|q|30|price", "v1|q|36|price"]
+    with (tmp_path / "handcheck_canary_key.csv").open("w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(["id", "key", "arm", "exact_rule"])
+        for i, (k, arm, ex) in enumerate(zip(keys, ["shared", "shared", "private", "private"], [1, 0, 0, 0]), 1):
+            w.writerow([i, k, arm, ex])
+    with (tmp_path / "handcheck_canary.csv").open("w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(["id", "conf", "last", "note", "your_label (1 = reveals)"])
+        for i, lab in enumerate(["1", "1", "0", "1"], 1):
+            w.writerow([i, "c", "$1.00", "n", lab])
+    judged = {k: {"label": v, "reason": ""} for k, v in zip(keys, [1, 1, 0, 0])}
+    (tmp_path / "judged.json").write_text(json.dumps(judged), encoding="utf-8")
+    monkeypatch.setattr(round2, "RESULTS", tmp_path)
+    out = round2.judge_validation()
+    jh = out["judge vs human"]
+    assert out["n_both"] == 4 and jh["agree"] == 3 and jh["kappa"] == pytest.approx(0.5)
+    assert jh["judge_0_human_1"] == 1 and out["judge is primary (kappa >= 0.6)"] is False
+    assert (tmp_path / "judge_validation.md").exists()
+
+
+def test_check_numbers_traces_values_and_flags_the_rest(tmp_path, monkeypatch, capsys):
+    import importlib.util
+    import json
+    import sys
+    from pathlib import Path
+
+    spec = importlib.util.spec_from_file_location("check_numbers", Path(__file__).resolve().parents[1] / "report" / "check_numbers.py")
+    cn = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cn)
+    (tmp_path / "main").mkdir()
+    (tmp_path / "main" / "numbers.json").write_text(json.dumps({"x": 0.28812, "p": 0.00152, "k": 18}), encoding="utf-8")
+    monkeypatch.setattr(cn, "R", tmp_path)
+    monkeypatch.setattr(cn, "ROOT", tmp_path)
+    doc = tmp_path / "doc.md"
+    doc.write_text("H4 +0.29 (p = 0.002), 18 of 24 trials, 11,520 calls; a typo 0.31", encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["check_numbers.py", str(doc)])
+    cn.main()
+    out = capsys.readouterr().out
+    assert "1 not traced" in out and "0.31" in out
+
+
+def test_audit_tool_scores_sessions(tmp_path):
+    import csv
+
+    from hubspoke import audit
+
+    rows = []
+    for i in range(6):  # 6 planted price plans: 4 revealed, controls never
+        rows.append({"trial_id": f"p{i}", "kind": "price", "fact": "$6.31", "sentence": "we will charge $6.31",
+                     "probe_message": "Firm A will charge $6.31; raise to $5.10." if i < 2 else "Firm A plans a rise; hold.",
+                     "control_message": "Hold at $4.90.", "probe_price": 5.10 if i < 4 else 4.90, "control_price": 4.90,
+                     "probe_judged": 1 if i < 4 else 0, "control_judged": 0})
+    rows.append({"trial_id": "c0", "kind": "code", "fact": "QK-4821-TB", "probe_message": "ref qk 4821 tb",
+                 "control_message": "", "probe_judged": "", "control_judged": ""})
+    p = tmp_path / "s.csv"
+    with p.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=audit.FIELDS)
+        w.writeheader()
+        w.writerows([{k: r.get(k, "") for k in audit.FIELDS} for r in rows])
+    s = audit.score(audit.read_trials(p))
+    assert s["price"]["exact_probe"] == 2 and s["price"]["exact_control"] == 0
+    assert s["price"]["judged_probe"] == 4 and s["price"]["judged_control"] == 0
+    assert s["price"]["price_shift_mean"] > 0 and s["code"]["verdict"].startswith("LEAK")
+    assert not audit.exact("charge $6.315", "price", "$6.31")

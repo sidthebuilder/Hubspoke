@@ -1,0 +1,75 @@
+ok   replay isolated-s0: 40 periods rebuilt from cache
+ok   replay isolated-s1: 40 periods rebuilt from cache
+ok   replay isolated-s10: 40 periods rebuilt from cache
+ok   replay isolated-s11: 40 periods rebuilt from cache
+ok   replay isolated-s2: 40 periods rebuilt from cache
+ok   replay isolated-s3: 40 periods rebuilt from cache
+ok   replay isolated-s4: 40 periods rebuilt from cache
+ok   replay isolated-s5: 40 periods rebuilt from cache
+ok   replay isolated-s6: 40 periods rebuilt from cache
+ok   replay isolated-s7: 40 periods rebuilt from cache
+ok   replay isolated-s8: 40 periods rebuilt from cache
+ok   replay isolated-s9: 40 periods rebuilt from cache
+ok   replay pooled-s0: 40 periods rebuilt from cache
+ok   replay pooled-s1: 40 periods rebuilt from cache
+ok   replay pooled-s10: 40 periods rebuilt from cache
+ok   replay pooled-s11: 40 periods rebuilt from cache
+ok   replay pooled-s2: 40 periods rebuilt from cache
+ok   replay pooled-s3: 40 periods rebuilt from cache
+ok   replay pooled-s4: 40 periods rebuilt from cache
+ok   replay pooled-s5: 40 periods rebuilt from cache
+ok   replay pooled-s6: 40 periods rebuilt from cache
+ok   replay pooled-s7: 40 periods rebuilt from cache
+ok   replay pooled-s8: 40 periods rebuilt from cache
+ok   replay pooled-s9: 40 periods rebuilt from cache
+ok   replay portfolio-s0: 40 periods rebuilt from cache
+ok   replay portfolio-s1: 40 periods rebuilt from cache
+ok   replay portfolio-s10: 40 periods rebuilt from cache
+ok   replay portfolio-s11: 40 periods rebuilt from cache
+ok   replay portfolio-s2: 40 periods rebuilt from cache
+ok   replay portfolio-s3: 40 periods rebuilt from cache
+ok   replay portfolio-s4: 40 periods rebuilt from cache
+ok   replay portfolio-s5: 40 periods rebuilt from cache
+ok   replay portfolio-s6: 40 periods rebuilt from cache
+ok   replay portfolio-s7: 40 periods rebuilt from cache
+ok   replay portfolio-s8: 40 periods rebuilt from cache
+ok   replay portfolio-s9: 40 periods rebuilt from cache
+ok   replay separate-s0: 40 periods rebuilt from cache
+ok   replay separate-s1: 40 periods rebuilt from cache
+ok   replay separate-s10: 40 periods rebuilt from cache
+ok   replay separate-s11: 40 periods rebuilt from cache
+ok   replay separate-s2: 40 periods rebuilt from cache
+ok   replay separate-s3: 40 periods rebuilt from cache
+ok   replay separate-s4: 40 periods rebuilt from cache
+ok   replay separate-s5: 40 periods rebuilt from cache
+ok   replay separate-s6: 40 periods rebuilt from cache
+ok   replay separate-s7: 40 periods rebuilt from cache
+ok   replay separate-s8: 40 periods rebuilt from cache
+ok   replay separate-s9: 40 periods rebuilt from cache
+ok   replay solo-s0: 40 periods rebuilt from cache
+ok   replay solo-s1: 40 periods rebuilt from cache
+ok   replay solo-s10: 40 periods rebuilt from cache
+ok   replay solo-s11: 40 periods rebuilt from cache
+ok   replay solo-s2: 40 periods rebuilt from cache
+ok   replay solo-s3: 40 periods rebuilt from cache
+ok   replay solo-s4: 40 periods rebuilt from cache
+ok   replay solo-s5: 40 periods rebuilt from cache
+ok   replay solo-s6: 40 periods rebuilt from cache
+ok   replay solo-s7: 40 periods rebuilt from cache
+ok   replay solo-s8: 40 periods rebuilt from cache
+ok   replay solo-s9: 40 periods rebuilt from cache
+ok   start-low isolated: index -0.246305 vs round2.json -0.246305
+ok   start-low isolated: change from pre-periods +0.131709 vs +0.131709
+ok   start-low pooled: index -0.362676 vs round2.json -0.362676
+ok   start-low pooled: change from pre-periods +0.015338 vs +0.015338
+ok   start-low portfolio: index -0.221688 vs round2.json -0.221688
+ok   start-low portfolio: change from pre-periods +0.156326 vs +0.156326
+ok   start-low separate: index +0.002897 vs round2.json +0.002897
+ok   start-low separate: change from pre-periods +0.380911 vs +0.380911
+ok   start-low solo: index -0.424444 vs round2.json -0.424444
+ok   start-low solo: change from pre-periods -0.046430 vs -0.046430
+ok   H5 isolated - solo: +0.178139 vs +0.178139
+ok   H5: p = 0.0574 (scipy, exact) vs 0.0574
+ok   H6: change +0.131709, sign-flip p 0.0542 (brute force) vs +0.131709, 0.0542
+
+0 failure(s); client stats {'calls': 0, 'cached': 8640, 'prompt_tokens': 0, 'completion_tokens': 0, 'retries': 0}
